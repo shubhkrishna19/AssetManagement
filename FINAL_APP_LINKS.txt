@@ -1,0 +1,48 @@
+NAME: Asset Management System
+LINK: asset-management-system
+WORKSPACE: bluewudindia
+--------------------
+NAME: Asset Management System v2
+LINK: asset-management-system-v2
+WORKSPACE: bluewudindia
+--------------------
+NAME: Call Activity Analytics
+LINK: call-activity-analytics
+WORKSPACE: bluewudindia
+--------------------
+NAME: BOM Module
+LINK: bom-module
+WORKSPACE: bluewudindia
+--------------------
+NAME: Bluewud Commercial Model
+LINK: bluewud-commercial-model
+WORKSPACE: bluewudindia
+--------------------
+NAME: Logistical Planning
+LINK: logistical-planning
+WORKSPACE: bluewudindia
+--------------------
+NAME: Order Delivery Tracker
+LINK: order-delivery-tracker
+WORKSPACE: bluewudindia
+--------------------
+NAME: Kaizen
+LINK: kaizen
+WORKSPACE: bluewudindia
+--------------------
+NAME: Bill Of Materials
+LINK: bill-of-materials
+WORKSPACE: bluewudindia
+--------------------
+NAME: Company Feedback Platform
+LINK: company-feedback-platform
+WORKSPACE: bluewudindia
+--------------------
+NAME: Bluewud OTS
+LINK: bluewud-ots
+WORKSPACE: bluewudindia
+--------------------
+NAME: Leave Request
+LINK: leave-request
+WORKSPACE: bluewudindia
+--------------------

@@ -1,0 +1,12 @@
+Display: Asset Management System | Link: asset-management-system | Workspace: bluewudindia
+Display: Asset Management System v2 | Link: asset-management-system-v2 | Workspace: bluewudindia
+Display: Call Activity Analytics | Link: call-activity-analytics | Workspace: bluewudindia
+Display: BOM Module | Link: bom-module | Workspace: bluewudindia
+Display: Bluewud Commercial Model | Link: bluewud-commercial-model | Workspace: bluewudindia
+Display: Logistical Planning | Link: logistical-planning | Workspace: bluewudindia
+Display: Order Delivery Tracker | Link: order-delivery-tracker | Workspace: bluewudindia
+Display: Kaizen | Link: kaizen | Workspace: bluewudindia
+Display: Bill Of Materials | Link: bill-of-materials | Workspace: bluewudindia
+Display: Company Feedback Platform | Link: company-feedback-platform | Workspace: bluewudindia
+Display: Bluewud OTS | Link: bluewud-ots | Workspace: bluewudindia
+Display: Leave Request | Link: leave-request | Workspace: bluewudindia

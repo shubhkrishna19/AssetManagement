@@ -1,0 +1,6 @@
+FORM: Asset | Link: asset
+FORM: Maintenance Log | Link: maintenance_log
+FORM: Checkout Transaction | Link: checkout_transaction
+FORM: Vendor | Link: vendor
+FORM: Asset Category | Link: asset_category
+FORM: Employee | Link: employee
