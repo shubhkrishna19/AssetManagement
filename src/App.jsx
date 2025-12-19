@@ -18,7 +18,13 @@ const App = () => {
         // We call our Catalyst Integration Function (Secure Bridge)
         const response = await fetch('/server/Zoho_bridge/execute');
 
-        const data = await response.json();
+        const text = await response.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error(`Invalid Response: ${text.substring(0, 50)}...`);
+        }
 
         if (!response.ok || data.status === "error") {
           throw new Error(data.message || `HTTP Error ${response.status}`);
