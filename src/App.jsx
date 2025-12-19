@@ -16,7 +16,7 @@ const App = () => {
       try {
         setLoading(true);
         // We call our Catalyst Integration Function (Secure Bridge)
-        const response = await fetch('/server/Zoho_bridge/execute');
+        const response = await fetch('https://websitewireframeproject-895469053.development.catalystserverless.com/server/Zoho_bridge/execute');
 
         const text = await response.text();
         let data;
