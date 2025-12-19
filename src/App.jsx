@@ -10,36 +10,49 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v4.6 - CACHE BUSTER) ---
-  console.log("🚀 CORE v4.6 BOOTED: Starting Multi-Path Probe...");
+  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v4.8 - CORS KILLER) ---
+  console.log("🚀 CORE v4.8 BOOTED: Starting Multi-Path Probe...");
   useEffect(() => {
     const fetchLiveData = async () => {
       const endpoints = [
-        '/server/Zoho_bridge/execute', // 1. Relative (Native)
-        'https://websitewireframeproject-895469053.catalystserverless.com/server/Zoho_bridge/execute', // 2. Absolute Prod
-        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/Zoho_bridge/execute' // 3. Absolute Dev
+        // 1. Absolute Development (The most likely live path right now)
+        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/Zoho_bridge/execute',
+        // 2. Relative (Native Production)
+        '/server/Zoho_bridge/execute',
+        // 3. Absolute Production
+        'https://websitewireframeproject-895469053.catalystserverless.com/server/Zoho_bridge/execute'
       ];
 
       for (const url of endpoints) {
         try {
-          console.log(`🛰 SYNC ATTEMPT: ${url}`);
-          const res = await fetch(url);
+          console.log(`🛰 PROBING: ${url}`);
+          const res = await fetch(url, {
+            method: 'GET',
+            mode: 'cors'
+          });
+
           const text = await res.text();
-          let data = JSON.parse(text);
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch (e) {
+            console.warn(`🛰 NON-JSON RESPONSE from ${url}:`, text.substring(0, 50));
+            continue;
+          }
 
           if (data.status === "success") {
             setAssets(data.records || []);
             setLoading(false);
             setError(null);
-            console.log("🛰 SYNC SUCCESS via:", url);
-            return; // EXIT ON SUCCESS
+            console.log("🛰 SYNC ESTABLISHED via:", url);
+            return;
           }
         } catch (e) {
-          console.warn(`🛰 FAILED ENDPOINT: ${url}`, e.message);
+          console.warn(`🛰 ROUTE BLOCKED: ${url}`, e.message);
         }
       }
 
-      setError("API Bridge Offline: All endpoints failed. Check Catalyst Cloud Scale logs.");
+      setError("CORS Mismatch: App in Production, Brain in Development. Follow the 'God Mode' Bridge guide below.");
       setLoading(false);
     };
 
