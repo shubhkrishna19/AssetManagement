@@ -10,7 +10,8 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v4.5) ---
+  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v4.6 - CACHE BUSTER) ---
+  console.log("🚀 CORE v4.6 BOOTED: Starting Multi-Path Probe...");
   useEffect(() => {
     const fetchLiveData = async () => {
       const endpoints = [
