@@ -18,10 +18,10 @@
 | Feature / Task | Assigned Agent | Status | Notes |
 | :--- | :--- | :--- | :--- |
 | **Catalyst React Frontend** | **Antigravity** | [x] DONE | Implemented Premium Asset Grid. |
-| **Asset Check-out/Return (Deluge)** | **Codex** | [/] NEXT | Built to handle scanning operations. |
-| **QR Scanner Bridge (JS)** | **Antigravity** | [ ] PENDING | Native web-scanner for high-speed use. |
-| **Automated Alerts (Flow)** | **Codex** | [ ] PENDING | WhatsApp/Email for maintenance dates. |
-| **API Creator Connection** | **Antigravity** | [ ] PENDING | REST API v2.1 Sync logic. |
+| **Asset Check-out/Return (Deluge)** | **Codex** | [x] DONE | Built to handle scanning operations. |
+| **Embedded Sidebar Layout** | **Antigravity** | [x] DONE | Implemented Pro SaaS Navigation. |
+| **Automated Alerts (Flow)** | **Codex** | [/] NEXT | WhatsApp/Email for maintenance dates. |
+| **API Creator Connection** | **Antigravity** | [/] NEXT | REST API v2.1 Sync logic. |
 
 ---
 
@@ -50,9 +50,9 @@
 *Goal: A fully functional app that can replace AssetTiger.com in a heartbeat.*
 
 - [x] **Task 1 (Antigravity):** Build the "Asset Card Grid" in Catalyst (replacing the boring Creator lists).
-- [ ] **Task 2 (Codex):** Build the "Asset Check-out/Return" Deluge automation (must be flawless).
-- [ ] **Task 3 (Antigravity):** Implement the "Embedded Sidebar" in Zoho Creator to link the Catalyst Home.
-- [ ] **Task 4 (Codex):** Hardened Validation logic (No duplicate tags, No unassigned assets).
+- [x] **Task 2 (Codex):** Build the "Asset Check-out/Return" Deluge automation (must be flawless).
+- [x] **Task 3 (Antigravity):** Implement the "Embedded Sidebar" in Zoho Creator to link the Catalyst Home.
+- [x] **Task 4 (Codex):** Hardened Validation logic (No duplicate tags, No unassigned assets).
 
 ---
 
