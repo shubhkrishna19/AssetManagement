@@ -21,7 +21,9 @@
 | **Asset Check-out/Return (Deluge)** | **Codex** | [x] DONE | Built to handle scanning operations. |
 | **Embedded Sidebar Layout** | **Antigravity** | [x] DONE | Implemented Pro SaaS Navigation. |
 | **Automated Alerts (Flow)** | **Codex** | [/] NEXT | WhatsApp/Email for maintenance dates. |
-| **API Creator Connection** | **Antigravity** | [/] NEXT | REST API v2.1 Sync logic. |
+| **API Creator Connection** | **Antigravity** | [x] DONE | Bridge architecture established. |
+| **Native QR Scanner (JS)** | **Antigravity** | [/] NEXT | Mobile-speed asset check-in. |
+| **Zia AI Integration** | **Codex** | [ ] PENDING | Natural language asset queries. |
 
 ---
 

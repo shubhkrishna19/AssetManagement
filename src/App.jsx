@@ -15,7 +15,7 @@ const App = () => {
       try {
         setLoading(true);
         // We call our Catalyst Integration Function (Secure Bridge)
-        const response = await fetch('/server/zoho_bridge/getAssets');
+        const response = await fetch('/server/Zoho_bridge/execute');
 
         if (!response.ok) throw new Error("Bridge Connection Failed");
 
