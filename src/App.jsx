@@ -15,21 +15,27 @@ const App = () => {
     const fetchLiveData = async () => {
       try {
         setLoading(true);
-        // We call our Catalyst Integration Function (Secure Bridge)
-        const response = await fetch('https://websitewireframeproject-895469053.development.catalystserverless.com/server/Zoho_bridge/execute');
+        // ASSET LEDGER PRO - v4.2 (NATIVE CATALYST SYNC)
+        console.log("🛰 FETCH START: Calling Internal Proxy...");
+        const response = await fetch('/server/Zoho_bridge/execute');
 
+        console.log("🛰 FETCH RESPONSE RECEIVED:", response.status);
         const text = await response.text();
+        console.log("🛰 RAW PAYLOAD:", text.substring(0, 100));
+
         let data;
         try {
           data = JSON.parse(text);
         } catch (e) {
-          throw new Error(`Invalid Response: ${text.substring(0, 50)}...`);
+          console.error("🛰 JSON PARSE ERROR:", e);
+          throw new Error(`Invalid Response: ${text.substring(0, 40)}...`);
         }
 
         if (!response.ok || data.status === "error") {
-          throw new Error(data.message || `HTTP Error ${response.status}`);
+          throw new Error(data.message || `API Error: ${response.status}`);
         }
 
+        console.log("🛰 SYNC SUCCESS: Records loaded.");
         setAssets(data.records || []);
       } catch (err) {
         console.error("Sync Error:", err);
