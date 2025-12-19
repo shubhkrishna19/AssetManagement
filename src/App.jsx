@@ -10,39 +10,36 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // --- 🛰 THE LIVE SYNC CORE ---
+  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v4.5) ---
   useEffect(() => {
     const fetchLiveData = async () => {
-      try {
-        setLoading(true);
-        // ASSET LEDGER PRO - v4.2 (NATIVE CATALYST SYNC)
-        console.log("🛰 FETCH START: Calling Internal Proxy...");
-        const response = await fetch('/server/Zoho_bridge/execute');
+      const endpoints = [
+        '/server/Zoho_bridge/execute', // 1. Relative (Native)
+        'https://websitewireframeproject-895469053.catalystserverless.com/server/Zoho_bridge/execute', // 2. Absolute Prod
+        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/Zoho_bridge/execute' // 3. Absolute Dev
+      ];
 
-        console.log("🛰 FETCH RESPONSE RECEIVED:", response.status);
-        const text = await response.text();
-        console.log("🛰 RAW PAYLOAD:", text.substring(0, 100));
-
-        let data;
+      for (const url of endpoints) {
         try {
-          data = JSON.parse(text);
+          console.log(`🛰 SYNC ATTEMPT: ${url}`);
+          const res = await fetch(url);
+          const text = await res.text();
+          let data = JSON.parse(text);
+
+          if (data.status === "success") {
+            setAssets(data.records || []);
+            setLoading(false);
+            setError(null);
+            console.log("🛰 SYNC SUCCESS via:", url);
+            return; // EXIT ON SUCCESS
+          }
         } catch (e) {
-          console.error("🛰 JSON PARSE ERROR:", e);
-          throw new Error(`Invalid Response: ${text.substring(0, 40)}...`);
+          console.warn(`🛰 FAILED ENDPOINT: ${url}`, e.message);
         }
-
-        if (!response.ok || data.status === "error") {
-          throw new Error(data.message || `API Error: ${response.status}`);
-        }
-
-        console.log("🛰 SYNC SUCCESS: Records loaded.");
-        setAssets(data.records || []);
-      } catch (err) {
-        console.error("Sync Error:", err);
-        setError(err.message || "API Bridge Offline: Retrying in Catalyst...");
-      } finally {
-        setLoading(false);
       }
+
+      setError("API Bridge Offline: All endpoints failed. Check Catalyst Cloud Scale logs.");
+      setLoading(false);
     };
 
     fetchLiveData();
@@ -53,7 +50,7 @@ const App = () => {
       <nav style={styles.sidebar}>
         <div style={styles.sidebarHeader}>
           <div style={styles.logoCircle}>LP</div>
-          <span style={styles.logoText}>AssetPro</span>
+          <span style={styles.logoText}>AssetPro v4.5</span>
         </div>
         <div style={styles.navGroup}>
           <NavItem id="Inventory" icon="📦" label="Inventory" active={activeTab === 'Inventory'} onClick={() => setActiveTab('Inventory')} />
