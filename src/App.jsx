@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Html5QrcodeScanner } from 'html5-qrcode';
 
 // ASSET LEDGER PRO - v4.0 (LIVE SYNC EDITION)
 // Feature: Real-time Data Streaming from Zoho Creator v2.1
@@ -17,13 +18,16 @@ const App = () => {
         // We call our Catalyst Integration Function (Secure Bridge)
         const response = await fetch('/server/Zoho_bridge/execute');
 
-        if (!response.ok) throw new Error("Bridge Connection Failed");
-
         const data = await response.json();
+
+        if (!response.ok || data.status === "error") {
+          throw new Error(data.message || `HTTP Error ${response.status}`);
+        }
+
         setAssets(data.records || []);
       } catch (err) {
         console.error("Sync Error:", err);
-        setError("API Bridge Offline: Retrying in Catalyst...");
+        setError(err.message || "API Bridge Offline: Retrying in Catalyst...");
       } finally {
         setLoading(false);
       }
@@ -67,7 +71,21 @@ const App = () => {
               {[1, 2, 3, 4, 5, 6].map(i => <div key={i} style={styles.skeletonCard} />)}
             </div>
           ) : error ? (
-            <div style={styles.errorState}>{error}</div>
+            <div style={styles.errorState}>
+              <p>⚠️ {error}</p>
+              <button onClick={() => window.location.reload()} style={styles.retryButton}>Reload Dashboard</button>
+            </div>
+          ) : activeTab === 'Scan' ? (
+            <div style={styles.scannerWrapper}>
+              <div style={styles.scannerHeader}>
+                <h3>Native Asset Scanner</h3>
+                <p>Point camera at an Asset Tag QR code</p>
+              </div>
+              <QRScanner onScan={(data) => {
+                alert(`Asset Identified: ${data}\nSyncing with Creator...`);
+                setActiveTab('Inventory'); // Redirect to inventory after scan
+              }} />
+            </div>
           ) : (
             <AssetGrid assets={assets} />
           )}
@@ -78,6 +96,27 @@ const App = () => {
 };
 
 // --- SUB-COMPONENTS ---
+
+const QRScanner = ({ onScan }) => {
+  useEffect(() => {
+    const scanner = new Html5QrcodeScanner("reader", {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+      aspectRatio: 1.0
+    });
+
+    scanner.render((result) => {
+      onScan(result);
+      scanner.clear(); // Stop after success
+    }, (error) => {
+      // Quietly handle errors
+    });
+
+    return () => scanner.clear();
+  }, [onScan]);
+
+  return <div id="reader" style={styles.scannerBody}></div>;
+};
 
 const AssetGrid = ({ assets }) => (
   <div style={styles.assetGrid}>
@@ -138,8 +177,11 @@ const styles = {
   assignedUser: { fontSize: '12px', fontWeight: '700', color: '#1E293B' },
   healthDot: { width: '10px', height: '10px', background: '#00B894', borderRadius: '50%' },
   skeletonGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' },
-  skeletonCard: { height: '200px', background: '#E2E8F0', borderRadius: '20px', opacity: '0.6' },
-  errorState: { textAlign: 'center', padding: '100px', color: '#E74C3C', fontWeight: 'bold' }
+  loaderCard: { height: '200px', background: '#E2E8F0', borderRadius: '20px', opacity: '0.6' },
+  errorState: { textAlign: 'center', padding: '100px', color: '#E74C3C', fontWeight: 'bold' },
+  scannerWrapper: { background: 'white', padding: '40px', borderRadius: '30px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', textAlign: 'center', maxWidth: '600px', margin: '0 auto' },
+  scannerHeader: { marginBottom: '30px' },
+  scannerBody: { width: '100%', borderRadius: '20px', overflow: 'hidden', border: 'none' }
 };
 
 export default App;
