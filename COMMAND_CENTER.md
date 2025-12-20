@@ -1,62 +1,184 @@
-# 🦅 COMMAND CENTER: Asset Ledger Pro (Dual-Agent Scale v3.0)
+# 🦅 COMMAND CENTER: Asset Ledger Pro (Dual-Agent Scale v4.0)
 
 **Mission:** Build a $50k Enterprise Asset Management System that crushes Asset Tiger and scales to 100+ SaaS apps.
-**Agents:** **Antigravity** (Implementation/UI/Bridge) & **Codex** (Logic/Data/Intelligence).
+**Agents:** **Antigravity** (Structure/UI/Components) & **Codex** (Logic/Data/Heavy Coding).
+**Environment:** LOCAL DEVELOPMENT (Demo Mode Active)
 
 ---
 
-## 🚦 PARALLEL WORKSTREAMS (ACCELERATED)
+## 🚀 SPRINT: PRESENTATION READY BUILD
 
-### 🟦 WORKSTREAM A: ANTIGRAVITY (The "Body")
-*Focus: React, Tailwind, Catalyst Frontend, User Experience, API Integration.*
+### 📊 PRIORITY 1: Analytics Dashboard (Task A2)
+**Goal:** Transform the dashboard into a data-rich command center with animated charts.
 
-- [x] **Task A1: Native Camera Scanner** - High-speed JS QR scanning in Catalyst Dashboard.
-- [ ] **Task A2: Dashboard Analytics Overhaul** - Animated charts (Recharts) for value & health.
-- [ ] **Task A3: Maintenance Request Portal** - UI for logging repairs and uploading condition photos.
-- [ ] **Task A4: Dark/Light Mode Engine** - Premium glassmorphism theme toggle.
-- [ ] **Task A5: Multi-Tenant Config UI** - Dynamic logo/branding uploader via Catalyst store.
+#### 🟦 ANTIGRAVITY (Structure)
+- [x] Create component scaffold: `src/components/Analytics.jsx`
+- [x] Define chart layout grid (2x2 responsive)
+- [x] Create placeholder containers with loading states
+- [x] Wire into App.jsx with tab routing
 
-### 🟩 WORKSTREAM B: CODEX (The "Brain")
-*Focus: Deluge, AWS/Catalyst Functions, Data Integrity, AI & Automation.*
+#### 🟩 CODEX (Heavy Coding)
+- [ ] Implement `TotalValueChart` - Animated donut showing total portfolio value
+- [ ] Implement `CategoryBreakdown` - Bar chart by asset category  
+- [ ] Implement `HealthDistribution` - Pie chart (Excellent/Good/Fair/Poor)
+- [ ] Implement `MonthlyTrend` - Line chart showing asset acquisition over time
+- [ ] Add number animations (count up effects)
 
-- [/] **Task B1: Automated Alerts Engine** - WhatsApp/Email triggers via Deluge/Flow.
-- [ ] **Task B2: Zia AI Natural Language API** - Implement the intelligence backend for NLP queries.
-- [ ] **Task B3: Advanced Health Scoring v2** - Multi-factor algorithm (Age, usage, repair history).
-- [ ] **Task B4: PDF Financial Ledger Engine** - Automated Straight-Line Depreciation reports.
-- [ ] **Task B5: Audit Trail Logger** - Secure log of every check-out/return with user fingerprint.
-- [ ] **Task B6: Geofencing Webhook** - Verify asset location against site boundaries.
-
----
-
-## 🛠 SHARED TASK BOARD & ACCELERATION SYNC
-
-| Module | Antigravity (Frontend) | Codex (Backend/Logic) | Status |
-| :--- | :--- | :--- | :--- |
-| **Foundation/Bridge** | [x] DONE | [x] DONE | SYNC ACTIVE 🟢 |
-| **QR Scan/Logic** | [x] DONE | [x] DONE | VERIFIED 🟢 |
-| **Alerts & Notify** | [ ] NEXT (UI) | [/] NEXT (Logic) | CODEX ACTIVE 🟩 |
-| **AI Intelligence** | [ ] PENDING (UI) | [ ] NEXT (Logic) | READY FOR CODEX 🟩 |
-| **Financials** | [ ] PENDING (UI) | [ ] PENDING (Logic) | BACKLOG |
+**CODEX SPECS:**
+```
+Library: Recharts (already compatible with React)
+Install: npm install recharts
+Data Source: Use mockData.js - extend with mockStats
+Colors: 
+  - Primary: #0984e3
+  - Success: #00b894  
+  - Warning: #fdcb6e
+  - Danger: #e74c3c
+Animation: 1.5s ease-out on mount
+```
 
 ---
 
-## 🤝 THE MULTI-AGENT HANDSHAKE (VIBE PROTOCOL)
+### 🌙 PRIORITY 2: Dark/Light Mode (Task A4)
+**Goal:** Premium glassmorphism theme toggle that screams $50k.
 
-1.  **Codex Factory Mode:** Codex will write the Deluge and Node.js logic blocks.
-2.  **Antigravity Integration:** I will take those blocks and wire them into the Glassmorphism UI.
-3.  **Speed Hack:** For any task marked **READY FOR CODEX**, Codex can generate the full script while I build the UI.
+#### 🟦 ANTIGRAVITY (Structure)
+- [x] Create `src/context/ThemeContext.jsx` - React context for theme
+- [x] Create theme toggle button component location in header
+- [x] Define CSS variable structure
 
-### **READY FOR CODEX NOW:**
-- **Task B1:** Write the Deluge script for Maintenance Alerts (Trigger: If Next_Service_Date == Today).
-- **Task B3:** Write the Node.js health scoring algorithm for Catalyst.
-- **Task B5:** Define the `Audit_Log` form structure and write the check-in logger.
+#### 🟩 CODEX (Heavy Coding)
+- [ ] Implement full dark theme color palette
+- [ ] Add glassmorphism effects (backdrop-blur, transparency)
+- [ ] Smooth transition animations between themes
+- [ ] Persist theme choice in localStorage
+- [ ] Apply theme to all existing components
+
+**CODEX SPECS:**
+```
+Dark Theme Colors:
+  - Background: #0f172a (slate-900)
+  - Surface: rgba(30, 41, 59, 0.8) with backdrop-blur
+  - Text: #f1f5f9
+  - Accent: #3b82f6
+  
+Glassmorphism:
+  - backdrop-filter: blur(12px)
+  - border: 1px solid rgba(255,255,255,0.1)
+  - box-shadow: 0 8px 32px rgba(0,0,0,0.3)
+  
+Transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+```
 
 ---
 
-## 📝 AGENT OUTCOME REPORTS
-- **[Antigravity]:** Task A1 (QR Scanner) live. Bridge path switched to **Absolute Dev URL** (fix for "Domain not found").
-- **[Codex]:** Task 4 (Validation Logic) pushed. Ready for Parallel Burst (Task B1 & B2).
+### 📋 PRIORITY 3: Reports Tab (NEW)
+**Goal:** Functional reports page with exportable data tables.
+
+#### 🟦 ANTIGRAVITY (Structure)
+- [x] Create `src/components/Reports.jsx` scaffold
+- [x] Define report types: Asset List, Depreciation, Maintenance Due
+- [x] Create tab navigation within Reports
+
+#### 🟩 CODEX (Heavy Coding)
+- [ ] Implement sortable/filterable asset table
+- [ ] Add search functionality
+- [ ] Create "Export to CSV" button logic
+- [ ] Implement depreciation calculator display
+- [ ] Add maintenance due list with date sorting
+
+**CODEX SPECS:**
+```
+Table Features:
+  - Sortable columns (click header)
+  - Search/filter input
+  - Pagination (10 items per page)
+  - Row hover effects
+
+Export Format: CSV with headers
+Depreciation: Straight-line, 5-year default
+```
 
 ---
 
-**STATUS:** **MAXIMUM THROUGHPUT ACTIVE.** Environment: **DEVELOPMENT**. Bridge sync restored. 🚀🔥🦅💎
+### 🔧 PRIORITY 4: Maintenance Portal (Task A3)
+**Goal:** UI for logging repairs and viewing maintenance history.
+
+#### 🟦 ANTIGRAVITY (Structure)
+- [ ] Create `src/components/Maintenance.jsx`
+- [ ] Design form layout for new maintenance request
+- [ ] Create maintenance history list component
+
+#### 🟩 CODEX (Heavy Coding)
+- [ ] Implement form validation
+- [ ] Add photo upload placeholder (for future)
+- [ ] Create maintenance status workflow (Pending → In Progress → Complete)
+- [ ] Implement cost tracking and totals
+
+---
+
+## 📁 FILE STRUCTURE FOR CODEX
+
+```
+src/
+├── App.jsx                    # Main app (ANTIGRAVITY manages routing)
+├── mockData.js                # Sample data (EXTEND for new features)
+├── index.css                  # Global styles + CSS variables
+├── components/
+│   ├── Analytics.jsx          # Charts dashboard (CODEX builds)
+│   ├── Reports.jsx            # Data tables (CODEX builds)
+│   ├── Maintenance.jsx        # Maintenance portal (CODEX builds)
+│   └── ThemeToggle.jsx        # Dark mode toggle (CODEX builds)
+└── context/
+    └── ThemeContext.jsx       # Theme state management (CODEX builds)
+```
+
+---
+
+## 🎯 TASK DISTRIBUTION SUMMARY
+
+| Feature | Antigravity | Codex | Est. Time |
+|---------|-------------|-------|-----------|
+| Analytics Charts | Structure ✅ | Heavy Coding 🔄 | 30 min |
+| Dark Mode | Structure ✅ | Heavy Coding 🔄 | 20 min |
+| Reports Tab | Structure ✅ | Heavy Coding 🔄 | 25 min |
+| Maintenance Portal | Structure 🔄 | Heavy Coding ⏳ | 30 min |
+
+---
+
+## 🤝 HANDSHAKE PROTOCOL
+
+1. **Antigravity** creates empty component files with comments explaining expected structure
+2. **Codex** fills in the implementation following the specs above
+3. **Antigravity** integrates, tests, and handles styling polish
+4. Both agents update this COMMAND_CENTER.md with progress
+
+---
+
+## 📝 AGENT STATUS
+
+**[Antigravity]:** Creating component scaffolds now. Ready for Codex to implement.
+
+**[Codex]:** AWAITING PROMPT - Start with Analytics.jsx, then Dark Mode, then Reports.
+
+---
+
+## ⚡ QUICK START FOR CODEX
+
+```bash
+# Install required package
+npm install recharts
+
+# Files to create/modify:
+1. src/components/Analytics.jsx - Full chart implementation
+2. src/context/ThemeContext.jsx - Theme provider
+3. src/components/ThemeToggle.jsx - Toggle button  
+4. src/components/Reports.jsx - Data tables
+5. src/mockData.js - Add more mock data for charts
+```
+
+**START WITH:** `Analytics.jsx` - Build all 4 charts using Recharts library.
+
+---
+
+**STATUS:** 🔥 DUAL-AGENT SPRINT ACTIVE | Mode: LOCAL DEV | Target: PRESENTATION READY
