@@ -10,17 +10,17 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v4.8 - CORS KILLER) ---
-  console.log("🚀 CORE v4.8 BOOTED: Starting Multi-Path Probe...");
+  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v4.9 - CLEAN ROUTE) ---
+  console.log("🚀 CORE v4.9 BOOTED: Using Clean Route /bridgex");
   useEffect(() => {
     const fetchLiveData = async () => {
       const endpoints = [
-        // 1. Absolute Development (The most likely live path right now)
-        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/Zoho_bridge/execute',
+        // 1. Absolute Development (Custom Route)
+        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/bridgex',
         // 2. Relative (Native Production)
-        '/server/Zoho_bridge/execute',
+        '/server/bridgex',
         // 3. Absolute Production
-        'https://websitewireframeproject-895469053.catalystserverless.com/server/Zoho_bridge/execute'
+        'https://websitewireframeproject-895469053.catalystserverless.com/server/bridgex'
       ];
 
       for (const url of endpoints) {
@@ -64,7 +64,7 @@ const App = () => {
       <nav style={styles.sidebar}>
         <div style={styles.sidebarHeader}>
           <div style={styles.logoCircle}>LP</div>
-          <span style={styles.logoText}>AssetPro v4.5</span>
+          <span style={styles.logoText}>AssetPro v4.9</span>
         </div>
         <div style={styles.navGroup}>
           <NavItem id="Inventory" icon="📦" label="Inventory" active={activeTab === 'Inventory'} onClick={() => setActiveTab('Inventory')} />
