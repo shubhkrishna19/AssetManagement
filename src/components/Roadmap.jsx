@@ -16,13 +16,16 @@ const Roadmap = () => {
         // IN PROGRESS (Security Sprint)
         { id: 10, title: 'User Role Management', status: 'In Progress', category: 'Security', description: 'Admin vs Viewer roles and permissions.' },
 
-        // PLANNED
-        { id: 12, title: 'Audit Trail Logs', status: 'Planned', category: 'Compliance', description: 'Immutable history of all asset changes.' },
+        // PLANNED (Asset Tiger Parity)
         { id: 11, title: 'Mobile App (PWA)', status: 'Planned', category: 'Platform', description: 'Installable PWA for field audits.' },
-        { id: 13, title: 'Barcode Generation', status: 'Planned', category: 'Ops', description: 'Generate and print QR/Barcodes for assets.' },
-        { id: 14, title: 'Zoho CRM Integration', status: 'Planned', category: 'Integrations', description: 'Sync assets with CRM Accounts/Deals.' },
-        { id: 15, title: 'Email Notifications', status: 'Planned', category: 'Ops', description: 'Alerts for maintenance due or low stock.' },
-        { id: 16, title: 'Vendor Portal', status: 'Planned', category: 'Ext', description: 'Allow vendors to upload invoices directly.' },
+        { id: 12, title: 'Audit Trail Logs', status: 'Planned', category: 'Compliance', description: 'Immutable history of all asset changes.' },
+        { id: 13, title: 'Contracts & Warranties', status: 'Planned', category: 'Finance', description: 'Track expiration dates with email alerts.' },
+        { id: 14, title: 'E-Signatures', status: 'Planned', category: 'Compliance', description: 'Digital signatures for asset checkout/checkin.' },
+        { id: 15, title: 'Asset Reservations', status: 'Planned', category: 'Ops', description: 'Calendar-based booking system for shared assets.' },
+        { id: 16, title: 'Consumables Tracking', status: 'Planned', category: 'Inventory', description: 'Quantity tracking for ink, paper, parts.' },
+        { id: 17, title: 'Vendor Portal', status: 'Planned', category: 'Ext', description: 'Allow vendors to upload invoices directly.' },
+        { id: 18, title: 'Zoho CRM Integration', status: 'Planned', category: 'Integrations', description: 'Sync assets with CRM Accounts/Deals.' },
+        { id: 19, title: 'Barcode Generation', status: 'Planned', category: 'Ops', description: 'Generate and print QR/Barcodes for assets.' },
     ];
 
     const columns = [
@@ -33,8 +36,10 @@ const Roadmap = () => {
 
     return (
         <div style={styles.container}>
-            <h2 style={styles.title}>🚀 Project Roadmap</h2>
-            <p style={styles.subtitle}>Real-time tracking of Application Development Status</p>
+            <div style={styles.header}>
+                <h2 style={styles.title}>🚀 Project Roadmap</h2>
+                <p style={styles.subtitle}>Real-time tracking of Application Development Status</p>
+            </div>
 
             <div style={styles.board}>
                 {columns.map(col => (
@@ -65,20 +70,21 @@ const Roadmap = () => {
 };
 
 const styles = {
-    container: { padding: '24px', maxWidth: '1600px', margin: '0 auto', height: 'calc(100vh - 100px)', display: 'flex', flexDirection: 'column' },
-    title: { fontSize: '28px', fontWeight: '800', marginBottom: '8px', color: 'var(--text)' },
-    subtitle: { fontSize: '14px', color: 'var(--textSecondary)', marginBottom: '32px' },
-    board: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', flex: 1, overflow: 'hidden' },
-    column: { background: 'var(--surface)', borderRadius: '24px', padding: '20px', display: 'flex', flexDirection: 'column', border: '1px solid var(--border)', boxShadow: 'var(--shadow)' },
-    columnHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '16px', marginBottom: '16px' },
-    columnTitle: { fontSize: '16px', fontWeight: '800', color: 'var(--text)' },
-    countBadge: { background: 'var(--background)', color: 'var(--text)', padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '700' },
-    cardList: { overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', paddingRight: '4px' },
-    card: { padding: '16px', borderRadius: '16px', border: '1px solid var(--border)', background: 'var(--background)' },
-    cardHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '8px' },
-    category: { fontSize: '10px', textTransform: 'uppercase', fontWeight: '700', color: 'var(--textSecondary)', letterSpacing: '0.05em' },
-    cardTitle: { fontSize: '15px', fontWeight: '700', marginBottom: '6px', color: 'var(--text)' },
-    cardDesc: { fontSize: '12px', color: 'var(--textSecondary)', lineHeight: '1.5' },
+    container: { padding: '40px', maxWidth: '1600px', margin: '0 auto', minHeight: '100%' },
+    header: { marginBottom: '40px', textAlign: 'center' },
+    title: { fontSize: '32px', fontWeight: '800', marginBottom: '12px', color: 'var(--text)' },
+    subtitle: { fontSize: '16px', color: 'var(--textSecondary)' },
+    board: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', alignItems: 'start' },
+    column: { background: 'var(--surface)', borderRadius: '24px', padding: '24px', border: '1px solid var(--border)', boxShadow: 'var(--shadow)' },
+    columnHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px', marginBottom: '20px' },
+    columnTitle: { fontSize: '18px', fontWeight: '800', color: 'var(--text)' },
+    countBadge: { background: 'var(--background)', color: 'var(--text)', padding: '6px 12px', borderRadius: '12px', fontSize: '13px', fontWeight: '700' },
+    cardList: { display: 'flex', flexDirection: 'column', gap: '20px' },
+    card: { padding: '20px', borderRadius: '20px', border: '1px solid var(--border)', background: 'var(--background)' },
+    cardHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '10px' },
+    category: { fontSize: '11px', textTransform: 'uppercase', fontWeight: '700', color: 'var(--textSecondary)', letterSpacing: '0.05em' },
+    cardTitle: { fontSize: '16px', fontWeight: '700', marginBottom: '8px', color: 'var(--text)' },
+    cardDesc: { fontSize: '13px', color: 'var(--textSecondary)', lineHeight: '1.6' },
     pulse: { color: 'var(--accent)', animation: 'pulse 1.5s infinite' },
 };
 

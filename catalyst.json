@@ -1,5 +1,8 @@
 {
     "client": {
         "source": "dist"
+    },
+    "functions": {
+        "bridgex": "functions/bridgex"
     }
 }

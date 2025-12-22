@@ -1,42 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useAudit } from '../context/AuditContext';
 
 const ActivityLog = () => {
-    const activities = [
-        { id: 1, type: 'assignment', user: 'Shubh Krishna', action: 'Assigned "Dell Latitude 5520" to Client A', time: '2 hours ago', icon: '👤' },
-        { id: 2, type: 'maintenance', user: 'System', action: 'Maintenance requested for "HP LaserJet Pro"', time: '4 hours ago', icon: '🔧' },
-        { id: 3, type: 'scan', user: 'Operations', action: 'Scanned & Verified "BW-IT-004"', time: 'Yesterday', icon: '📷' },
-        { id: 4, type: 'movement', user: 'Logistics', action: 'Moved "Mahindra Bolero" to Mumbai Depot', time: '2 days ago', icon: '🚚' },
-        { id: 5, type: 'provision', user: 'IT Support', action: 'Provisioned new "MacBook Pro 14"', time: '3 days ago', icon: '✨' },
-        { id: 6, type: 'return', user: 'Admin', action: 'Returned "Executive Desk" to Warehouse', time: 'Last week', icon: '📥' },
-    ];
+    const { logs, clearLogs } = useAudit();
+    const [filter, setFilter] = useState('all');
+
+    const filteredLogs = filter === 'all'
+        ? logs
+        : logs.filter(log => log.type === filter);
+
+    const getIcon = (action) => {
+        if (!action) return '📝';
+        if (action.includes('Import')) return '📥';
+        if (action.includes('Bulk')) return '🚀';
+        if (action.includes('Login') || action.includes('Role')) return '👤';
+        if (action.includes('Report')) return '🔧';
+        return '📝';
+    };
 
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>📜 Activity Log</h2>
             <p style={styles.subtitle}>Complete audit trail of asset lifecycle events</p>
 
+            {/* Controls */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button onClick={() => setFilter('all')} style={{ ...styles.filterBtn, background: filter === 'all' ? 'var(--accent)' : 'var(--surface)', color: filter === 'all' ? 'white' : 'var(--text)' }}>All</button>
+                    <button onClick={() => setFilter('success')} style={{ ...styles.filterBtn, background: filter === 'success' ? '#00b894' : 'var(--surface)', color: filter === 'success' ? 'white' : 'var(--text)' }}>Actions</button>
+                    <button onClick={() => setFilter('info')} style={{ ...styles.filterBtn, background: filter === 'info' ? '#0984e3' : 'var(--surface)', color: filter === 'info' ? 'white' : 'var(--text)' }}>System</button>
+                </div>
+                <button onClick={clearLogs} style={styles.clearBtn}>Clear History</button>
+            </div>
+
             <div style={styles.logCard}>
                 <div style={styles.timeline}>
-                    {activities.map((activity, index) => (
-                        <div key={activity.id} style={styles.activityItem}>
-                            <div style={styles.leftCol}>
-                                <div style={styles.dotWrapper}>
-                                    <div style={styles.dot} />
-                                    {index !== activities.length - 1 && <div style={styles.line} />}
+                    {filteredLogs.length === 0 ? (
+                        <div style={{ padding: '40px', textAlign: 'center', color: 'var(--textSecondary)' }}>No logs found 🤷‍♂️</div>
+                    ) : (
+                        filteredLogs.map((activity, index) => (
+                            <div key={activity.id} style={styles.activityItem}>
+                                <div style={styles.leftCol}>
+                                    <div style={styles.dotWrapper}>
+                                        <div style={{ ...styles.dot, background: activity.type === 'error' ? 'red' : 'var(--accent)' }} />
+                                        {index !== filteredLogs.length - 1 && <div style={styles.line} />}
+                                    </div>
+                                    <div style={styles.iconBox}>{getIcon(activity.action || activity.details)}</div>
                                 </div>
-                                <div style={styles.iconBox}>{activity.icon}</div>
-                            </div>
 
-                            <div style={styles.rightCol}>
-                                <div style={styles.itemHeader}>
-                                    <span style={styles.userName}>{activity.user}</span>
-                                    <span style={styles.time}>{activity.time}</span>
+                                <div style={styles.rightCol}>
+                                    <div style={styles.itemHeader}>
+                                        <span style={styles.userName}>{activity.user}</span>
+                                        <span style={styles.time}>{new Date(activity.timestamp).toLocaleString()}</span>
+                                    </div>
+                                    <div style={styles.actionText}>{activity.details}</div>
+                                    <div style={styles.typeTag}>{activity.action}</div>
                                 </div>
-                                <div style={styles.actionText}>{activity.action}</div>
-                                <div style={styles.typeTag}>{activity.type}</div>
                             </div>
-                        </div>
-                    ))}
+                        )))}
                 </div>
             </div>
         </div>
@@ -61,6 +82,8 @@ const styles = {
     time: { fontSize: '12px', color: 'var(--textSecondary)' },
     actionText: { fontSize: '14px', color: 'var(--text)', marginBottom: '8px', lineHeight: '1.4' },
     typeTag: { display: 'inline-block', padding: '4px 10px', borderRadius: '8px', background: 'var(--background)', color: 'var(--textSecondary)', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' },
+    filterBtn: { padding: '8px 16px', border: '1px solid var(--border)', borderRadius: '10px', cursor: 'pointer', fontWeight: '600', fontSize: '12px' },
+    clearBtn: { padding: '8px 16px', background: 'transparent', color: 'var(--danger)', border: 'none', cursor: 'pointer', fontWeight: '700', fontSize: '12px' }
 };
 
 export default ActivityLog;

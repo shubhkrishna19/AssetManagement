@@ -16,5 +16,17 @@ export default defineConfig({
         secure: true
       }
     }
+  },
+  build: {
+    chunkSizeWarningLimit: 1000, // Increased from 500kb
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          charts: ['recharts'],
+          utils: ['html5-qrcode']
+        }
+      }
+    }
   }
 })

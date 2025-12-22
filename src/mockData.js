@@ -97,6 +97,39 @@ export const mockAssets = [
         Cost: 2500000,
         Location: "Factory Unit 1",
         Health_Score: 68
+    },
+    {
+        ID: '6',
+        Asset_ID: 'AST-006',
+        Item_Name: 'Projector 4K',
+        Purchase_Date: '2023-01-20',
+        Cost: 85000,
+        Category: 'Electronics',
+        Status: 'Available',
+        Assigned_User: null
+    }
+];
+
+export const mockReservations = [
+    {
+        id: 1,
+        assetId: 'AST-006',
+        userId: 'user1',
+        userName: 'Alice Johnson',
+        startDate: '2025-12-25',
+        endDate: '2025-12-26',
+        status: 'Approved',
+        purpose: 'Client Presentation'
+    },
+    {
+        id: 2,
+        assetId: 'AST-003',
+        userId: 'user2',
+        userName: 'Bob Smith',
+        startDate: '2025-12-28',
+        endDate: '2025-12-29',
+        status: 'Pending',
+        purpose: 'Video Shoot'
     }
 ];
 
@@ -132,3 +165,17 @@ export const mockStats = {
         { month: 'Jul', value: 3904500 },
     ]
 };
+
+export const mockConsumables = [
+    { id: 1, name: 'Printer Paper (A4)', category: 'Office', quantity: 45, threshold: 10, unit: 'Reams', cost: 450, status: 'In Stock' },
+    { id: 2, name: 'Sanitizer Refill', category: 'Health', quantity: 2, threshold: 5, unit: 'Bottles', cost: 120, status: 'Low Stock' },
+    { id: 3, name: 'HDMI Cables 2m', category: 'IT', quantity: 12, threshold: 3, unit: 'Pcs', cost: 350, status: 'In Stock' },
+    { id: 4, name: 'Coffee Beans', category: 'Pantry', quantity: 0, threshold: 2, unit: 'Kg', cost: 800, status: 'Out of Stock' }
+];
+
+export const mockVendors = [
+    { id: 1, name: 'Dell Enterprise', type: 'Hardware', contact: 'Michael Scott', email: 'sales@dell.com', phone: '1-800-DELL-BIZ', rating: 4.5, status: 'Preferred' },
+    { id: 2, name: 'Office Depot', type: 'Supplies', contact: 'Dwight Schrute', email: 'orders@officedepot.com', phone: '555-0199', rating: 3.8, status: 'Active' },
+    { id: 3, name: 'CleanFaster Services', type: 'Maintenance', contact: 'Creed Bratton', email: 'support@cleanfaster.com', phone: '555-9000', rating: 2.5, status: 'Under Review' },
+    { id: 4, name: 'Apple Business', type: 'Hardware', contact: 'Tim Cook', email: 'enterprise@apple.com', phone: '1-800-MY-APPLE', rating: 5.0, status: 'Preferred' }
+];

@@ -91,4 +91,4 @@ body {
 
 .dark .recharts-text {
   fill: var(--textSecondary) !important;
-}
+}@keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } 100% { opacity: 1; transform: scale(1); } }

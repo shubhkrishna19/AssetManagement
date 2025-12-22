@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useUser } from './context/UserContext';
+import { useAudit } from './context/AuditContext';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { mockAssets } from './mockData';
 import Analytics from './components/Analytics';
@@ -11,7 +13,15 @@ import CONFIG from './config';
 import AuditTool from './components/AuditTool';
 import CheckoutPortal from './components/CheckoutPortal';
 import Roadmap from './components/Roadmap';
+import Contracts from './components/Contracts';
+import Reservations from './components/Reservations';
+import Consumables from './components/Consumables';
+import VendorPortal from './components/VendorPortal';
+import ESignature from './components/ESignature';
+import BarcodeGenerator from './components/BarcodeGenerator';
 import ImportModal from './components/ImportModal';
+import HamburgerMenu from './components/HamburgerMenu';
+import OfflineBanner from './components/OfflineBanner';
 
 // ASSET LEDGER PRO - v5.5 (PRODUCTION READY)
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
@@ -25,6 +35,22 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedIds, setSelectedIds] = useState([]);
   const [showImportModal, setShowImportModal] = useState(false);
+  const { currentUser, login, hasPermission } = useUser();
+  const { logAction } = useAudit();
+
+  // Mobile State
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) setIsSidebarOpen(true); // Always open on desktop
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Init
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // --- 🛰 THE UNIVERSAL SYNC ENGINE (v5.5 - CONFIG DRIVEN) ---
   useEffect(() => {
@@ -107,6 +133,7 @@ const App = () => {
     }));
 
     alert(`🚀 BULK SUCCESS: ${config.msg} for ${selectedIds.length} assets.`);
+    logAction('BULK_ACTION', `${config.msg} (${selectedIds.length} assets)`, currentUser.name, 'success');
     setSelectedIds([]);
   };
 
@@ -114,6 +141,7 @@ const App = () => {
     setAssets(prev => [...newAssets, ...prev]);
     setShowImportModal(false);
     alert(`✅ Successfully imported ${newAssets.length} assets!`);
+    logAction('DATA_IMPORT', `Imported ${newAssets.length} assets via CSV upload.`, currentUser.name, 'success');
   };
 
   const calculateDepreciation = (cost, purchaseDate, usefulLife = 5) => {
@@ -128,23 +156,35 @@ const App = () => {
 
   return (
     <div style={styles.appContainer}>
-      <aside style={styles.sidebar}>
+      <OfflineBanner />
+      <aside style={{
+        ...styles.sidebar,
+        transform: isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
+        position: isMobile ? 'fixed' : 'relative',
+        zIndex: 150,
+        height: '100%',
+        boxShadow: isMobile && isSidebarOpen ? '4px 0 15px rgba(0,0,0,0.3)' : 'none'
+      }}>
         <div style={styles.sidebarHeader}>
           <div style={styles.logoCircle}>BW</div>
           <h1 style={styles.logoText}>Bluewud</h1>
         </div>
         <div style={styles.navGroup}>
-          <NavItem id="Inventory" icon="📦" label="Inventory" active={activeTab === 'Inventory'} onClick={() => setActiveTab('Inventory')} />
-          <NavItem id="Analytics" icon="📊" label="Analytics" active={activeTab === 'Analytics'} onClick={() => setActiveTab('Analytics')} />
-          <NavItem id="Reports" icon="📋" label="Reports" active={activeTab === 'Reports'} onClick={() => setActiveTab('Reports')} />
-          <NavItem id="Maintenance" icon="🔧" label="Maintenance" active={activeTab === 'Maintenance'} onClick={() => setActiveTab('Maintenance')} />
-          <NavItem id="Activity" icon="📜" label="Activity Log" active={activeTab === 'Activity'} onClick={() => setActiveTab('Activity')} />
-          <NavItem id="Audit" icon="🛡️" label="Physical Audit" active={activeTab === 'Audit'} onClick={() => setActiveTab('Audit')} />
-          <NavItem id="Checkout" icon="🔄" label="Check-In/Out" active={activeTab === 'Checkout'} onClick={() => setActiveTab('Checkout')} />
-          <NavItem id="Scan" icon="📷" label="Quick Scan" active={activeTab === 'Scan'} onClick={() => setActiveTab('Scan')} />
-          <NavItem id="Scan" icon="📷" label="Quick Scan" active={activeTab === 'Scan'} onClick={() => setActiveTab('Scan')} />
-          <div style={{ height: '1px', background: 'var(--border)', margin: '10px 25px' }} />
-          <NavItem id="Roadmap" icon="🚀" label="Roadmap" active={activeTab === 'Roadmap'} onClick={() => setActiveTab('Roadmap')} />
+          <NavItem id="Inventory" icon="📦" label="Inventory" active={activeTab === 'Inventory'} onClick={() => { setActiveTab('Inventory'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Analytics" icon="📊" label="Analytics" active={activeTab === 'Analytics'} onClick={() => { setActiveTab('Analytics'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Reports" icon="📋" label="Reports" active={activeTab === 'Reports'} onClick={() => { setActiveTab('Reports'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Maintenance" icon="🔧" label="Maintenance" active={activeTab === 'Maintenance'} onClick={() => { setActiveTab('Maintenance'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Activity" icon="📜" label="Activity Log" active={activeTab === 'Activity'} onClick={() => { setActiveTab('Activity'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Audit" icon="🛡️" label="Physical Audit" active={activeTab === 'Audit'} onClick={() => { setActiveTab('Audit'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Checkout" icon="🔄" label="Check-In/Out" active={activeTab === 'Checkout'} onClick={() => { setActiveTab('Checkout'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Scan" icon="📷" label="Quick Scan" active={activeTab === 'Scan'} onClick={() => { setActiveTab('Scan'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Contracts" icon="📜" label="Contracts" active={activeTab === 'Contracts'} onClick={() => { setActiveTab('Contracts'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Reservations" icon="📅" label="Reservations" active={activeTab === 'Reservations'} onClick={() => { setActiveTab('Reservations'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Consumables" icon="🧪" label="Consumables" active={activeTab === 'Consumables'} onClick={() => { setActiveTab('Consumables'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Vendors" icon="🏢" label="Vendors" active={activeTab === 'Vendors'} onClick={() => { setActiveTab('Vendors'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="ESign" icon="✍️" label="E-Sign" active={activeTab === 'ESign'} onClick={() => { setActiveTab('ESign'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Barcodes" icon="🏷️" label="Tagging" active={activeTab === 'Barcodes'} onClick={() => { setActiveTab('Barcodes'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Roadmap" icon="🚀" label="Roadmap" active={activeTab === 'Roadmap'} onClick={() => { setActiveTab('Roadmap'); if (isMobile) setIsSidebarOpen(false); }} />
         </div>
         <div style={styles.sidebarFooter}>
           <div style={styles.connectionStatus}>
@@ -162,6 +202,14 @@ const App = () => {
         </div>
       </aside>
 
+      {/* Overlay for mobile */}
+      {isMobile && isSidebarOpen && (
+        <div
+          onClick={() => setIsSidebarOpen(false)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 140 }}
+        />
+      )}
+
       <main style={styles.mainArea}>
         {/* Demo Mode Banner */}
         {dataSource === 'demo' && (
@@ -170,9 +218,10 @@ const App = () => {
           </div>
         )}
 
-        <header style={styles.contentHeader}>
+        <header style={{ ...styles.contentHeader, padding: isMobile ? '0 20px' : '0 40px' }}>
           <div style={styles.headerLeft}>
-            <h2 style={styles.tabTitle}>{activeTab}</h2>
+            {isMobile && <HamburgerMenu isOpen={isSidebarOpen} onClick={() => setIsSidebarOpen(!isSidebarOpen)} />}
+            <h2 style={{ ...styles.tabTitle, fontSize: isMobile ? '20px' : '24px' }}>{activeTab}</h2>
             {activeTab === 'Inventory' && (
               <div style={styles.headerLeftActions}>
                 <div style={styles.searchWrapper}>
@@ -185,16 +234,19 @@ const App = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
-                <button
-                  onClick={() => setShowImportModal(true)}
-                  style={{ ...styles.clearSelectionBtn, background: 'var(--background)', color: 'var(--text)', border: '1px solid var(--border)' }}
-                >
-                  📥 Import CSV
-                </button>
+                {hasPermission('import') && (
+                  <button
+                    onClick={() => setShowImportModal(true)}
+                    style={{ ...styles.clearSelectionBtn, background: 'var(--background)', color: 'var(--text)', border: '1px solid var(--border)' }}
+                  >
+                    📥 Import CSV
+                  </button>
+                )}
                 {selectedIds.length > 0 && (
                   <button
                     style={styles.clearSelectionBtn}
                     onClick={() => setSelectedIds([])}
+                    title="Deselect all assets"
                   >
                     Clear Selection ({selectedIds.length})
                   </button>
@@ -209,7 +261,18 @@ const App = () => {
                   "📋 Sample Data"}
             </div>
             <ThemeToggle />
-            <div style={styles.avatar} onClick={() => setActiveTab('Profile')}>SK</div>
+            <div
+              style={{ ...styles.avatar, cursor: 'pointer', width: 'auto', padding: '0 12px', borderRadius: '20px', gap: '8px' }}
+              onClick={() => {
+                const newRole = currentUser.role === 'admin' ? 'viewer' : 'admin';
+                login(newRole);
+                logAction('ROLE_SWITCH', `Switched role to ${newRole.toUpperCase()}`, currentUser.name, 'info');
+              }}
+              title={`Current Role: ${currentUser.role.toUpperCase()}. Click to switch.`}
+            >
+              <span style={{ fontSize: '12px', fontWeight: '800' }}>{currentUser.role.toUpperCase()}</span>
+              {currentUser.avatar}
+            </div>
           </div>
         </header>
 
@@ -236,10 +299,12 @@ const App = () => {
                 <h3>Native Asset Scanner</h3>
                 <p>Point camera at an Asset Tag QR code</p>
               </div>
-              <QRScanner onScan={(data) => {
-                alert(`Asset Identified: ${data}\nSyncing with Creator...`);
-                setActiveTab('Inventory'); // Redirect to inventory after scan
-              }} />
+              <QRScanner
+                isMobile={isMobile}
+                onScan={(data) => {
+                  alert(`Asset Identified: ${data}\nSyncing with Creator...`);
+                  setActiveTab('Inventory'); // Redirect to inventory after scan
+                }} />
             </div>
           ) : activeTab === 'Analytics' ? (
             <Analytics />
@@ -259,25 +324,46 @@ const App = () => {
             <Profile />
           ) : activeTab === 'Roadmap' ? (
             <Roadmap />
+          ) : activeTab === 'Contracts' ? (
+            <Contracts assets={assets} />
+          ) : activeTab === 'Reservations' ? (
+            <Reservations assets={assets} />
+          ) : activeTab === 'Consumables' ? (
+            <Consumables />
+          ) : activeTab === 'Vendors' ? (
+            <VendorPortal assets={assets} />
+          ) : activeTab === 'ESign' ? (
+            <ESignature />
+          ) : activeTab === 'Barcodes' ? (
+            <BarcodeGenerator assets={assets} />
           ) : (
-            <AssetGrid
-              assets={assets.filter(a =>
-                a.Item_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                a.Asset_ID.toLowerCase().includes(searchTerm.toLowerCase())
-              )}
-              selectedIds={selectedIds}
-              onToggleSelect={(id) => {
-                setSelectedIds(prev =>
-                  prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-                );
-              }}
-              calculateDepreciation={calculateDepreciation}
-            />
+            assets.filter(a =>
+              a.Item_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              a.Asset_ID.toLowerCase().includes(searchTerm.toLowerCase())
+            ).length > 0 ? (
+              <AssetGrid
+                assets={assets.filter(a =>
+                  a.Item_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  a.Asset_ID.toLowerCase().includes(searchTerm.toLowerCase())
+                )}
+                selectedIds={selectedIds}
+                calculateDepreciation={calculateDepreciation}
+                readOnly={!hasPermission('bulk_action')}
+                isMobile={isMobile}
+              />
+            ) : (
+              <div style={styles.emptyState}>
+                <span style={{ fontSize: '48px' }}>🔍</span>
+                <h3>No assets found</h3>
+                <p>Try adjusting your search terms.</p>
+                <button onClick={() => setSearchTerm('')} style={styles.secondaryBtn}>Clear Search</button>
+              </div>
+            )
           )}
         </section>
 
         {/* Bulk Operations Bar */}
-        {selectedIds.length > 0 && (
+        {selectedIds.length > 0 && hasPermission('bulk_action') && (
           <BulkOpsBar
             count={selectedIds.length}
             onAction={handleBulkAction}
@@ -298,12 +384,12 @@ const App = () => {
 
 // --- SUB-COMPONENTS ---
 
-const QRScanner = ({ onScan }) => {
+const QRScanner = ({ onScan, isMobile }) => {
   useEffect(() => {
     const scanner = new Html5QrcodeScanner("reader", {
       fps: 10,
-      qrbox: { width: 250, height: 250 },
-      aspectRatio: 1.0
+      qrbox: isMobile ? { width: window.innerWidth * 0.8, height: 250 } : { width: 250, height: 250 },
+      aspectRatio: isMobile ? 1.0 : 1.0
     });
 
     scanner.render((result) => {
@@ -319,8 +405,12 @@ const QRScanner = ({ onScan }) => {
   return <div id="reader" style={styles.scannerBody}></div>;
 };
 
-const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation }) => (
-  <div style={styles.assetGrid}>
+const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation, readOnly, isMobile }) => (
+  <div style={{
+    ...styles.assetGrid,
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))',
+    gap: isMobile ? '16px' : '24px'
+  }}>
     {assets.map(asset => {
       const isSelected = selectedIds?.includes(asset.ID);
       const currentValue = calculateDepreciation(asset.Cost, asset.Purchase_Date);
@@ -343,7 +433,8 @@ const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation 
               <div style={{
                 ...styles.checkbox,
                 backgroundColor: isSelected ? 'var(--accent)' : 'transparent',
-                borderColor: isSelected ? 'var(--accent)' : 'var(--border)'
+                borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
+                opacity: readOnly ? 0 : 1, pointerEvents: readOnly ? 'none' : 'auto'
               }}>
                 {isSelected && <span style={styles.checkMark}>✓</span>}
               </div>
@@ -415,7 +506,7 @@ const styles = {
   tabTitle: { fontSize: '24px', fontWeight: '900', color: 'var(--text)' },
   headerLeft: { display: 'flex', alignItems: 'center', gap: '30px' },
   headerLeftActions: { display: 'flex', alignItems: 'center', gap: '15px' },
-  clearSelectionBtn: { padding: '8px 16px', background: 'var(--accentLight)', color: 'var(--accent)', border: 'none', borderRadius: '10px', fontWeight: '700', cursor: 'pointer', fontSize: '13px' },
+  clearSelectionBtn: { padding: '8px 16px', background: 'var(--accentLight)', color: 'var(--accent)', border: 'none', borderRadius: '10px', fontWeight: '700', cursor: 'pointer', fontSize: '13px', transition: '0.2s' },
   searchWrapper: { position: 'relative', display: 'flex', alignItems: 'center' },
   searchIcon: { position: 'absolute', left: '12px', color: 'var(--textSecondary)', fontSize: '14px' },
   headerSearch: {
@@ -474,6 +565,15 @@ const styles = {
     padding: '12px 20px', background: 'var(--background)', color: 'var(--text)',
     border: '1px solid var(--border)', borderRadius: '12px', fontWeight: '700',
     cursor: 'pointer', transition: '0.2s'
+  },
+  emptyState: {
+    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    height: '400px', color: 'var(--textSecondary)', gap: '16px'
+  },
+  secondaryBtn: {
+    padding: '8px 16px', background: 'transparent', color: 'var(--text)',
+    border: '1px solid var(--border)', borderRadius: '10px',
+    fontWeight: '600', cursor: 'pointer', transition: '0.2s'
   }
 };
 

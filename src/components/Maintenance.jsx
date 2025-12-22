@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useUser } from '../context/UserContext';
 
 const Maintenance = () => {
+    const { hasPermission } = useUser();
     const [requests, setRequests] = useState([
         { id: 'MR-001', asset: 'Dell Latitude 5520', issue: 'Battery draining fast', priority: 'High', status: 'In Progress', date: '2025-12-18', cost: 3500 },
         { id: 'MR-002', asset: 'HP LaserJet Pro', issue: 'Paper jam in tray 2', priority: 'Medium', status: 'Completed', date: '2025-12-15', cost: 1200 },
@@ -47,66 +49,70 @@ const Maintenance = () => {
                 </div>
             </div>
 
-            <div style={styles.content}>
+
+
+            <div style={{ ...styles.content, gridTemplateColumns: hasPermission('create') ? '1fr 1.5fr' : '1fr' }}>
                 {/* Form Section */}
-                <div style={styles.formCard}>
-                    <h3 style={styles.sectionTitle}>Report New Issue</h3>
-                    <form onSubmit={handleSubmit} style={styles.form}>
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Select Asset</label>
-                            <input
-                                style={styles.input}
-                                value={formData.asset}
-                                onChange={(e) => setFormData({ ...formData, asset: e.target.value })}
-                                placeholder="e.g., BW-IT-001 or Dell Latitude"
-                                required
-                            />
-                        </div>
-                        <div style={styles.row}>
+                {hasPermission('create') && (
+                    <div style={styles.formCard}>
+                        <h3 style={styles.sectionTitle}>Report New Issue</h3>
+                        <form onSubmit={handleSubmit} style={styles.form}>
                             <div style={styles.formGroup}>
-                                <label style={styles.label}>Priority</label>
-                                <select
-                                    style={styles.input}
-                                    value={formData.priority}
-                                    onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                                >
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                    <option value="Critical">Critical</option>
-                                </select>
-                            </div>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>Est. Cost (₹)</label>
+                                <label style={styles.label}>Select Asset</label>
                                 <input
-                                    type="number"
                                     style={styles.input}
-                                    value={formData.cost}
-                                    onChange={(e) => setFormData({ ...formData, cost: e.target.value })}
-                                    placeholder="0"
+                                    value={formData.asset}
+                                    onChange={(e) => setFormData({ ...formData, asset: e.target.value })}
+                                    placeholder="e.g., BW-IT-001 or Dell Latitude"
+                                    required
                                 />
                             </div>
-                        </div>
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Issue Description</label>
-                            <textarea
-                                style={{ ...styles.input, height: '100px', resize: 'none' }}
-                                value={formData.issue}
-                                onChange={(e) => setFormData({ ...formData, issue: e.target.value })}
-                                placeholder="Describe the problem in detail..."
-                                required
-                            />
-                        </div>
+                            <div style={styles.row}>
+                                <div style={styles.formGroup}>
+                                    <label style={styles.label}>Priority</label>
+                                    <select
+                                        style={styles.input}
+                                        value={formData.priority}
+                                        onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                                    >
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                        <option value="Critical">Critical</option>
+                                    </select>
+                                </div>
+                                <div style={styles.formGroup}>
+                                    <label style={styles.label}>Est. Cost (₹)</label>
+                                    <input
+                                        type="number"
+                                        style={styles.input}
+                                        value={formData.cost}
+                                        onChange={(e) => setFormData({ ...formData, cost: e.target.value })}
+                                        placeholder="0"
+                                    />
+                                </div>
+                            </div>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Issue Description</label>
+                                <textarea
+                                    style={{ ...styles.input, height: '100px', resize: 'none' }}
+                                    value={formData.issue}
+                                    onChange={(e) => setFormData({ ...formData, issue: e.target.value })}
+                                    placeholder="Describe the problem in detail..."
+                                    required
+                                />
+                            </div>
 
-                        {/* PHOTO UPLOAD PLACEHOLDER */}
-                        <div style={styles.uploadBox}>
-                            <span style={{ fontSize: '24px' }}>📷</span>
-                            <span style={{ fontSize: '12px', color: 'var(--textSecondary)', fontWeight: '600' }}>Attach Photo (Optional)</span>
-                        </div>
+                            {/* PHOTO UPLOAD PLACEHOLDER */}
+                            <div style={styles.uploadBox}>
+                                <span style={{ fontSize: '24px' }}>📷</span>
+                                <span style={{ fontSize: '12px', color: 'var(--textSecondary)', fontWeight: '600' }}>Attach Photo (Optional)</span>
+                            </div>
 
-                        <button type="submit" style={styles.submitBtn}>Submit Request</button>
-                    </form>
-                </div>
+                            <button type="submit" style={styles.submitBtn}>Submit Request</button>
+                        </form>
+                    </div>
+                )}
 
                 {/* List Section */}
                 <div style={styles.listCard}>
@@ -134,7 +140,7 @@ const Maintenance = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
