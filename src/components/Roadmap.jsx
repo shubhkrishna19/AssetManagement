@@ -2,7 +2,7 @@ import React from 'react';
 
 const Roadmap = () => {
     const features = [
-        // COMPLETED
+        // COMPLETED (Presentation Sprint)
         { id: 1, title: 'Bulk Operations Engine', status: 'Completed', category: 'Core', description: 'Multi-select, bulk status update, bulk delete.' },
         { id: 2, title: 'Depreciation Estimator', status: 'Completed', category: 'Finance', description: 'Real-time book value calculation & display.' },
         { id: 3, title: 'Analytics Dashboard', status: 'Completed', category: 'Analytics', description: 'Charts for Portfolio, Health, Trends.' },
@@ -10,15 +10,15 @@ const Roadmap = () => {
         { id: 5, title: 'Maintenance Portal', status: 'Completed', category: 'Ops', description: 'Issue tracking, cost dashboard, history log.' },
         { id: 6, title: 'Dark/Light Mode', status: 'Completed', category: 'UI/UX', description: 'System-wide glassmorphism theme support.' },
         { id: 7, title: 'Universal Sync Engine', status: 'Completed', category: 'Backend', description: 'Hybrid connection (Local/Live) to Zoho Creator.' },
+        { id: 8, title: 'Data Importer', status: 'Completed', category: 'Data', description: 'Bulk CSV/Excel upload with field mapping.' },
+        { id: 9, title: 'SEO & Metadata', status: 'Completed', category: 'Config', description: 'Meta tags, title optimization for search engines.' },
 
-        // IN PROGRESS
-        { id: 8, title: 'Data Importer', status: 'In Progress', category: 'Data', description: 'Bulk CSV/Excel upload with field mapping.' },
-        { id: 9, title: 'SEO & Metadata', status: 'In Progress', category: 'Config', description: 'Meta tags, title optimization for search engines.' },
+        // IN PROGRESS (Security Sprint)
+        { id: 10, title: 'User Role Management', status: 'In Progress', category: 'Security', description: 'Admin vs Viewer roles and permissions.' },
 
         // PLANNED
-        { id: 10, title: 'User Role Management', status: 'Planned', category: 'Security', description: 'Admin vs Viewer roles and permissions.' },
-        { id: 11, title: 'Mobile App (PWA)', status: 'Planned', category: 'Platform', description: 'Installable PWA for field audits.' },
         { id: 12, title: 'Audit Trail Logs', status: 'Planned', category: 'Compliance', description: 'Immutable history of all asset changes.' },
+        { id: 11, title: 'Mobile App (PWA)', status: 'Planned', category: 'Platform', description: 'Installable PWA for field audits.' },
         { id: 13, title: 'Barcode Generation', status: 'Planned', category: 'Ops', description: 'Generate and print QR/Barcodes for assets.' },
         { id: 14, title: 'Zoho CRM Integration', status: 'Planned', category: 'Integrations', description: 'Sync assets with CRM Accounts/Deals.' },
         { id: 15, title: 'Email Notifications', status: 'Planned', category: 'Ops', description: 'Alerts for maintenance due or low stock.' },
