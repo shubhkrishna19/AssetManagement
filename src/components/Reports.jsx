@@ -6,13 +6,31 @@ const Reports = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: 'Asset_ID', direction: 'asc' });
 
-    // Sorting logic
+    // Sorting logic (Generic)
     const requestSort = (key) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
             direction = 'desc';
         }
         setSortConfig({ key, direction });
+    };
+
+    // Calculate Depreciation Logic
+    const calculateDepreciation = (asset) => {
+        const cost = asset.Cost || 0;
+        const purchaseDate = new Date(asset.Purchase_Date);
+        const now = new Date();
+        const ageYears = Math.max(0, (now - purchaseDate) / (1000 * 60 * 60 * 24 * 365.25));
+        const usefulLife = 5; // Default 5 years
+        const depreciationPerYear = cost / usefulLife;
+        const totalDepreciation = Math.min(cost, depreciationPerYear * ageYears);
+        const bookValue = Math.max(0, cost - totalDepreciation);
+
+        return {
+            age: ageYears.toFixed(1),
+            depreciation: totalDepreciation,
+            bookValue: bookValue
+        };
     };
 
     const filteredAndSortedAssets = useMemo(() => {
@@ -27,43 +45,34 @@ const Reports = () => {
             );
         }
 
+        // Filter for Maintenance Tab
+        if (activeReport === 'maintenance') {
+            result = result.filter(asset =>
+                asset.Status === 'Under Maintenance' ||
+                asset.Health_Score < 70
+            );
+        }
+
         // Sort
         result.sort((a, b) => {
-            if (a[sortConfig.key] < b[sortConfig.key]) {
-                return sortConfig.direction === 'asc' ? -1 : 1;
+            let valA = a[sortConfig.key];
+            let valB = b[sortConfig.key];
+
+            // Handle calculated fields for sorting if needed (simplified for now)
+            if (activeReport === 'depreciation') {
+                if (sortConfig.key === 'BookValue') {
+                    valA = calculateDepreciation(a).bookValue;
+                    valB = calculateDepreciation(b).bookValue;
+                }
             }
-            if (a[sortConfig.key] > b[sortConfig.key]) {
-                return sortConfig.direction === 'asc' ? 1 : -1;
-            }
+
+            if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+            if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
             return 0;
         });
 
         return result;
-    }, [searchTerm, sortConfig]);
-
-    const exportToCSV = () => {
-        const headers = ['Asset ID', 'Item Name', 'Category', 'Status', 'Cost', 'Location', 'Purchase Date'];
-        const csvContent = [
-            headers.join(','),
-            ...filteredAndSortedAssets.map(a => [
-                a.Asset_ID,
-                `"${a.Item_Name}"`,
-                a.Category,
-                a.Status,
-                a.Cost,
-                a.Location,
-                a.Purchase_Date
-            ].join(','))
-        ].join('\n');
-
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.setAttribute('download', 'Asset_Report.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+    }, [searchTerm, sortConfig, activeReport]);
 
     const formatCurrency = (val) => new Intl.NumberFormat('en-IN', {
         style: 'currency',
@@ -71,10 +80,42 @@ const Reports = () => {
         maximumFractionDigits: 0
     }).format(val);
 
+    const exportToCSV = () => {
+        let headers = [];
+        let rowMapper = null;
+
+        if (activeReport === 'depreciation') {
+            headers = ['Asset ID', 'Item Name', 'Purchase Date', 'Cost', 'Age (Yrs)', 'Depreciation', 'Book Value'];
+            rowMapper = a => {
+                const dep = calculateDepreciation(a);
+                return [a.Asset_ID, `"${a.Item_Name}"`, a.Purchase_Date, a.Cost, dep.age, dep.depreciation.toFixed(0), dep.bookValue.toFixed(0)];
+            };
+        } else {
+            headers = ['Asset ID', 'Item Name', 'Category', 'Status', 'Cost', 'Location'];
+            rowMapper = a => [a.Asset_ID, `"${a.Item_Name}"`, a.Category, a.Status, a.Cost, a.Location];
+        }
+
+        const csvContent = [headers.join(','), ...filteredAndSortedAssets.map(a => rowMapper(a).join(','))].join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute('download', `${activeReport}_report.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>📋 Reports Center</h2>
             <p style={styles.subtitle}>Full lifecycle transparency for all enterprise assets</p>
+
+            {/* TABS */}
+            <div style={styles.tabs}>
+                <button style={activeReport === 'inventory' ? styles.activeTab : styles.tab} onClick={() => setActiveReport('inventory')}>📦 Inventory List</button>
+                <button style={activeReport === 'depreciation' ? styles.activeTab : styles.tab} onClick={() => setActiveReport('depreciation')}>📉 Depreciation</button>
+                <button style={activeReport === 'maintenance' ? styles.activeTab : styles.tab} onClick={() => setActiveReport('maintenance')}>🔧 Maintenance Due</button>
+            </div>
 
             {/* TOOLBAR */}
             <div style={styles.toolbar}>
@@ -89,7 +130,7 @@ const Reports = () => {
                     />
                 </div>
                 <button onClick={exportToCSV} style={styles.exportBtn}>
-                    📥 Export CSV
+                    📥 Export {activeReport.charAt(0).toUpperCase() + activeReport.slice(1)} CSV
                 </button>
             </div>
 
@@ -101,33 +142,92 @@ const Reports = () => {
                             <tr>
                                 <SortHeader label="Asset ID" field="Asset_ID" currentSort={sortConfig} onSort={requestSort} />
                                 <SortHeader label="Name" field="Item_Name" currentSort={sortConfig} onSort={requestSort} />
-                                <SortHeader label="Category" field="Category" currentSort={sortConfig} onSort={requestSort} />
-                                <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
-                                <SortHeader label="Value" field="Cost" currentSort={sortConfig} onSort={requestSort} />
-                                <SortHeader label="Location" field="Location" currentSort={sortConfig} onSort={requestSort} />
+
+                                {activeReport === 'inventory' && (
+                                    <>
+                                        <SortHeader label="Category" field="Category" currentSort={sortConfig} onSort={requestSort} />
+                                        <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
+                                        <SortHeader label="Value" field="Cost" currentSort={sortConfig} onSort={requestSort} />
+                                        <SortHeader label="Location" field="Location" currentSort={sortConfig} onSort={requestSort} />
+                                    </>
+                                )}
+
+                                {activeReport === 'depreciation' && (
+                                    <>
+                                        <SortHeader label="Purchase Date" field="Purchase_Date" currentSort={sortConfig} onSort={requestSort} />
+                                        <SortHeader label="Orig. Cost" field="Cost" currentSort={sortConfig} onSort={requestSort} />
+                                        <th style={styles.th}>Age (Yrs)</th>
+                                        <th style={styles.th}>Est. Depreciation</th>
+                                        <SortHeader label="Book Value" field="BookValue" currentSort={sortConfig} onSort={requestSort} />
+                                    </>
+                                )}
+
+                                {activeReport === 'maintenance' && (
+                                    <>
+                                        <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
+                                        <SortHeader label="Health" field="Health_Score" currentSort={sortConfig} onSort={requestSort} />
+                                        <SortHeader label="Location" field="Location" currentSort={sortConfig} onSort={requestSort} />
+                                        <th style={styles.th}>Action Required</th>
+                                    </>
+                                )}
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredAndSortedAssets.map((asset, index) => (
-                                <tr key={asset.ID} style={{ ...styles.tr, background: index % 2 === 0 ? 'white' : '#F8FAFC' }}>
-                                    <td style={{ ...styles.td, fontWeight: '700' }}>{asset.Asset_ID}</td>
-                                    <td style={styles.td}>{asset.Item_Name}</td>
-                                    <td style={styles.td}>
-                                        <span style={styles.categoryBadge}>{asset.Category}</span>
-                                    </td>
-                                    <td style={styles.td}>
-                                        <StatusBadge status={asset.Status} />
-                                    </td>
-                                    <td style={{ ...styles.td, fontWeight: '700' }}>{formatCurrency(asset.Cost)}</td>
-                                    <td style={styles.td}>{asset.Location}</td>
-                                </tr>
-                            ))}
+                            {filteredAndSortedAssets.length === 0 ? (
+                                <tr><td colSpan="7" style={{ ...styles.td, textAlign: 'center', padding: '40px', color: '#94a3b8' }}>No records found matching your criteria.</td></tr>
+                            ) : (
+                                filteredAndSortedAssets.map((asset, index) => {
+                                    return (
+                                        <tr key={asset.ID} style={{ ...styles.tr, background: index % 2 === 0 ? 'var(--surface)' : 'var(--background)' }}>
+                                            <td style={{ ...styles.td, fontWeight: '700' }}>{asset.Asset_ID}</td>
+                                            <td style={styles.td}>{asset.Item_Name}</td>
+
+                                            {activeReport === 'inventory' && (
+                                                <>
+                                                    <td style={styles.td}><span style={styles.categoryBadge}>{asset.Category}</span></td>
+                                                    <td style={styles.td}><StatusBadge status={asset.Status} /></td>
+                                                    <td style={{ ...styles.td, fontWeight: '700' }}>{formatCurrency(asset.Cost)}</td>
+                                                    <td style={styles.td}>{asset.Location}</td>
+                                                </>
+                                            )}
+
+                                            {activeReport === 'depreciation' && (
+                                                <>
+                                                    <td style={styles.td}>{asset.Purchase_Date}</td>
+                                                    <td style={styles.td}>{formatCurrency(asset.Cost)}</td>
+                                                    <td style={styles.td}>{dep.age}</td>
+                                                    <td style={{ ...styles.td, color: '#ef4444' }}>-{formatCurrency(dep.depreciation)}</td>
+                                                    <td style={{ ...styles.td, fontWeight: '800', color: '#10b981' }}>{formatCurrency(dep.bookValue)}</td>
+                                                </>
+                                            )}
+
+                                            {activeReport === 'maintenance' && (
+                                                <>
+                                                    <td style={styles.td}><StatusBadge status={asset.Status} /></td>
+                                                    <td style={styles.td}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                            <div style={{ width: '60px', height: '6px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden' }}>
+                                                                <div style={{ width: `${asset.Health_Score}%`, height: '100%', background: asset.Health_Score > 80 ? '#10b981' : asset.Health_Score > 50 ? '#f59e0b' : '#ef4444' }} />
+                                                            </div>
+                                                            <span style={{ fontWeight: '700', fontSize: '12px' }}>{asset.Health_Score}%</span>
+                                                        </div>
+                                                    </td>
+                                                    <td style={styles.td}>{asset.Location}</td>
+                                                    <td style={styles.td}>
+                                                        <button style={styles.actionBtn}>Schedule Service</button>
+                                                    </td>
+                                                </>
+                                            )}
+                                        </tr>
+                                    );
+                                })
+                            )}
                         </tbody>
                     </table>
                 </div>
 
                 <div style={styles.footer}>
-                    <span>Showing {filteredAndSortedAssets.length} of {mockAssets.length} assets</span>
+                    <span>Showing {filteredAndSortedAssets.length} assets</span>
                 </div>
             </div>
         </div>
@@ -168,22 +268,29 @@ const StatusBadge = ({ status }) => {
 
 const styles = {
     container: { padding: '24px', maxWidth: '1400px', margin: '0 auto' },
-    title: { fontSize: '28px', fontWeight: '800', marginBottom: '8px', color: '#0f172a' },
-    subtitle: { fontSize: '14px', color: '#64748b', marginBottom: '32px' },
+    title: { fontSize: '28px', fontWeight: '800', marginBottom: '8px', color: 'var(--text)' },
+    subtitle: { fontSize: '14px', color: 'var(--textSecondary)', marginBottom: '32px' },
+
+    tabs: { display: 'flex', gap: '8px', marginBottom: '24px', background: 'var(--border)', padding: '4px', borderRadius: '14px', width: 'fit-content' },
+    tab: { padding: '8px 16px', borderRadius: '10px', border: 'none', background: 'transparent', color: 'var(--textSecondary)', fontWeight: '600', cursor: 'pointer', transition: '0.2s' },
+    activeTab: { padding: '8px 16px', borderRadius: '10px', border: 'none', background: 'var(--surface)', color: 'var(--accent)', fontWeight: '700', boxShadow: 'var(--shadow)' },
+
     toolbar: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', gap: '16px' },
     searchWrapper: { position: 'relative', flex: 1, maxWidth: '500px' },
-    searchIcon: { position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' },
-    searchInput: { width: '100%', padding: '12px 12px 12px 48px', borderRadius: '16px', border: '1px solid #e2e8f0', fontSize: '14px', outline: 'none', background: 'white' },
-    exportBtn: { padding: '12px 24px', borderRadius: '16px', border: 'none', background: '#0984e3', color: 'white', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 6px -1px rgb(9 132 227 / 0.2)' },
-    tableCard: { background: 'white', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', border: '1px solid #f1f5f9' },
+    searchIcon: { position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--textSecondary)' },
+    searchInput: { width: '100%', padding: '12px 12px 12px 48px', borderRadius: '16px', border: '1px solid var(--border)', fontSize: '14px', outline: 'none', background: 'var(--surface)', color: 'var(--text)' },
+    exportBtn: { padding: '12px 24px', borderRadius: '16px', border: 'none', background: 'var(--accent)', color: 'white', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: 'var(--shadow)' },
+
+    tableCard: { background: 'var(--surface)', borderRadius: '24px', overflow: 'hidden', boxShadow: 'var(--shadow)', border: '1px solid var(--border)' },
     tableWrapper: { overflowX: 'auto' },
     table: { width: '100%', borderCollapse: 'collapse', textAlign: 'left' },
-    th: { padding: '16px 24px', background: '#f8fafc', fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid #e2e8f0', cursor: 'pointer' },
+    th: { padding: '16px 24px', background: 'var(--background)', fontSize: '12px', fontWeight: '700', color: 'var(--textSecondary)', textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid var(--border)', cursor: 'pointer' },
     tr: { transition: 'background 0.2s' },
-    td: { padding: '16px 24px', fontSize: '14px', color: '#1e293b', borderBottom: '1px solid #f1f5f9' },
-    categoryBadge: { fontSize: '12px', color: '#64748b', background: '#f1f5f9', padding: '4px 10px', borderRadius: '8px', fontWeight: '500' },
-    badge: { padding: '6px 12px', borderRadius: '12px', fontSize: '12px', fontWeight: '700' },
-    footer: { padding: '16px 24px', fontSize: '13px', color: '#64748b', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }
+    td: { padding: '16px 24px', fontSize: '13px', color: 'var(--text)', borderBottom: '1px solid var(--border)' },
+    categoryBadge: { fontSize: '11px', color: 'var(--textSecondary)', background: 'var(--background)', padding: '4px 10px', borderRadius: '8px', fontWeight: '600' },
+    badge: { padding: '6px 12px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' },
+    actionBtn: { padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--accent)', fontWeight: '700', cursor: 'pointer', fontSize: '11px' },
+    footer: { padding: '16px 24px', fontSize: '13px', color: 'var(--textSecondary)', background: 'var(--background)', borderTop: '1px solid var(--border)' }
 };
 
 export default Reports;

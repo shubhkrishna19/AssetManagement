@@ -10,6 +10,8 @@ import Profile from './components/Profile';
 import CONFIG from './config';
 import AuditTool from './components/AuditTool';
 import CheckoutPortal from './components/CheckoutPortal';
+import Roadmap from './components/Roadmap';
+import ImportModal from './components/ImportModal';
 
 // ASSET LEDGER PRO - v5.5 (PRODUCTION READY)
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
@@ -21,6 +23,8 @@ const App = () => {
   const [error, setError] = useState(null);
   const [dataSource, setDataSource] = useState(CONFIG.IS_DEMO_MODE ? 'demo' : 'connecting');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [showImportModal, setShowImportModal] = useState(false);
 
   // --- 🛰 THE UNIVERSAL SYNC ENGINE (v5.5 - CONFIG DRIVEN) ---
   useEffect(() => {
@@ -83,6 +87,45 @@ const App = () => {
     fetchAssets();
   }, [activeTab]);
 
+  const handleBulkAction = (action) => {
+    const actionMap = {
+      'status': { field: 'Status', value: 'Under Maintenance', msg: 'Status updated to Under Maintenance' },
+      'assign': { field: 'Assigned_User', value: { display_value: 'Bulk Assigned' }, msg: 'Assets reassigned' },
+      'location': { field: 'Location', value: 'Central Hub', msg: 'Location moved to Central Hub' },
+      'retire': { field: 'Status', value: 'Retired', msg: 'Assets marked as Retired' }
+    };
+
+    const config = actionMap[action];
+    if (!config) return;
+
+    // Update local state
+    setAssets(prev => prev.map(asset => {
+      if (selectedIds.includes(asset.ID)) {
+        return { ...asset, [config.field]: config.value };
+      }
+      return asset;
+    }));
+
+    alert(`🚀 BULK SUCCESS: ${config.msg} for ${selectedIds.length} assets.`);
+    setSelectedIds([]);
+  };
+
+  const handleImport = (newAssets) => {
+    setAssets(prev => [...newAssets, ...prev]);
+    setShowImportModal(false);
+    alert(`✅ Successfully imported ${newAssets.length} assets!`);
+  };
+
+  const calculateDepreciation = (cost, purchaseDate, usefulLife = 5) => {
+    if (!cost || !purchaseDate) return 'N/A';
+    const purchase = new Date(purchaseDate);
+    const now = new Date();
+    const ageYears = (now - purchase) / (1000 * 60 * 60 * 24 * 365.25);
+    const depreciationPerYear = cost / usefulLife;
+    const currentValue = cost - (depreciationPerYear * ageYears);
+    return Math.max(0, currentValue).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+  };
+
   return (
     <div style={styles.appContainer}>
       <aside style={styles.sidebar}>
@@ -99,6 +142,9 @@ const App = () => {
           <NavItem id="Audit" icon="🛡️" label="Physical Audit" active={activeTab === 'Audit'} onClick={() => setActiveTab('Audit')} />
           <NavItem id="Checkout" icon="🔄" label="Check-In/Out" active={activeTab === 'Checkout'} onClick={() => setActiveTab('Checkout')} />
           <NavItem id="Scan" icon="📷" label="Quick Scan" active={activeTab === 'Scan'} onClick={() => setActiveTab('Scan')} />
+          <NavItem id="Scan" icon="📷" label="Quick Scan" active={activeTab === 'Scan'} onClick={() => setActiveTab('Scan')} />
+          <div style={{ height: '1px', background: 'var(--border)', margin: '10px 25px' }} />
+          <NavItem id="Roadmap" icon="🚀" label="Roadmap" active={activeTab === 'Roadmap'} onClick={() => setActiveTab('Roadmap')} />
         </div>
         <div style={styles.sidebarFooter}>
           <div style={styles.connectionStatus}>
@@ -128,15 +174,31 @@ const App = () => {
           <div style={styles.headerLeft}>
             <h2 style={styles.tabTitle}>{activeTab}</h2>
             {activeTab === 'Inventory' && (
-              <div style={styles.searchWrapper}>
-                <span style={styles.searchIcon}>🔍</span>
-                <input
-                  type="text"
-                  placeholder="Search assets..."
-                  style={styles.headerSearch}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+              <div style={styles.headerLeftActions}>
+                <div style={styles.searchWrapper}>
+                  <span style={styles.searchIcon}>🔍</span>
+                  <input
+                    type="text"
+                    placeholder="Search assets..."
+                    style={styles.headerSearch}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <button
+                  onClick={() => setShowImportModal(true)}
+                  style={{ ...styles.clearSelectionBtn, background: 'var(--background)', color: 'var(--text)', border: '1px solid var(--border)' }}
+                >
+                  📥 Import CSV
+                </button>
+                {selectedIds.length > 0 && (
+                  <button
+                    style={styles.clearSelectionBtn}
+                    onClick={() => setSelectedIds([])}
+                  >
+                    Clear Selection ({selectedIds.length})
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -159,7 +221,14 @@ const App = () => {
           ) : error ? (
             <div style={styles.errorState}>
               <p>⚠️ {error}</p>
-              <button onClick={() => window.location.reload()} style={styles.retryButton}>Reload Dashboard</button>
+              <div style={styles.errorActions}>
+                <button onClick={() => window.location.reload()} style={styles.retryButton}>Retry Live Sync</button>
+                <button onClick={() => {
+                  setAssets(mockAssets);
+                  setDataSource('demo');
+                  setError(null);
+                }} style={styles.demoFallbackButton}>View Sample Data (Demo)</button>
+              </div>
             </div>
           ) : activeTab === 'Scan' ? (
             <div style={styles.scannerWrapper}>
@@ -186,14 +255,43 @@ const App = () => {
             <CheckoutPortal />
           ) : activeTab === 'Profile' ? (
             <Profile />
+          ) : activeTab === 'Profile' ? (
+            <Profile />
+          ) : activeTab === 'Roadmap' ? (
+            <Roadmap />
           ) : (
-            <AssetGrid assets={assets.filter(a =>
-              a.Item_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              a.Asset_ID.toLowerCase().includes(searchTerm.toLowerCase())
-            )} />
+            <AssetGrid
+              assets={assets.filter(a =>
+                a.Item_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                a.Asset_ID.toLowerCase().includes(searchTerm.toLowerCase())
+              )}
+              selectedIds={selectedIds}
+              onToggleSelect={(id) => {
+                setSelectedIds(prev =>
+                  prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+                );
+              }}
+              calculateDepreciation={calculateDepreciation}
+            />
           )}
         </section>
+
+        {/* Bulk Operations Bar */}
+        {selectedIds.length > 0 && (
+          <BulkOpsBar
+            count={selectedIds.length}
+            onAction={handleBulkAction}
+          />
+        )}
       </main>
+
+      {/* MODALS */}
+      {showImportModal && (
+        <ImportModal
+          onClose={() => setShowImportModal(false)}
+          onImport={handleImport}
+        />
+      )}
     </div>
   );
 };
@@ -221,22 +319,68 @@ const QRScanner = ({ onScan }) => {
   return <div id="reader" style={styles.scannerBody}></div>;
 };
 
-const AssetGrid = ({ assets }) => (
+const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation }) => (
   <div style={styles.assetGrid}>
-    {assets.map(asset => (
-      <div key={asset.ID} style={styles.assetCard}>
-        <div style={styles.cardTop}>
-          <span style={styles.assetId}>{asset.Asset_ID || "NEW-ASSET"}</span>
-          <span style={styles.statusBadge}>{asset.Status || "Available"}</span>
+    {assets.map(asset => {
+      const isSelected = selectedIds?.includes(asset.ID);
+      const currentValue = calculateDepreciation(asset.Cost, asset.Purchase_Date);
+
+      return (
+        <div
+          key={asset.ID}
+          style={{
+            ...styles.assetCard,
+            border: isSelected ? '2px solid var(--accent)' : '1px solid var(--border)',
+            transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleSelect(asset.ID);
+          }}
+        >
+          <div style={styles.cardTop}>
+            <div style={styles.cardTopLeft}>
+              <div style={{
+                ...styles.checkbox,
+                backgroundColor: isSelected ? 'var(--accent)' : 'transparent',
+                borderColor: isSelected ? 'var(--accent)' : 'var(--border)'
+              }}>
+                {isSelected && <span style={styles.checkMark}>✓</span>}
+              </div>
+              <span style={styles.assetId}>{asset.Asset_ID || "NEW-ASSET"}</span>
+            </div>
+            <span style={styles.statusBadge}>{asset.Status || "Available"}</span>
+          </div>
+          <h4 style={styles.assetName}>{asset.Item_Name}</h4>
+          <p style={styles.assetCategory}>{asset.Category}</p>
+
+          <div style={styles.depreciationInfo}>
+            <span style={styles.depLabel}>Book Value:</span>
+            <span style={styles.depValue}>{currentValue}</span>
+          </div>
+
+          <div style={styles.cardFooter}>
+            <span style={styles.assignedUser}>{asset.Assigned_User?.display_value || "In Inventory"}</span>
+            <div style={styles.healthDot} title="Healthy" />
+          </div>
         </div>
-        <h4 style={styles.assetName}>{asset.Item_Name}</h4>
-        <p style={styles.assetCategory}>{asset.Category}</p>
-        <div style={styles.cardFooter}>
-          <span style={styles.assignedUser}>{asset.Assigned_User?.display_value || "In Inventory"}</span>
-          <div style={styles.healthDot} title="Healthy" />
-        </div>
-      </div>
-    ))}
+      );
+    })}
+  </div>
+);
+
+const BulkOpsBar = ({ count, onAction }) => (
+  <div style={styles.bulkOpsBar}>
+    <div style={styles.bulkInfo}>
+      <span style={styles.bulkCount}>{count}</span>
+      <span style={styles.bulkText}>Assets Selected</span>
+    </div>
+    <div style={styles.bulkActions}>
+      <button style={styles.bulkBtn} onClick={() => onAction('status')}>Change Status</button>
+      <button style={styles.bulkBtn} onClick={() => onAction('assign')}>Assign User</button>
+      <button style={styles.bulkBtn} onClick={() => onAction('location')}>Move Location</button>
+      <button style={{ ...styles.bulkBtn, background: 'var(--danger)' }} onClick={() => onAction('retire')}>Retire</button>
+    </div>
   </div>
 );
 
@@ -270,6 +414,8 @@ const styles = {
   contentHeader: { height: '80px', background: 'var(--surface)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 40px', borderBottom: '1px solid var(--border)' },
   tabTitle: { fontSize: '24px', fontWeight: '900', color: 'var(--text)' },
   headerLeft: { display: 'flex', alignItems: 'center', gap: '30px' },
+  headerLeftActions: { display: 'flex', alignItems: 'center', gap: '15px' },
+  clearSelectionBtn: { padding: '8px 16px', background: 'var(--accentLight)', color: 'var(--accent)', border: 'none', borderRadius: '10px', fontWeight: '700', cursor: 'pointer', fontSize: '13px' },
   searchWrapper: { position: 'relative', display: 'flex', alignItems: 'center' },
   searchIcon: { position: 'absolute', left: '12px', color: 'var(--textSecondary)', fontSize: '14px' },
   headerSearch: {
@@ -288,22 +434,47 @@ const styles = {
   pageContent: { padding: '40px' },
   assetGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' },
   assetCard: { background: 'var(--surface)', padding: '24px', borderRadius: '20px', boxShadow: 'var(--shadow)', border: '1px solid var(--border)' },
-  cardTop: { display: 'flex', justifyContent: 'space-between' },
+  cardTop: { display: 'flex', justifyContent: 'space-between', marginBottom: '12px' },
+  cardTopLeft: { display: 'flex', alignItems: 'center', gap: '10px' },
+  checkbox: { width: '18px', height: '18px', border: '2px solid var(--border)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s' },
+  checkMark: { color: 'white', fontSize: '12px', fontWeight: 'bold' },
   assetId: { fontSize: '10px', fontWeight: '800', color: 'var(--textSecondary)' },
   statusBadge: { fontSize: '9px', fontWeight: '900', color: 'var(--accent)', background: 'var(--accentLight)', padding: '2px 8px', borderRadius: '10px' },
   assetName: { fontSize: '18px', fontWeight: '800', margin: '12px 0 4px 0', color: 'var(--text)' },
-  assetCategory: { fontSize: '13px', color: 'var(--textSecondary)', marginBottom: '20px' },
+  assetCategory: { fontSize: '13px', color: 'var(--textSecondary)', marginBottom: '12px' },
+  depreciationInfo: { display: 'flex', justifyContent: 'space-between', marginBottom: '20px', padding: '8px 12px', background: 'var(--background)', borderRadius: '10px', fontSize: '11px' },
+  depLabel: { color: 'var(--textSecondary)', fontWeight: '600' },
+  depValue: { color: 'var(--accent)', fontWeight: '800' },
   cardFooter: { borderTop: '1px solid var(--border)', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   assignedUser: { fontSize: '12px', fontWeight: '700', color: 'var(--text)' },
   healthDot: { width: '10px', height: '10px', background: '#00B894', borderRadius: '50%' },
   skeletonGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' },
   loaderCard: { height: '200px', background: 'var(--border)', borderRadius: '20px', opacity: '0.6' },
-  errorState: { textAlign: 'center', padding: '100px', color: 'var(--danger)', fontWeight: 'bold' },
+  errorState: { textAlign: 'center', padding: '100px', background: 'var(--surface)', borderRadius: '30px', border: '1px solid var(--border)', maxWidth: '600px', margin: '40px auto' },
+  errorActions: { display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '20px' },
+  retryButton: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' },
+  demoFallbackButton: { padding: '12px 24px', background: 'transparent', color: 'var(--textSecondary)', border: '1px solid var(--border)', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' },
   scannerWrapper: { background: 'var(--surface)', padding: '40px', borderRadius: '30px', boxShadow: 'var(--shadow)', textAlign: 'center', maxWidth: '600px', margin: '0 auto', border: '1px solid var(--border)' },
   scannerHeader: { marginBottom: '30px', color: 'var(--text)' },
   scannerBody: { width: '100%', borderRadius: '20px', overflow: 'hidden', border: 'none' },
   demoBanner: { background: 'linear-gradient(135deg, #fdcb6e, #f39c12)', color: '#2d3436', padding: '12px 40px', fontSize: '13px', fontWeight: '600', textAlign: 'center' },
-  skeletonCard: { height: '180px', background: 'var(--border)', borderRadius: '20px' }
+  skeletonCard: { height: '180px', background: 'var(--border)', borderRadius: '20px' },
+  bulkOpsBar: {
+    position: 'fixed', bottom: '40px', left: '300px', right: '40px',
+    background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '24px',
+    padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+    boxShadow: '0 20px 50px rgba(0,0,0,0.3)', backdropFilter: 'blur(20px)', zIndex: 100,
+    animation: 'slideUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28)'
+  },
+  bulkInfo: { display: 'flex', alignItems: 'center', gap: '15px' },
+  bulkCount: { background: 'var(--accent)', color: 'white', padding: '8px 16px', borderRadius: '12px', fontWeight: '900', fontSize: '18px' },
+  bulkText: { fontWeight: '700', color: 'var(--text)', fontSize: '16px' },
+  bulkActions: { display: 'flex', gap: '15px' },
+  bulkBtn: {
+    padding: '12px 20px', background: 'var(--background)', color: 'var(--text)',
+    border: '1px solid var(--border)', borderRadius: '12px', fontWeight: '700',
+    cursor: 'pointer', transition: '0.2s'
+  }
 };
 
 export default App;

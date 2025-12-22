@@ -5,7 +5,7 @@
 
 const CONFIG = {
     // MASTER SWITCH: Set to true for presentations/demos, false for actual company use.
-    IS_DEMO_MODE: true,
+    IS_DEMO_MODE: false,
 
     // APP BRANDING
     BRAND_NAME: 'Bluewud Asset Ledger Pro',

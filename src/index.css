@@ -12,7 +12,7 @@
   --textSecondary: #64748B;
   --border: #E2E8F0;
   --accent: #0984e3;
-  --shadow: 0 4px 20px rgba(0,0,0,0.05);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
   color: var(--text);
   background-color: var(--background);
@@ -60,6 +60,28 @@ body {
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
+
+.glass-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode Overrides for specific elements if needed */
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  /* Slightly more transparent in dark mode */
+}
+
 
 /* Dark Mode Overrides for specific elements if needed */
 .dark .recharts-cartesian-grid-horizontal line,

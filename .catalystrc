@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "48548000000024001",
+      "name": "WebsiteWireframeProject",
+      "domain": {
+        "id": "10103756301",
+        "name": "websitewireframeproject-895469053.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "895469053",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}
