@@ -199,21 +199,41 @@ const App = () => {
     setLoading(true);
     try {
       if (dataSource === 'live') {
-        console.log(`[Import] Sending ${data.length} records to ${targetTable}...`);
-        const res = await fetch('/server/bridgex', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'import', data: data, table_name: targetTable })
-        });
+        const CHUNK_SIZE = 25; // Send 25 records at a time to avoid 413 error
+        const totalRecords = data.length;
+        let successCount = 0;
+        let errorCount = 0;
 
-        const result = await res.json();
-        console.log('[Import] Server response:', result);
+        console.log(`[Import] Starting chunked import: ${totalRecords} records in batches of ${CHUNK_SIZE}...`);
 
-        if (!res.ok || result.status === 'error') {
-          throw new Error(result.message || 'Backend import failed');
+        for (let i = 0; i < totalRecords; i += CHUNK_SIZE) {
+          const chunk = data.slice(i, i + CHUNK_SIZE);
+          console.log(`[Import] Sending batch ${Math.floor(i / CHUNK_SIZE) + 1}/${Math.ceil(totalRecords / CHUNK_SIZE)}...`);
+
+          try {
+            const res = await fetch('/server/bridgex', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'import', data: chunk, table_name: targetTable })
+            });
+
+            const result = await res.json();
+
+            if (res.ok && result.status === 'success') {
+              successCount += chunk.length;
+            } else {
+              errorCount += chunk.length;
+              console.error(`[Import] Batch failed:`, result.message);
+            }
+          } catch (batchError) {
+            errorCount += chunk.length;
+            console.error(`[Import] Batch error:`, batchError);
+          }
         }
 
-        alert(`✅ Success: ${result.message || data.length + ' records imported!'}`);
+        console.log(`[Import] Complete: ${successCount} success, ${errorCount} failed`);
+        alert(`✅ Import Complete: ${successCount}/${totalRecords} records imported into ${targetTable}!`);
+
         if (targetTable === 'Assets') {
           window.location.reload();
         } else {
