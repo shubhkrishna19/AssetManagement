@@ -1,8 +1,1 @@
-{
-    "name": "bridgex",
-    "type": "advancedIO",
-    "stack": "node20",
-    "execution": {
-        "main": "index.js"
-    }
-}
+{"execution":{"main":"index.js"},"deployment":{"stack":"node20","name":"bridgex","type":"advancedio"}}

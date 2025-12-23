@@ -1,11 +1,12 @@
 {
-    "client": {
-        "source": "dist"
-    },
-    "functions": {
-        "source": "functions",
-        "targets": [
-            "bridgex"
-        ]
-    }
+  "client": {
+    "source": "dist"
+  },
+  "functions": {
+    "source": "functions",
+    "targets": [
+      "bridgex"
+    ],
+    "ignore": []
+  }
 }

@@ -347,6 +347,18 @@ const App = () => {
                     📥 Import CSV
                   </button>
                 )}
+                {hasPermission('bulk_action') && (
+                  <button
+                    onClick={() => {
+                      // Select all visible assets using the correct unique ID
+                      const allIds = filteredAssets.map(a => a.ROWID || a.Asset_ID || a.ID);
+                      setSelectedIds(prev => prev.length === allIds.length ? [] : allIds);
+                    }}
+                    style={{ ...styles.clearSelectionBtn, background: 'var(--accent)', color: 'white', border: 'none' }}
+                  >
+                    {selectedIds.length === filteredAssets.length && filteredAssets.length > 0 ? '☐ Deselect All' : '☑ Select All'}
+                  </button>
+                )}
                 {selectedIds.length > 0 && (
                   <button
                     style={styles.clearSelectionBtn}
@@ -655,12 +667,14 @@ const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation,
     gap: isMobile ? '16px' : '24px'
   }}>
     {assets.map((asset, index) => {
-      const isSelected = selectedIds?.includes(asset.ID);
+      // Use ROWID for live data, Asset_ID as fallback, then ID for demo
+      const uniqueId = asset.ROWID || asset.Asset_ID || asset.ID;
+      const isSelected = selectedIds?.includes(uniqueId);
       const currentValue = calculateDepreciation(asset.Cost, asset.Purchase_Date);
 
       return (
         <motion.div
-          key={asset.ID}
+          key={uniqueId}
           layout
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -675,9 +689,7 @@ const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation,
             cursor: 'pointer'
           }}
           onClick={() => {
-            // Trigger detail view on card click
-            const assetObj = assets.find(a => a.ID === asset.ID);
-            setDetailAsset(assetObj);
+            setDetailAsset(asset);
           }}
         >
           <div style={styles.cardTop}>
@@ -690,8 +702,8 @@ const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation,
                   opacity: readOnly ? 0 : 1, pointerEvents: readOnly ? 'none' : 'auto'
                 }}
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent detail modal from opening when clicking checkbox
-                  onToggleSelect(asset.ID);
+                  e.stopPropagation();
+                  onToggleSelect(uniqueId);
                 }}
               >
                 {isSelected && <span style={styles.checkMark}>✓</span>}
