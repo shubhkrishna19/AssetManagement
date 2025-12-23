@@ -123,23 +123,33 @@ export const mockAssets = [
 export const mockReservations = [
     {
         id: 1,
-        assetId: 'AST-006',
+        assetId: 'BLW-002',
         userId: 'user1',
-        userName: 'Alice Johnson',
-        startDate: '2025-12-25',
-        endDate: '2025-12-26',
+        userName: 'Priya Sharma',
+        startDate: '2025-12-26',
+        endDate: '2025-12-28',
         status: 'Approved',
         purpose: 'Client Presentation'
     },
     {
         id: 2,
-        assetId: 'AST-003',
+        assetId: 'BLW-030',
         userId: 'user2',
-        userName: 'Bob Smith',
-        startDate: '2025-12-28',
+        userName: 'Suresh Driver',
+        startDate: '2025-12-27',
         endDate: '2025-12-29',
         status: 'Pending',
-        purpose: 'Video Shoot'
+        purpose: 'Warehouse Delivery'
+    },
+    {
+        id: 3,
+        assetId: 'BLW-051',
+        userId: 'user3',
+        userName: 'Amit Patel',
+        startDate: '2025-12-30',
+        endDate: '2025-12-31',
+        status: 'Approved',
+        purpose: 'Training Session'
     }
 ];
 

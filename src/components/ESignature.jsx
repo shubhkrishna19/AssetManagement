@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 
 const ESignature = ({ assets = [], updateAsset }) => {
     const canvasRef = useRef(null);
