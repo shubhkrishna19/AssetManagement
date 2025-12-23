@@ -121,36 +121,30 @@ export const mockAssets = [
 ];
 
 export const mockReservations = [
-    {
-        id: 1,
-        assetId: 'BLW-002',
-        userId: 'user1',
-        userName: 'Priya Sharma',
-        startDate: '2025-12-26',
-        endDate: '2025-12-28',
-        status: 'Approved',
-        purpose: 'Client Presentation'
-    },
-    {
-        id: 2,
-        assetId: 'BLW-030',
-        userId: 'user2',
-        userName: 'Suresh Driver',
-        startDate: '2025-12-27',
-        endDate: '2025-12-29',
-        status: 'Pending',
-        purpose: 'Warehouse Delivery'
-    },
-    {
-        id: 3,
-        assetId: 'BLW-051',
-        userId: 'user3',
-        userName: 'Amit Patel',
-        startDate: '2025-12-30',
-        endDate: '2025-12-31',
-        status: 'Approved',
-        purpose: 'Training Session'
-    }
+    { id: 1, assetId: 'BLW-002', userId: 'user1', userName: 'Priya Sharma', startDate: '2025-12-26', endDate: '2025-12-28', status: 'Approved', purpose: 'Client Presentation' },
+    { id: 2, assetId: 'BLW-030', userId: 'user2', userName: 'Suresh Driver', startDate: '2025-12-27', endDate: '2025-12-29', status: 'Pending', purpose: 'Warehouse Delivery' },
+    { id: 3, assetId: 'BLW-051', userId: 'user3', userName: 'Amit Patel', startDate: '2025-12-30', endDate: '2025-12-31', status: 'Approved', purpose: 'Training Session' },
+    { id: 4, assetId: 'BLW-001', userId: 'user4', userName: 'Neha Singh', startDate: '2026-01-02', endDate: '2026-01-05', status: 'Approved', purpose: 'Remote Work Assignment' },
+    { id: 5, assetId: 'BLW-032', userId: 'user5', userName: 'Warehouse Team', startDate: '2026-01-10', endDate: '2026-01-12', status: 'Pending', purpose: 'Inventory Reorganization' },
+    { id: 6, assetId: 'BLW-005', userId: 'user1', userName: 'Priya Sharma', startDate: '2026-01-15', endDate: '2026-01-18', status: 'Cancelled', purpose: 'Field Survey' },
+    { id: 7, assetId: 'BLW-040', userId: 'user6', userName: 'IT Admin', startDate: '2025-12-25', endDate: '2025-12-26', status: 'Approved', purpose: 'Server Maintenance Window' }
+];
+
+export const mockContracts = [
+    { id: 1, contractNo: 'CON-2024-001', vendor: 'Dell Enterprise', type: 'AMC', startDate: '2024-01-01', endDate: '2025-12-31', value: 250000, status: 'Active', assets: ['BLW-001', 'BLW-003', 'BLW-004'], description: 'Annual Maintenance Contract for all Dell laptops' },
+    { id: 2, contractNo: 'CON-2024-002', vendor: 'Mahindra & Mahindra', type: 'Service Agreement', startDate: '2024-06-01', endDate: '2026-05-31', value: 180000, status: 'Active', assets: ['BLW-030', 'BLW-031'], description: 'Fleet maintenance and servicing contract' },
+    { id: 3, contractNo: 'CON-2023-005', vendor: 'Office Depot', type: 'Supply Contract', startDate: '2023-01-01', endDate: '2024-12-31', value: 95000, status: 'Expired', assets: [], description: 'Office supplies and consumables supply agreement' },
+    { id: 4, contractNo: 'CON-2024-003', vendor: 'Cisco Systems', type: 'Support', startDate: '2024-03-15', endDate: '2027-03-14', value: 420000, status: 'Active', assets: ['BLW-041'], description: '3-year smart net total care for networking equipment' },
+    { id: 5, contractNo: 'CON-2024-004', vendor: 'PowerSafe India', type: 'AMC', startDate: '2024-07-01', endDate: '2025-06-30', value: 75000, status: 'Active', assets: ['BLW-042'], description: 'UPS maintenance including battery replacement' }
+];
+
+export const mockWarranties = [
+    { id: 1, assetId: 'BLW-002', assetName: 'MacBook Pro 14', vendor: 'Apple Business', type: 'AppleCare+', startDate: '2024-01-10', endDate: '2027-01-09', status: 'Active', coverage: 'Full replacement, accidental damage' },
+    { id: 2, assetId: 'BLW-001', assetName: 'Dell Latitude 5520', vendor: 'Dell Enterprise', type: 'ProSupport Plus', startDate: '2023-06-15', endDate: '2026-06-14', status: 'Active', coverage: 'Next-day onsite service, accidental damage' },
+    { id: 3, assetId: 'BLW-020', assetName: 'CNC Cutting Machine', vendor: 'Bosch India', type: 'Extended Warranty', startDate: '2022-08-01', endDate: '2025-07-31', status: 'Expiring Soon', coverage: 'Parts and labor, excludes consumables' },
+    { id: 4, assetId: 'BLW-040', assetName: 'Dell PowerEdge Server', vendor: 'Dell Enterprise', type: 'ProSupport', startDate: '2023-11-01', endDate: '2026-10-31', status: 'Active', coverage: '24x7 support, 4-hour response' },
+    { id: 5, assetId: 'BLW-012', assetName: 'Conference Table 12-Seater', vendor: 'Godrej Interio', type: 'Standard Warranty', startDate: '2022-03-01', endDate: '2024-02-28', status: 'Expired', coverage: 'Manufacturing defects only' },
+    { id: 6, assetId: 'BLW-021', assetName: 'Industrial Printer XL', vendor: 'HP Enterprise', type: 'CarePack', startDate: '2024-02-01', endDate: '2027-01-31', status: 'Active', coverage: 'Onsite service, print head replacement' }
 ];
 
 // Summary stats for dashboard (can be computed from mockAssets)
@@ -200,4 +194,12 @@ export const mockVendors = [
     { id: 4, name: 'Apple Business', type: 'Hardware', contact: 'Tim Cook', email: 'enterprise@apple.com', phone: '1-800-MY-APPLE', rating: 5.0, status: 'Preferred' },
     { id: 5, name: 'Mahindra & Mahindra', type: 'Vehicles', contact: 'Anand Mahindra', email: 'fleet@mahindra.com', phone: '+91-22-2490', rating: 4.8, status: 'Preferred' },
     { id: 6, name: 'Cisco Systems', type: 'Networking', contact: 'Chuck Robbins', email: 'sales@cisco.com', phone: '1-800-CISCO-BIZ', rating: 4.6, status: 'Active' }
+];
+
+export const mockMaintenance = [
+    { id: 1, assetId: 'BLW-004', assetName: 'Lenovo ThinkPad X1', issueType: 'Hardware Failure', priority: 'High', status: 'In Progress', reportedBy: 'Ravi Kumar', reportedDate: '2025-12-20', assignedTo: 'IT Support Team', notes: 'Screen flickering issue, replacement ordered' },
+    { id: 2, assetId: 'BLW-022', assetName: 'Wood Laminating Press', issueType: 'Mechanical', priority: 'Critical', status: 'Pending Parts', reportedBy: 'Production Manager', reportedDate: '2025-12-18', assignedTo: 'Maintenance Crew', notes: 'Hydraulic pump failure, awaiting spare parts from vendor' },
+    { id: 3, assetId: 'BLW-042', assetName: 'UPS 10KVA', issueType: 'Electrical', priority: 'Medium', status: 'Scheduled', reportedBy: 'Facilities', reportedDate: '2025-12-22', assignedTo: 'Vendor - PowerSafe', notes: 'Battery replacement due, scheduled for Dec 28' },
+    { id: 4, assetId: 'BLW-030', assetName: 'Tata Ace Delivery Van', issueType: 'Servicing', priority: 'Low', status: 'Completed', reportedBy: 'Suresh Driver', reportedDate: '2025-12-15', assignedTo: 'Mahindra Service Center', notes: 'Regular 20,000 km service completed' },
+    { id: 5, assetId: 'BLW-013', assetName: 'Filing Cabinet 4-Drawer', issueType: 'Disposal Request', priority: 'Low', status: 'Pending Approval', reportedBy: 'Admin', reportedDate: '2025-12-21', assignedTo: 'Asset Manager', notes: 'Cabinet damaged beyond repair, recommend disposal' }
 ];

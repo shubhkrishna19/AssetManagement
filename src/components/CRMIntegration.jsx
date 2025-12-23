@@ -7,10 +7,11 @@ const CRMIntegration = () => {
     const [lastSync, setLastSync] = useState(null);
     const { logAction } = useAudit();
 
-    const mockDeals = [
-        { id: 'ZC-DL-1001', name: 'Tech Upgrade - Acme Corp', amount: '₹12,50,000', stage: 'Closed Won', linkedAssets: 5 },
-        { id: 'ZC-DL-1004', name: 'New Branch Setup - Pune', amount: '₹45,00,000', stage: 'Negotiation', linkedAssets: 12 },
-        { id: 'ZC-DL-1009', name: 'Q4 Hardware Refresh', amount: '₹8,00,000', stage: 'Qualification', linkedAssets: 0 },
+    const mockDepartments = [
+        { id: 'DEPT-IT', name: 'IT Department', budget: '₹45,00,000', status: 'Active', linkedAssets: 32 },
+        { id: 'DEPT-HR', name: 'Human Resources', budget: '₹12,50,000', status: 'Active', linkedAssets: 8 },
+        { id: 'DEPT-OPS', name: 'Operations & Logistics', budget: '₹68,00,000', status: 'Active', linkedAssets: 45 },
+        { id: 'DEPT-MFG', name: 'Manufacturing Unit', budget: '₹1,25,00,000', status: 'Active', linkedAssets: 78 },
     ];
 
     const handleConnect = () => {
@@ -18,7 +19,7 @@ const CRMIntegration = () => {
         setTimeout(() => {
             setIsConnected(true);
             setSyncStatus('Connected');
-            logAction('CRM_CONNECT', 'Linked account to Zoho CRM', 'Admin', 'success');
+            logAction('ZOHO_CONNECT', 'Linked account to Zoho Ecosystem', 'Admin', 'success');
         }, 1500);
     };
 
@@ -27,8 +28,8 @@ const CRMIntegration = () => {
         setTimeout(() => {
             setSyncStatus('Connected');
             setLastSync(new Date().toLocaleString());
-            logAction('CRM_SYNC', 'Synchronized 17 assets with CRM Deals', 'Admin', 'success');
-            alert("✅ Sync Complete! Assets updated from Zoho CRM.");
+            logAction('ZOHO_SYNC', 'Synchronized 163 assets with Zoho DataStore', 'Admin', 'success');
+            alert("✅ Sync Complete! Assets synchronized with Zoho Cloud.");
         }, 2000);
     };
 
@@ -36,11 +37,11 @@ const CRMIntegration = () => {
         <div style={styles.container}>
             <div style={styles.header}>
                 <div>
-                    <h2 style={styles.title}>Zoho CRM Integration</h2>
-                    <p style={styles.subtitle}>Connect asset inventory with Sales Deals and Accounts.</p>
+                    <h2 style={styles.title}>Zoho Integration</h2>
+                    <p style={styles.subtitle}>Connect and sync company assets with Zoho Cloud ecosystem.</p>
                 </div>
                 {!isConnected ? (
-                    <button style={styles.connectBtn} onClick={handleConnect}>Connect Zoho CRM</button>
+                    <button style={styles.connectBtn} onClick={handleConnect}>Connect Zoho</button>
                 ) : (
                     <button style={styles.syncBtn} onClick={handleSync}>🔄 Sync Now</button>
                 )}
@@ -48,12 +49,21 @@ const CRMIntegration = () => {
 
             {!isConnected ? (
                 <div style={styles.connectState}>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Zoho_CRM_Logo.png" alt="Zoho CRM" style={{ height: '80px', marginBottom: '20px' }} />
-                    <h3>Connect to your Sales Pipeline</h3>
-                    <p style={{ color: 'var(--textSecondary)', maxWidth: '400px' }}>
-                        Automatically map assets to Deal requirements and track ROI per client account.
-                        Requires Admin API OAuth token.
+                    <div style={styles.zohoLogo}>
+                        <span style={{ fontSize: '48px' }}>🔗</span>
+                    </div>
+                    <h3 style={{ marginBottom: '12px' }}>Connect to Zoho Cloud</h3>
+                    <p style={{ color: 'var(--textSecondary)', maxWidth: '450px', lineHeight: '1.6' }}>
+                        Integrate your company asset inventory with Zoho's powerful cloud platform.
+                        Sync assets across departments, track allocation by cost centers, and generate
+                        comprehensive reports for management.
                     </p>
+                    <div style={styles.features}>
+                        <div style={styles.feature}>📊 Real-time Dashboard Sync</div>
+                        <div style={styles.feature}>🏢 Department-wise Allocation</div>
+                        <div style={styles.feature}>📈 Automated Reporting</div>
+                        <div style={styles.feature}>🔒 Enterprise Security</div>
+                    </div>
                 </div>
             ) : (
                 <div style={styles.dashboard}>
@@ -63,8 +73,12 @@ const CRMIntegration = () => {
                             <span style={{ color: '#00b894', fontWeight: 'bold' }}>● Connected</span>
                         </div>
                         <div style={styles.statRow}>
-                            <span>Account:</span>
-                            <span style={{ fontWeight: 'bold' }}>Bluewud Org (zohocrm.com)</span>
+                            <span>Organization:</span>
+                            <span style={{ fontWeight: 'bold' }}>Bluewud Industries Pvt Ltd</span>
+                        </div>
+                        <div style={styles.statRow}>
+                            <span>Zoho Portal:</span>
+                            <span>catalyst.zoho.com</span>
                         </div>
                         <div style={styles.statRow}>
                             <span>Last Sync:</span>
@@ -72,21 +86,21 @@ const CRMIntegration = () => {
                         </div>
                     </div>
 
-                    <h3 style={{ marginTop: '40px', marginBottom: '20px' }}>Active Deals (Asset Linked)</h3>
+                    <h3 style={{ marginTop: '40px', marginBottom: '20px' }}>Department Asset Allocation</h3>
                     <div style={styles.dealsGrid}>
-                        {mockDeals.map(deal => (
-                            <div key={deal.id} style={styles.dealCard} className="glass-card">
+                        {mockDepartments.map(dept => (
+                            <div key={dept.id} style={styles.dealCard} className="glass-card">
                                 <div style={styles.dealHeader}>
-                                    <span style={styles.dealId}>{deal.id}</span>
+                                    <span style={styles.dealId}>{dept.id}</span>
                                     <span style={{
                                         ...styles.badge,
-                                        background: deal.stage === 'Closed Won' ? 'var(--success)' : 'var(--accent)'
-                                    }}>{deal.stage}</span>
+                                        background: 'var(--success)'
+                                    }}>{dept.status}</span>
                                 </div>
-                                <h4 style={styles.dealName}>{deal.name}</h4>
+                                <h4 style={styles.dealName}>{dept.name}</h4>
                                 <div style={styles.dealFooter}>
-                                    <span>💰 {deal.amount}</span>
-                                    <span>📦 {deal.linkedAssets} Assets</span>
+                                    <span>💰 Budget: {dept.budget}</span>
+                                    <span>📦 {dept.linkedAssets} Assets</span>
                                 </div>
                             </div>
                         ))}
@@ -103,21 +117,26 @@ const styles = {
     title: { fontSize: '28px', fontWeight: '800', marginBottom: '8px' },
     subtitle: { color: 'var(--textSecondary)', fontSize: '14px' },
 
-    connectBtn: { padding: '12px 24px', background: '#ec4844', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' },
+    connectBtn: { padding: '12px 24px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' },
     syncBtn: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' },
 
     connectState: { textAlign: 'center', padding: '60px', background: 'var(--surface)', borderRadius: '24px', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center' },
 
+    zohoLogo: { width: '100px', height: '100px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' },
+
+    features: { display: 'flex', flexWrap: 'wrap', gap: '12px', marginTop: '30px', justifyContent: 'center' },
+    feature: { padding: '10px 16px', background: 'var(--background)', borderRadius: '10px', fontSize: '13px', fontWeight: '600', border: '1px solid var(--border)' },
+
     statusCard: { padding: '24px', background: 'var(--surface)', borderRadius: '16px', border: '1px solid var(--border)', maxWidth: '400px' },
     statRow: { display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '14px' },
 
-    dealsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' },
+    dealsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' },
     dealCard: { padding: '24px', borderRadius: '16px', background: 'var(--background)', border: '1px solid var(--border)' },
     dealHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '16px' },
     dealId: { fontSize: '12px', fontWeight: 'bold', color: 'var(--textSecondary)' },
     badge: { fontSize: '10px', padding: '4px 8px', borderRadius: '8px', color: 'white', fontWeight: 'bold' },
     dealName: { fontSize: '18px', fontWeight: '800', marginBottom: '20px' },
-    dealFooter: { display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: '600', color: 'var(--textSecondary)' }
+    dealFooter: { display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: '600', color: 'var(--textSecondary)' }
 };
 
 export default CRMIntegration;

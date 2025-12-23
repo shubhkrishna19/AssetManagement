@@ -123,6 +123,13 @@ const App = () => {
     }
   };
 
+  // Update consumable item
+  const updateConsumable = (itemId, updates) => {
+    setConsumables(prev => prev.map(item =>
+      item.id === itemId ? { ...item, ...updates } : item
+    ));
+  };
+
   // Helper to delete assets (used by both Bulk and Single delete)
   const executeDelete = async (idsToDelete) => {
     if (dataSource === 'live') {

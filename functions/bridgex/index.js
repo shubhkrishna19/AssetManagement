@@ -107,11 +107,28 @@ app.all('/', async (req, res) => {
             }
         }
 
-        // Default: Fetch All Assets
+        // Default: Fetch All Assets with pagination (ZCQL limit is 300 per query)
         const zcql = catalystApp.zcql();
-        const queryResult = await zcql.executeZCQLQuery("SELECT * FROM Assets");
-        const assets = queryResult.map(row => row.Assets || row);
-        res.status(200).json({ status: "success", source: "catalyst_cloud_db", records: assets });
+        const PAGE_SIZE = 300;
+        let allAssets = [];
+        let offset = 0;
+        let hasMore = true;
+
+        while (hasMore) {
+            const query = `SELECT * FROM Assets LIMIT ${PAGE_SIZE} OFFSET ${offset}`;
+            const queryResult = await zcql.executeZCQLQuery(query);
+            const pageAssets = queryResult.map(row => row.Assets || row);
+            allAssets = allAssets.concat(pageAssets);
+
+            if (pageAssets.length < PAGE_SIZE) {
+                hasMore = false;
+            } else {
+                offset += PAGE_SIZE;
+            }
+        }
+
+        console.log(`[bridgex] Fetched ${allAssets.length} total assets`);
+        res.status(200).json({ status: "success", source: "catalyst_cloud_db", records: allAssets, total: allAssets.length });
 
     } catch (error) {
         console.error('[bridgex] Error:', error);
