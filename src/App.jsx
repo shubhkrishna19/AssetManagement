@@ -351,12 +351,12 @@ const App = () => {
                   <button
                     onClick={() => {
                       // Select all visible assets using the correct unique ID
-                      const allIds = filteredAssets.map(a => a.ROWID || a.Asset_ID || a.ID);
+                      const allIds = assets.map(a => a.ROWID || a.Asset_ID || a.ID);
                       setSelectedIds(prev => prev.length === allIds.length ? [] : allIds);
                     }}
                     style={{ ...styles.clearSelectionBtn, background: 'var(--accent)', color: 'white', border: 'none' }}
                   >
-                    {selectedIds.length === filteredAssets.length && filteredAssets.length > 0 ? '☐ Deselect All' : '☑ Select All'}
+                    {selectedIds.length === assets.length && assets.length > 0 ? '☐ Deselect All' : '☑ Select All'}
                   </button>
                 )}
                 {selectedIds.length > 0 && (
