@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { useUser } from '../context/UserContext';
 
-const Contracts = ({ assets = [] }) => {
+const Contracts = ({ assets = [], updateAsset }) => {
     const [filter, setFilter] = useState('all'); // 'all', 'active', 'expiring', 'expired'
-    const { hasPermission } = useUser();
+    const { hasPermission, currentUser } = useUser();
 
     const getStatus = (dateString) => {
         if (!dateString) return 'none';
@@ -79,7 +79,18 @@ const Contracts = ({ assets = [] }) => {
                             </div>
 
                             {hasPermission('edit') && (
-                                <button style={styles.renewBtn}>Renew Contract</button>
+                                <button
+                                    style={styles.renewBtn}
+                                    onClick={() => {
+                                        const newDate = new Date();
+                                        newDate.setFullYear(newDate.getFullYear() + 1);
+                                        const dateStr = newDate.toISOString().split('T')[0];
+                                        updateAsset(asset.Asset_ID, { Contract_End_Date: dateStr });
+                                        alert(`✅ Contract for ${asset.Item_Name} renewed until ${dateStr}`);
+                                    }}
+                                >
+                                    Renew Contract
+                                </button>
                             )}
                         </div>
                     ))

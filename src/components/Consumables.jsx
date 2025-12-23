@@ -1,37 +1,32 @@
 import React, { useState } from 'react';
-import { mockConsumables } from '../mockData';
 import { useAudit } from '../context/AuditContext';
 import { useUser } from '../context/UserContext';
 
-const Consumables = () => {
-    const [items, setItems] = useState(mockConsumables);
+const Consumables = ({ items = [], updateConsumable }) => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [actionType, setActionType] = useState(null); // 'dispense' | 'restock'
     const [amount, setAmount] = useState(1);
+    const [showPOModal, setShowPOModal] = useState(false);
+    const [poData, setPoData] = useState({ itemName: '', quantity: 1, vendor: '' });
     const { logAction } = useAudit();
     const { currentUser } = useUser();
 
     const handleUpdate = () => {
         if (!selectedItem || amount <= 0) return;
 
-        setItems(prev => prev.map(item => {
-            if (item.id === selectedItem.id) {
-                let newQty = item.quantity;
-                if (actionType === 'dispense') {
-                    newQty = Math.max(0, item.quantity - parseInt(amount));
-                } else {
-                    newQty = item.quantity + parseInt(amount);
-                }
+        let newQty = selectedItem.quantity;
+        if (actionType === 'dispense') {
+            newQty = Math.max(0, selectedItem.quantity - parseInt(amount));
+        } else {
+            newQty = selectedItem.quantity + parseInt(amount);
+        }
 
-                // Recalculate status
-                let newStatus = 'In Stock';
-                if (newQty === 0) newStatus = 'Out of Stock';
-                else if (newQty <= item.threshold) newStatus = 'Low Stock';
+        // Recalculate status
+        let newStatus = 'In Stock';
+        if (newQty === 0) newStatus = 'Out of Stock';
+        else if (newQty <= selectedItem.threshold) newStatus = 'Low Stock';
 
-                return { ...item, quantity: newQty, status: newStatus };
-            }
-            return item;
-        }));
+        updateConsumable(selectedItem.id, { quantity: newQty, status: newStatus });
 
         logAction('CONSUMABLE_UPDATE',
             `${actionType === 'dispense' ? 'Dispensed' : 'Restocked'} ${amount} ${selectedItem.unit} of ${selectedItem.name}`,
@@ -44,6 +39,22 @@ const Consumables = () => {
         setAmount(1);
     };
 
+    const handlePOSubmit = (e) => {
+        e.preventDefault();
+        const matchingItem = items.find(i => i.name.toLowerCase() === poData.itemName.toLowerCase());
+
+        if (matchingItem) {
+            const newQty = matchingItem.quantity + parseInt(poData.quantity);
+            const newStatus = newQty > matchingItem.threshold ? 'In Stock' : 'Low Stock';
+            updateConsumable(matchingItem.id, { quantity: newQty, status: newStatus });
+        }
+
+        logAction('PURCHASE_ORDER', `Executed PO for ${poData.quantity} units of ${poData.itemName} from ${poData.vendor}`, currentUser.name, 'success');
+        alert(`🚀 Purchase Order Sent! Stock for ${poData.itemName} will be updated upon delivery simulation.`);
+        setShowPOModal(false);
+        setPoData({ itemName: '', quantity: 1, vendor: '' });
+    };
+
     return (
         <div style={styles.container}>
             <div style={styles.header}>
@@ -51,7 +62,7 @@ const Consumables = () => {
                     <h2 style={styles.title}>Consumables Inventory</h2>
                     <p style={styles.subtitle}>Track stock levels for office supplies and parts.</p>
                 </div>
-                <button style={styles.primaryBtn} onClick={() => alert("Purchase Order System coming in v6.1")}>
+                <button style={styles.primaryBtn} onClick={() => setShowPOModal(true)}>
                     + Create Purchase Order
                 </button>
             </div>
@@ -107,7 +118,7 @@ const Consumables = () => {
                 ))}
             </div>
 
-            {/* Modal for Dispense/Restock */}
+            {/* Dispense/Restock Modal */}
             {selectedItem && (
                 <div style={styles.overlay}>
                     <div style={styles.modal}>
@@ -128,6 +139,52 @@ const Consumables = () => {
                             <button style={styles.cancelBtn} onClick={() => setSelectedItem(null)}>Cancel</button>
                             <button style={styles.confirmBtn} onClick={handleUpdate}>Confirm</button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* PO Modal */}
+            {showPOModal && (
+                <div style={styles.overlay}>
+                    <div style={{ ...styles.modal, width: '400px' }}>
+                        <h3 style={{ marginBottom: '20px' }}>📦 New Purchase Order</h3>
+                        <form onSubmit={handlePOSubmit} style={{ textAlign: 'left' }}>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Consumable Item</label>
+                                <select
+                                    style={styles.input}
+                                    required
+                                    value={poData.itemName}
+                                    onChange={e => setPoData({ ...poData, itemName: e.target.value })}
+                                >
+                                    <option value="">Select Item...</option>
+                                    {items.map(i => <option key={i.id} value={i.name}>{i.name}</option>)}
+                                </select>
+                            </div>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Quantity to Order</label>
+                                <input
+                                    type="number"
+                                    style={styles.input}
+                                    min="1"
+                                    required
+                                    value={poData.quantity}
+                                    onChange={e => setPoData({ ...poData, quantity: e.target.value })}
+                                />
+                            </div>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Vendor Selection</label>
+                                <select style={styles.input} required>
+                                    <option>TechSupply Corp</option>
+                                    <option>Office Depot Pro</option>
+                                    <option>Global Logistics</option>
+                                </select>
+                            </div>
+                            <div style={{ ...styles.modalActions, marginTop: '30px' }}>
+                                <button type="button" style={styles.cancelBtn} onClick={() => setShowPOModal(false)}>Cancel</button>
+                                <button type="submit" style={styles.confirmBtn}>Submit Order</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
@@ -163,10 +220,12 @@ const styles = {
 
     overlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 },
     modal: { background: 'var(--surface)', padding: '30px', borderRadius: '24px', width: '300px', textAlign: 'center' },
-    input: { width: '80%', padding: '12px', fontSize: '24px', fontWeight: 'bold', textAlign: 'center', margin: '20px 0', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)', color: 'var(--text)' },
+    input: { width: '80%', padding: '12px', fontSize: '18px', fontWeight: 'bold', textAlign: 'center', margin: '10px 0', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)', color: 'var(--text)' },
     modalActions: { display: 'flex', gap: '10px', justifyContent: 'center' },
-    confirmBtn: { padding: '10px 20px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' },
-    cancelBtn: { padding: '10px 20px', background: 'transparent', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' }
+    confirmBtn: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', flex: 1 },
+    cancelBtn: { padding: '12px 24px', background: 'transparent', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', flex: 1 },
+    formGroup: { marginBottom: '16px' },
+    label: { display: 'block', fontSize: '12px', fontWeight: '800', textTransform: 'uppercase', color: 'var(--textSecondary)', marginBottom: '8px' }
 };
 
 export default Consumables;

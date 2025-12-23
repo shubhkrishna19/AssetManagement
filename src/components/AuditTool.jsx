@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { mockAssets } from '../mockData';
 
-const AuditTool = () => {
+const AuditTool = ({ assets = [], updateAsset }) => {
     const [lastScanned, setLastScanned] = useState(null);
-    const [auditStats, setAuditStats] = useState({ verified: 0, total: mockAssets.length });
+    const [auditStats, setAuditStats] = useState({ verified: 0, total: assets.length });
     const [isScanning, setIsScanning] = useState(false);
     const [verifiedList, setVerifiedList] = useState([]);
+
+    useEffect(() => {
+        setAuditStats(prev => ({ ...prev, total: assets.length }));
+    }, [assets]);
 
     useEffect(() => {
         if (isScanning) {
@@ -26,7 +30,7 @@ const AuditTool = () => {
     }, [isScanning]);
 
     const handleScan = (assetId) => {
-        const asset = mockAssets.find(a => a.Asset_ID === assetId || a.Item_Name === assetId);
+        const asset = assets.find(a => a.Asset_ID === assetId || a.Item_Name === assetId);
 
         if (asset) {
             if (!verifiedList.includes(asset.Asset_ID)) {
@@ -34,7 +38,12 @@ const AuditTool = () => {
                 setAuditStats(prev => ({ ...prev, verified: prev.verified + 1 }));
                 setLastScanned({ ...asset, status: 'Verified' });
 
-                // Play success sound logic placeholder
+                // Cross-sync: Mark as verified/present in Central Brain
+                updateAsset(asset.Asset_ID, {
+                    Last_Audit_Date: new Date().toISOString().split('T')[0],
+                    Audit_Status: 'Verified'
+                });
+
                 console.log(`✅ Audit Verified: ${asset.Item_Name}`);
             }
         } else {
@@ -103,7 +112,7 @@ const AuditTool = () => {
                             <div style={styles.emptyFeed}>No scans yet this session...</div>
                         ) : (
                             verifiedList.map(id => {
-                                const asset = mockAssets.find(a => a.Asset_ID === id);
+                                const asset = assets.find(a => a.Asset_ID === id);
                                 return (
                                     <div key={id} style={styles.feedItem}>
                                         <div style={styles.feedItemTop}>

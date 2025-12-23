@@ -1,9 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-const ESignature = () => {
+const ESignature = ({ assets = [], updateAsset }) => {
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [signature, setSignature] = useState(null);
+    const [selectedAssetId, setSelectedAssetId] = useState('');
+
+    const targetAsset = useMemo(() =>
+        assets.find(a => a.Asset_ID === selectedAssetId),
+        [assets, selectedAssetId]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -58,18 +63,49 @@ const ESignature = () => {
     };
 
     const saveSignature = () => {
+        if (!selectedAssetId) {
+            alert("⚠️ Please select an asset to sign for.");
+            return;
+        }
         const dataUrl = canvasRef.current.toDataURL();
         setSignature(dataUrl);
-        alert("✅ Signature Captured! (Saved as Data URL)");
+
+        // Update Central Brain: Store in Digital Vault
+        updateAsset(selectedAssetId, {
+            SignatureVault: {
+                data: dataUrl,
+                timestamp: new Date().toISOString(),
+                signer: targetAsset?.Assigned_User?.display_value || 'Custodian'
+            },
+            Audit_Status: 'Signed & Verified'
+        });
+
+        alert(`✅ Signature securely linked to ${selectedAssetId}!`);
     };
 
     return (
         <div style={styles.container}>
             <div style={styles.header}>
                 <div>
-                    <h2 style={styles.title}>E-Signature Pad</h2>
-                    <p style={styles.subtitle}>Digital acknowledgment for asset custody.</p>
+                    <h2 style={styles.title}>🖋️ E-Signature Digital Vault</h2>
+                    <p style={styles.subtitle}>Legally-binding digital acknowledgment for asset custody and compliance.</p>
                 </div>
+            </div>
+
+            <div style={styles.selectorRow}>
+                <label style={styles.label}>Link Signature to Asset:</label>
+                <select
+                    style={styles.select}
+                    value={selectedAssetId}
+                    onChange={e => setSelectedAssetId(e.target.value)}
+                >
+                    <option value="">-- Choose Asset to Sign For --</option>
+                    {assets.filter(a => a.Status === 'In Use' || a.Status === 'Assigned').map(a => (
+                        <option key={a.Asset_ID} value={a.Asset_ID}>
+                            {a.Item_Name} ({a.Asset_ID}) - Custodian: {a.Assigned_User?.display_value || 'N/A'}
+                        </option>
+                    ))}
+                </select>
             </div>
 
             <div style={styles.padWrapper} className="glass-card">
@@ -108,6 +144,9 @@ const styles = {
     header: { marginBottom: '32px' },
     title: { fontSize: '28px', fontWeight: '800', marginBottom: '8px' },
     subtitle: { color: 'var(--textSecondary)', fontSize: '14px' },
+    label: { fontSize: '13px', fontWeight: '700', color: 'var(--textSecondary)', marginRight: '15px' },
+    selectorRow: { marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+    select: { padding: '10px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)', fontSize: '14px', minWidth: '300px' },
 
     padWrapper: {
         background: 'white',

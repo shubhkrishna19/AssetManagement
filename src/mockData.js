@@ -12,7 +12,8 @@ export const mockAssets = [
         Purchase_Date: "2023-06-15",
         Cost: 85000,
         Location: "Head Office - Bangalore",
-        Health_Score: 92
+        Health_Score: 92,
+        Vendor_Name: "Dell Enterprise"
     },
     {
         ID: "2",
@@ -24,7 +25,8 @@ export const mockAssets = [
         Purchase_Date: "2024-01-10",
         Cost: 199000,
         Location: "Creative Studio",
-        Health_Score: 98
+        Health_Score: 98,
+        Vendor_Name: "Apple Business"
     },
     {
         ID: "3",
@@ -36,7 +38,8 @@ export const mockAssets = [
         Purchase_Date: "2022-03-20",
         Cost: 45000,
         Location: "Warehouse A",
-        Health_Score: 85
+        Health_Score: 85,
+        Vendor_Name: "Office Depot"
     },
     {
         ID: "4",
@@ -48,7 +51,8 @@ export const mockAssets = [
         Purchase_Date: "2021-11-05",
         Cost: 32000,
         Location: "Print Room",
-        Health_Score: 45
+        Health_Score: 45,
+        Vendor_Name: "Dell Enterprise"
     },
     {
         ID: "5",
@@ -60,7 +64,8 @@ export const mockAssets = [
         Purchase_Date: "2020-08-12",
         Cost: 850000,
         Location: "Mumbai Depot",
-        Health_Score: 72
+        Health_Score: 72,
+        Vendor_Name: "Mahindra & Mahindra"
     },
     {
         ID: "6",
@@ -72,7 +77,8 @@ export const mockAssets = [
         Purchase_Date: "2023-02-28",
         Cost: 120000,
         Location: "Board Room",
-        Health_Score: 95
+        Health_Score: 95,
+        Vendor_Name: "Office Depot"
     },
     {
         ID: "7",
@@ -84,7 +90,8 @@ export const mockAssets = [
         Purchase_Date: "2022-07-15",
         Cost: 18500,
         Location: "Front Desk",
-        Health_Score: 88
+        Health_Score: 88,
+        Vendor_Name: "Cisco Systems"
     },
     {
         ID: "8",
@@ -96,7 +103,8 @@ export const mockAssets = [
         Purchase_Date: "2019-04-10",
         Cost: 2500000,
         Location: "Factory Unit 1",
-        Health_Score: 68
+        Health_Score: 68,
+        Vendor_Name: "CleanFaster Services"
     },
     {
         ID: '6',
@@ -106,7 +114,9 @@ export const mockAssets = [
         Cost: 85000,
         Category: 'Electronics',
         Status: 'Available',
-        Assigned_User: null
+        Assigned_User: null,
+        Health_Score: 90,
+        Vendor_Name: "Cisco Systems"
     }
 ];
 
@@ -177,5 +187,7 @@ export const mockVendors = [
     { id: 1, name: 'Dell Enterprise', type: 'Hardware', contact: 'Michael Scott', email: 'sales@dell.com', phone: '1-800-DELL-BIZ', rating: 4.5, status: 'Preferred' },
     { id: 2, name: 'Office Depot', type: 'Supplies', contact: 'Dwight Schrute', email: 'orders@officedepot.com', phone: '555-0199', rating: 3.8, status: 'Active' },
     { id: 3, name: 'CleanFaster Services', type: 'Maintenance', contact: 'Creed Bratton', email: 'support@cleanfaster.com', phone: '555-9000', rating: 2.5, status: 'Under Review' },
-    { id: 4, name: 'Apple Business', type: 'Hardware', contact: 'Tim Cook', email: 'enterprise@apple.com', phone: '1-800-MY-APPLE', rating: 5.0, status: 'Preferred' }
+    { id: 4, name: 'Apple Business', type: 'Hardware', contact: 'Tim Cook', email: 'enterprise@apple.com', phone: '1-800-MY-APPLE', rating: 5.0, status: 'Preferred' },
+    { id: 5, name: 'Mahindra & Mahindra', type: 'Vehicles', contact: 'Anand Mahindra', email: 'fleet@mahindra.com', phone: '+91-22-2490', rating: 4.8, status: 'Preferred' },
+    { id: 6, name: 'Cisco Systems', type: 'Networking', contact: 'Chuck Robbins', email: 'sales@cisco.com', phone: '1-800-CISCO-BIZ', rating: 4.6, status: 'Active' }
 ];

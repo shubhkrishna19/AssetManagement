@@ -2,11 +2,71 @@ import React from 'react';
 import {
     PieChart, Pie, Cell, ResponsiveContainer,
     BarChart, Bar, XAxis, YAxis, Tooltip,
-    AreaChart, Area, Legend
+    LineChart, Line, Legend
 } from 'recharts';
+import { motion, AnimatePresence } from 'framer-motion';
 import { mockStats } from '../mockData';
 
-const Analytics = () => {
+const CountUp = ({ value, duration = 1.5 }) => {
+    const [count, setCount] = React.useState(0);
+    React.useEffect(() => {
+        let start = 0;
+        const end = parseInt(value);
+        if (start === end) return;
+        let totalMilisecondsCount = duration * 1000;
+        let incrementTime = (totalMilisecondsCount / end) > 10 ? (totalMilisecondsCount / end) : 10;
+        let timer = setInterval(() => {
+            start += Math.ceil(end / (totalMilisecondsCount / incrementTime));
+            if (start >= end) {
+                setCount(end);
+                clearInterval(timer);
+            } else {
+                setCount(start);
+            }
+        }, incrementTime);
+        return () => clearInterval(timer);
+    }, [value, duration]);
+    return <span>{count.toLocaleString()}</span>;
+};
+
+const Analytics = ({ assets = [] }) => {
+    const stats = React.useMemo(() => {
+        const total = assets.length;
+        const assigned = assets.filter(a => a.Status === 'In Use' || a.Status === 'Assigned').length;
+        const available = assets.filter(a => a.Status === 'Available').length;
+        const maintenance = assets.filter(a => a.Status === 'Under Maintenance').length;
+        const totalValue = assets.reduce((sum, a) => sum + (Number(a.Cost) || 0), 0);
+
+        // Category Breakdown
+        const categories = [...new Set(assets.map(a => a.Category))];
+        const categoryData = categories.map((cat, idx) => ({
+            name: cat || 'Misc',
+            value: assets.filter(a => a.Category === cat).length,
+            color: ['#0984e3', '#00b894', '#fdcb6e', '#e74c3c', '#6c5ce7'][idx % 5]
+        }));
+
+        // Health Distribution
+        const healthData = [
+            { name: 'Optimal', value: assets.filter(a => (a.Health_Score || 100) >= 80).length, color: '#00b894' },
+            { name: 'Fair', value: assets.filter(a => (a.Health_Score || 100) < 80 && (a.Health_Score || 100) >= 50).length, color: '#f59e0b' },
+            { name: 'Critical', value: assets.filter(a => (a.Health_Score || 100) < 50).length, color: '#ef4444' },
+        ];
+
+        // Trend Data (Last 6 Months Acquisitions)
+        const last6Months = [];
+        for (let i = 5; i >= 0; i--) {
+            const d = new Date();
+            d.setMonth(d.getMonth() - i);
+            const label = d.toLocaleString('default', { month: 'short' });
+            const prefix = d.toISOString().substring(0, 7);
+            const val = assets
+                .filter(a => a.Purchase_Date && String(a.Purchase_Date).startsWith(prefix))
+                .reduce((sum, a) => sum + (Number(a.Cost) || 0), 0);
+            last6Months.push({ month: label, value: val });
+        }
+
+        return { total, assigned, available, maintenance, totalValue, categoryData, healthData, trendData: last6Months };
+    }, [assets]);
     const formatCurrency = (val) => new Intl.NumberFormat('en-IN', {
         style: 'currency',
         currency: 'INR',
@@ -26,31 +86,39 @@ const Analytics = () => {
 
             {/* STATS ROW */}
             <div style={styles.statsRow}>
-                <StatCard label="Total Assets" value={mockStats.totalAssets} icon="📦" color="#0984e3" />
-                <StatCard label="Assigned" value={mockStats.assigned} icon="👤" color="#00b894" />
-                <StatCard label="Available" value={mockStats.available} icon="✅" color="#fdcb6e" />
-                <StatCard label="Maintenance" value={mockStats.maintenance} icon="🔧" color="#e74c3c" />
+                <StatCard label="Total Assets" value={stats.total} icon="📦" color="#0984e3" delay={0.1} />
+                <StatCard label="Assigned" value={stats.assigned} icon="👤" color="#00b894" delay={0.2} />
+                <StatCard label="Available" value={stats.available} icon="✅" color="#fdcb6e" delay={0.3} />
+                <StatCard label="Maintenance" value={stats.maintenance} icon="🔧" color="#e74c3c" delay={0.4} />
             </div>
 
             {/* CHART GRID - 2x2 Layout */}
             <div style={styles.chartGrid}>
 
                 {/* CHART 1: Total Portfolio Value (Donut) */}
-                <div style={styles.chartCard}>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                    className="glass-card"
+                    style={styles.chartCard}
+                >
                     <h3 style={styles.chartTitle}>Portfolio Value Distribution</h3>
                     <div style={styles.chartWrapper}>
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
-                                    data={mockStats.categoryData}
+                                    data={stats.categoryData}
                                     cx="50%"
                                     cy="50%"
                                     innerRadius={60}
                                     outerRadius={80}
                                     paddingAngle={5}
                                     dataKey="value"
+                                    animationDuration={1500}
+                                    animationBegin={800}
                                 >
-                                    {mockStats.categoryData.map((entry, index) => (
+                                    {stats.categoryData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
@@ -59,23 +127,23 @@ const Analytics = () => {
                             </PieChart>
                         </ResponsiveContainer>
                         <div style={styles.chartInnerLabel}>
-                            <div style={styles.innerValue}>{formatCurrency(mockStats.totalValue)}</div>
+                            <div style={styles.innerValue}>{formatCurrency(stats.totalValue)}</div>
                             <div style={styles.innerSub}>Total Value</div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* CHART 2: Category Breakdown (Bar) */}
                 <div style={styles.chartCard}>
                     <h3 style={styles.chartTitle}>Inventory by Category</h3>
                     <div style={styles.chartWrapper}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart layout="vertical" data={mockStats.categoryData}>
+                            <BarChart layout="vertical" data={stats.categoryData}>
                                 <XAxis type="number" hide />
                                 <YAxis dataKey="name" type="category" width={100} axisLine={false} tickLine={false} />
                                 <Tooltip cursor={{ fill: 'transparent' }} />
                                 <Bar dataKey="value" radius={[0, 10, 10, 0]}>
-                                    {mockStats.categoryData.map((entry, index) => (
+                                    {stats.categoryData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Bar>
@@ -91,14 +159,14 @@ const Analytics = () => {
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
-                                    data={mockStats.healthData}
+                                    data={stats.healthData}
                                     cx="50%"
                                     cy="50%"
                                     outerRadius={80}
                                     dataKey="value"
                                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                                 >
-                                    {mockStats.healthData.map((entry, index) => (
+                                    {stats.healthData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
@@ -108,25 +176,34 @@ const Analytics = () => {
                     </div>
                 </div>
 
-                {/* CHART 4: Growth Trend (Area) */}
-                <div style={styles.chartCard}>
+                {/* CHART 4: Growth Trend (Line chart as per Specs) */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                    className="glass-card"
+                    style={styles.chartCard}
+                >
                     <h3 style={styles.chartTitle}>Asset Acquisition Trend</h3>
                     <div style={styles.chartWrapper}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={mockStats.trendData}>
-                                <defs>
-                                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.1} />
-                                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
+                            <LineChart data={stats.trendData}>
                                 <XAxis dataKey="month" axisLine={false} tickLine={false} />
+                                <YAxis hide />
                                 <Tooltip formatter={(value) => formatCurrency(value)} />
-                                <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
-                            </AreaChart>
+                                <Line
+                                    type="monotone"
+                                    dataKey="value"
+                                    stroke="#3b82f6"
+                                    strokeWidth={4}
+                                    dot={{ r: 4, strokeWidth: 2, fill: 'var(--surface)' }}
+                                    activeDot={{ r: 8 }}
+                                    animationDuration={1500}
+                                />
+                            </LineChart>
                         </ResponsiveContainer>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* CHART 5: Compliance & Alerts Center (New Phase 6 Feature) */}
                 <div style={styles.chartCard}>
@@ -154,14 +231,21 @@ const Analytics = () => {
     );
 };
 
-const StatCard = ({ label, value, icon, color }) => (
-    <div style={styles.statCard}>
+const StatCard = ({ label, value, icon, color, delay = 0 }) => (
+    <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, delay }}
+        style={styles.statCard}
+    >
         <div style={{ ...styles.statIcon, background: `${color}15`, color: color }}>{icon}</div>
         <div>
-            <div style={styles.statValue}>{typeof value === 'number' ? value.toLocaleString() : value}</div>
+            <div style={styles.statValue}>
+                {typeof value === 'number' ? <CountUp value={value} /> : value}
+            </div>
             <div style={styles.statLabel}>{label}</div>
         </div>
-    </div>
+    </motion.div>
 );
 
 const styles = {

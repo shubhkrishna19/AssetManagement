@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { mockVendors } from '../mockData';
 import { useAudit } from '../context/AuditContext';
 
-const VendorPortal = ({ assets = [] }) => {
-    const [vendors, setVendors] = useState(mockVendors);
+const VendorPortal = ({ assets = [], vendors = [] }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const { logAction } = useAudit();
 
@@ -17,8 +15,7 @@ const VendorPortal = ({ assets = [] }) => {
     };
 
     const getVendorAssetCount = (vendorName) => {
-        // Fuzzy match for demo purposes since mock data might not perfectly align
-        return assets.filter(a => a.Vendor_Name === vendorName || (a.Category === 'Electronics' && vendorName.includes('Dell'))).length;
+        return assets.filter(a => a.Vendor_Name === vendorName).length;
     };
 
     const filteredVendors = vendors.filter(v =>

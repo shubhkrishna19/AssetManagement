@@ -19,26 +19,30 @@ const Reservations = ({ assets = [] }) => {
     }, [assets]);
 
     const checkAvailability = (assetId, start, end) => {
-        const s = new Date(start);
-        const e = new Date(end);
+        if (!assetId || !start || !end) return { available: true };
 
-        // Check for overlaps
-        const conflict = reservations.some(r => {
+        const s = new Date(start).getTime();
+        const e = new Date(end).getTime();
+
+        const conflict = reservations.find(r => {
             if (r.assetId !== assetId || r.status === 'Cancelled') return false;
-            const rStart = new Date(r.startDate);
-            const rEnd = new Date(r.endDate);
-            return (s <= rEnd && e >= rStart);
+            const rStart = new Date(r.startDate).getTime();
+            const rEnd = new Date(r.endDate).getTime();
+            return (s < rEnd && e > rStart); // Strict overlap
         });
 
-        return !conflict;
+        return conflict ? { available: false, conflict } : { available: true };
     };
+
+    const conflictInfo = useMemo(() => checkAvailability(selectedAssetId, startDate, endDate), [selectedAssetId, startDate, endDate, reservations]);
 
     const handleBook = (e) => {
         e.preventDefault();
         if (!selectedAssetId || !startDate || !endDate) return;
 
-        if (!checkAvailability(selectedAssetId, startDate, endDate)) {
-            alert("❌ Asset is unavailable for these dates.");
+        const availability = checkAvailability(selectedAssetId, startDate, endDate);
+        if (!availability.available) {
+            alert(`❌ CONFLICT DETECTED: This asset is already booked by ${availability.conflict.userName} during this period.`);
             return;
         }
 
@@ -136,7 +140,19 @@ const Reservations = ({ assets = [] }) => {
                             />
                         </div>
 
-                        <button type="submit" style={styles.submitBtn}>Confirm Booking</button>
+                        {!conflictInfo.available && (
+                            <div style={styles.conflictPanel}>
+                                ⚠️ <strong>Booking Conflict:</strong> {selectedAssetId} is reserved by <strong>{conflictInfo.conflict.userName}</strong> from {new Date(conflictInfo.conflict.startDate).toLocaleDateString()} to {new Date(conflictInfo.conflict.endDate).toLocaleDateString()}.
+                            </div>
+                        )}
+
+                        <button
+                            type="submit"
+                            style={{ ...styles.submitBtn, opacity: conflictInfo.available ? 1 : 0.5 }}
+                            disabled={!conflictInfo.available}
+                        >
+                            {conflictInfo.available ? 'Confirm Booking' : 'Resolve Conflict to Book'}
+                        </button>
                     </form>
                 </div>
             ) : (
@@ -211,6 +227,7 @@ const styles = {
     resMeta: { fontSize: '13px', color: 'var(--textSecondary)', marginBottom: '4px' },
     resUser: { fontSize: '12px', color: 'var(--text)', fontWeight: '600' },
     badge: { padding: '4px 10px', borderRadius: '8px', fontSize: '11px', fontWeight: '800', color: 'white' },
+    conflictPanel: { padding: '15px', background: '#fff5f5', border: '1px solid #feb2b2', borderRadius: '12px', color: '#c53030', fontSize: '12px', lineHeight: '1.4' },
     empty: { textAlign: 'center', padding: '60px', color: 'var(--textSecondary)' }
 };
 

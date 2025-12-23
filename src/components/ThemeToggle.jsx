@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 
+import { motion, AnimatePresence } from 'framer-motion';
+
 const ThemeToggle = () => {
     const { isDark, toggleTheme } = useTheme();
 
@@ -13,12 +15,18 @@ const ThemeToggle = () => {
             }}
             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
-            <div style={{
-                ...styles.iconWrapper,
-                transform: isDark ? 'rotate(180deg)' : 'rotate(0deg)',
-            }}>
-                {isDark ? '☀️' : '🌙'}
-            </div>
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={isDark ? 'sun' : 'moon'}
+                    initial={{ y: 20, opacity: 0, rotate: -90 }}
+                    animate={{ y: 0, opacity: 1, rotate: 0 }}
+                    exit={{ y: -20, opacity: 0, rotate: 90 }}
+                    transition={{ duration: 0.3, ease: 'backOut' }}
+                    style={styles.iconWrapper}
+                >
+                    {isDark ? '☀️' : '🌙'}
+                </motion.div>
+            </AnimatePresence>
         </button>
     );
 };

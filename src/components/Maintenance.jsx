@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { useUser } from '../context/UserContext';
 
-const Maintenance = () => {
+const Maintenance = ({ assets = [], updateAsset }) => {
     const { hasPermission } = useUser();
     const [requests, setRequests] = useState([
         { id: 'MR-001', asset: 'Dell Latitude 5520', issue: 'Battery draining fast', priority: 'High', status: 'In Progress', date: '2025-12-18', cost: 3500 },
         { id: 'MR-002', asset: 'HP LaserJet Pro', issue: 'Paper jam in tray 2', priority: 'Medium', status: 'Completed', date: '2025-12-15', cost: 1200 },
     ]);
-
     const [formData, setFormData] = useState({ asset: '', issue: '', priority: 'Medium', cost: '' });
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const asset = assets.find(a => a.Asset_ID === formData.asset || a.Item_Name === formData.asset);
+        if (asset) {
+            updateAsset(asset.Asset_ID, { Status: 'Under Maintenance' });
+        }
+
         const newRequest = {
-            id: `MR-00${requests.length + 1}`,
+            id: `MR-${String(requests.length + 1).padStart(3, '0')}`,
             asset: formData.asset,
             issue: formData.issue,
             priority: formData.priority,
@@ -25,8 +29,22 @@ const Maintenance = () => {
         setFormData({ asset: '', issue: '', priority: 'Medium', cost: '' });
     };
 
+    const updateStatus = (id, newStatus) => {
+        setRequests(prev => prev.map(req => {
+            if (req.id === id) {
+                // If resolving, set asset back to available in Central Brain
+                if (newStatus === 'Completed') {
+                    const asset = assets.find(a => a.Item_Name === req.asset || a.Asset_ID === req.asset);
+                    if (asset) updateAsset(asset.Asset_ID, { Status: 'Available' });
+                }
+                return { ...req, status: newStatus };
+            }
+            return req;
+        }));
+    };
+
     const totalCost = requests.reduce((sum, req) => sum + (req.cost || 0), 0);
-    const pendingCount = requests.filter(r => r.status !== 'Completed' && r.status !== 'Scrapped').length;
+    const pendingCount = requests.filter(r => r.status === 'Pending' || r.status === 'In Progress').length;
 
     return (
         <div style={styles.container}>
@@ -35,15 +53,15 @@ const Maintenance = () => {
 
             {/* DASHBOARD SUMMARY */}
             <div style={styles.summaryRow}>
-                <div style={styles.summaryCard}>
+                <div style={styles.summaryCard} className="glass-card">
                     <div style={styles.summaryLabel}>Total Maintenance Cost</div>
                     <div style={styles.summaryValue}>₹{totalCost.toLocaleString()}</div>
                 </div>
-                <div style={styles.summaryCard}>
+                <div style={styles.summaryCard} className="glass-card">
                     <div style={styles.summaryLabel}>Active Requests</div>
                     <div style={styles.summaryValue}>{pendingCount}</div>
                 </div>
-                <div style={styles.summaryCard}>
+                <div style={styles.summaryCard} className="glass-card">
                     <div style={styles.summaryLabel}>AVG Turnaround</div>
                     <div style={styles.summaryValue}>2.4 Days</div>
                 </div>
@@ -54,7 +72,7 @@ const Maintenance = () => {
             <div style={{ ...styles.content, gridTemplateColumns: hasPermission('create') ? '1fr 1.5fr' : '1fr' }}>
                 {/* Form Section */}
                 {hasPermission('create') && (
-                    <div style={styles.formCard}>
+                    <div style={styles.formCard} className="glass-card">
                         <h3 style={styles.sectionTitle}>Report New Issue</h3>
                         <form onSubmit={handleSubmit} style={styles.form}>
                             <div style={styles.formGroup}>
@@ -63,9 +81,13 @@ const Maintenance = () => {
                                     style={styles.input}
                                     value={formData.asset}
                                     onChange={(e) => setFormData({ ...formData, asset: e.target.value })}
+                                    list="maintenance-assets"
                                     placeholder="e.g., BW-IT-001 or Dell Latitude"
                                     required
                                 />
+                                <datalist id="maintenance-assets">
+                                    {assets.map(a => <option key={a.Asset_ID} value={a.Asset_ID}>{a.Item_Name}</option>)}
+                                </datalist>
                             </div>
                             <div style={styles.row}>
                                 <div style={styles.formGroup}>
@@ -115,14 +137,28 @@ const Maintenance = () => {
                 )}
 
                 {/* List Section */}
-                <div style={styles.listCard}>
+                <div style={styles.listCard} className="glass-card">
                     <h3 style={styles.sectionTitle}>Maintenance History</h3>
                     <div style={styles.historyList}>
                         {requests.map(req => (
                             <div key={req.id} style={styles.historyItem}>
                                 <div style={styles.itemHeader}>
                                     <span style={styles.itemId}>{req.id}</span>
-                                    <StatusBadge status={req.status} />
+                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                        <StatusBadge status={req.status} />
+                                        {req.status !== 'Completed' && hasPermission('edit') && (
+                                            <select
+                                                style={styles.actionSelect}
+                                                onChange={(e) => updateStatus(req.id, e.target.value)}
+                                                value={req.status}
+                                            >
+                                                <option value="Pending">Pending</option>
+                                                <option value="In Progress">Start</option>
+                                                <option value="Completed">Resolve</option>
+                                                <option value="Scrapped">Scrap</option>
+                                            </select>
+                                        )}
+                                    </div>
                                 </div>
                                 <div style={styles.itemBody}>
                                     <div style={styles.itemAsset}>{req.asset}</div>
@@ -196,7 +232,8 @@ const styles = {
     itemBody: { marginBottom: '12px' },
     itemAsset: { fontSize: '15px', fontWeight: '700', color: 'var(--text)', marginBottom: '4px' },
     itemIssue: { fontSize: '13px', color: 'var(--textSecondary)' },
-    itemFooter: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: '12px', color: 'var(--textSecondary)', fontWeight: '500' },
+    itemDate: { fontSize: '11px', color: 'var(--textSecondary)' },
+    actionSelect: { padding: '2px 8px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)', fontSize: '10px', fontWeight: '700', cursor: 'pointer', outline: 'none' }
 };
 
 export default Maintenance;

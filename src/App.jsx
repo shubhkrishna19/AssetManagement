@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useUser } from './context/UserContext';
 import { useAudit } from './context/AuditContext';
 import { Html5QrcodeScanner } from 'html5-qrcode';
-import { mockAssets } from './mockData';
+import { motion, AnimatePresence } from 'framer-motion';
 import Analytics from './components/Analytics';
 import Reports from './components/Reports';
 import ThemeToggle from './components/ThemeToggle';
@@ -10,6 +10,7 @@ import Maintenance from './components/Maintenance';
 import ActivityLog from './components/ActivityLog';
 import Profile from './components/Profile';
 import CONFIG from './config';
+import { mockAssets, mockConsumables, mockVendors } from './mockData';
 import AuditTool from './components/AuditTool';
 import CheckoutPortal from './components/CheckoutPortal';
 import Roadmap from './components/Roadmap';
@@ -29,12 +30,15 @@ import OfflineBanner from './components/OfflineBanner';
 const App = () => {
   const [activeTab, setActiveTab] = useState('Inventory');
   const [assets, setAssets] = useState([]);
+  const [consumables, setConsumables] = useState(mockConsumables);
+  const [vendors, setVendors] = useState(mockVendors);
   const [loading, setLoading] = useState(!CONFIG.IS_DEMO_MODE);
   const [error, setError] = useState(null);
   const [dataSource, setDataSource] = useState(CONFIG.IS_DEMO_MODE ? 'demo' : 'connecting');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedIds, setSelectedIds] = useState([]);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [detailAsset, setDetailAsset] = useState(null);
   const { currentUser, login, hasPermission } = useUser();
   const { logAction } = useAudit();
 
@@ -113,6 +117,43 @@ const App = () => {
     fetchAssets();
   }, [activeTab]);
 
+  // Keyboard Shortcut: '/' to search, 'n' for Checkout, 'esc' to clear
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        if (e.key === 'Escape') {
+          setSearchTerm('');
+          document.activeElement.blur();
+        }
+        return;
+      }
+
+      if (e.key === '/') {
+        e.preventDefault();
+        const searchInput = document.querySelector('input[placeholder*="Search"]');
+        if (searchInput) searchInput.focus();
+      } else if (e.key === 'n') {
+        setActiveTab('Checkout');
+      } else if (e.key === 'Escape') {
+        setSearchTerm('');
+        setSelectedIds([]);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const updateAsset = (assetId, updates) => {
+    setAssets(prev => prev.map(asset =>
+      asset.Asset_ID === assetId ? { ...asset, ...updates } : asset
+    ));
+    logAction('STATE_SYNC', `Synced updates for ${assetId}`, currentUser.name, 'info');
+  };
+
+  const updateConsumable = (id, updates) => {
+    setConsumables(prev => prev.map(c => c.id === id ? { ...c, ...updates } : c));
+  };
+
   const handleBulkAction = (action) => {
     const actionMap = {
       'status': { field: 'Status', value: 'Under Maintenance', msg: 'Status updated to Under Maintenance' },
@@ -144,6 +185,18 @@ const App = () => {
     logAction('DATA_IMPORT', `Imported ${newAssets.length} assets via CSV upload.`, currentUser.name, 'success');
   };
 
+  // Smart Alert Engine (The Brains)
+  const alerts = useMemo(() => {
+    return {
+      maintenance: assets.filter(a => a.Status === 'Under Maintenance' || (a.Health_Score !== undefined && a.Health_Score < 70)).length,
+      overdue: assets.filter(a => {
+        if (!a.Due_Date) return false;
+        return new Date(a.Due_Date) < new Date() && a.Status === 'In Use';
+      }).length,
+      lowStock: consumables.filter(c => c.quantity <= c.threshold).length,
+    };
+  }, [assets, consumables]);
+
   const calculateDepreciation = (cost, purchaseDate, usefulLife = 5) => {
     if (!cost || !purchaseDate) return 'N/A';
     const purchase = new Date(purchaseDate);
@@ -173,14 +226,14 @@ const App = () => {
           <NavItem id="Inventory" icon="📦" label="Inventory" active={activeTab === 'Inventory'} onClick={() => { setActiveTab('Inventory'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Analytics" icon="📊" label="Analytics" active={activeTab === 'Analytics'} onClick={() => { setActiveTab('Analytics'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Reports" icon="📋" label="Reports" active={activeTab === 'Reports'} onClick={() => { setActiveTab('Reports'); if (isMobile) setIsSidebarOpen(false); }} />
-          <NavItem id="Maintenance" icon="🔧" label="Maintenance" active={activeTab === 'Maintenance'} onClick={() => { setActiveTab('Maintenance'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Maintenance" icon="🔧" label="Maintenance" active={activeTab === 'Maintenance'} count={alerts.maintenance} color="#f39c12" onClick={() => { setActiveTab('Maintenance'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Activity" icon="📜" label="Activity Log" active={activeTab === 'Activity'} onClick={() => { setActiveTab('Activity'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Audit" icon="🛡️" label="Physical Audit" active={activeTab === 'Audit'} onClick={() => { setActiveTab('Audit'); if (isMobile) setIsSidebarOpen(false); }} />
-          <NavItem id="Checkout" icon="🔄" label="Check-In/Out" active={activeTab === 'Checkout'} onClick={() => { setActiveTab('Checkout'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Checkout" icon="🔄" label="Check-In/Out" active={activeTab === 'Checkout'} count={alerts.overdue} color="#e74c3c" onClick={() => { setActiveTab('Checkout'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Scan" icon="📷" label="Quick Scan" active={activeTab === 'Scan'} onClick={() => { setActiveTab('Scan'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Contracts" icon="📜" label="Contracts" active={activeTab === 'Contracts'} onClick={() => { setActiveTab('Contracts'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Reservations" icon="📅" label="Reservations" active={activeTab === 'Reservations'} onClick={() => { setActiveTab('Reservations'); if (isMobile) setIsSidebarOpen(false); }} />
-          <NavItem id="Consumables" icon="🧪" label="Consumables" active={activeTab === 'Consumables'} onClick={() => { setActiveTab('Consumables'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Consumables" icon="🧪" label="Consumables" active={activeTab === 'Consumables'} count={alerts.lowStock} color="#f39c12" onClick={() => { setActiveTab('Consumables'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Vendors" icon="🏢" label="Vendors" active={activeTab === 'Vendors'} onClick={() => { setActiveTab('Vendors'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="ESign" icon="✍️" label="E-Sign" active={activeTab === 'ESign'} onClick={() => { setActiveTab('ESign'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Barcodes" icon="🏷️" label="Tagging" active={activeTab === 'Barcodes'} onClick={() => { setActiveTab('Barcodes'); if (isMobile) setIsSidebarOpen(false); }} />
@@ -228,11 +281,17 @@ const App = () => {
                   <span style={styles.searchIcon}>🔍</span>
                   <input
                     type="text"
-                    placeholder="Search assets..."
+                    placeholder="Search ID, Name, Serial [/]"
                     style={styles.headerSearch}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm('')}
+                      style={styles.searchClear}
+                    >✕</button>
+                  )}
                 </div>
                 {hasPermission('import') && (
                   <button
@@ -277,89 +336,104 @@ const App = () => {
         </header>
 
         <section style={styles.pageContent}>
-          {loading ? (
-            <div style={styles.skeletonGrid}>
-              {[1, 2, 3, 4, 5, 6].map(i => <div key={i} style={styles.skeletonCard} />)}
-            </div>
-          ) : error ? (
-            <div style={styles.errorState}>
-              <p>⚠️ {error}</p>
-              <div style={styles.errorActions}>
-                <button onClick={() => window.location.reload()} style={styles.retryButton}>Retry Live Sync</button>
-                <button onClick={() => {
-                  setAssets(mockAssets);
-                  setDataSource('demo');
-                  setError(null);
-                }} style={styles.demoFallbackButton}>View Sample Data (Demo)</button>
-              </div>
-            </div>
-          ) : activeTab === 'Scan' ? (
-            <div style={styles.scannerWrapper}>
-              <div style={styles.scannerHeader}>
-                <h3>Native Asset Scanner</h3>
-                <p>Point camera at an Asset Tag QR code</p>
-              </div>
-              <QRScanner
-                isMobile={isMobile}
-                onScan={(data) => {
-                  alert(`Asset Identified: ${data}\nSyncing with Creator...`);
-                  setActiveTab('Inventory'); // Redirect to inventory after scan
-                }} />
-            </div>
-          ) : activeTab === 'Analytics' ? (
-            <Analytics />
-          ) : activeTab === 'Reports' ? (
-            <Reports />
-          ) : activeTab === 'Maintenance' ? (
-            <Maintenance />
-          ) : activeTab === 'Activity' ? (
-            <ActivityLog />
-          ) : activeTab === 'Audit' ? (
-            <AuditTool />
-          ) : activeTab === 'Checkout' ? (
-            <CheckoutPortal />
-          ) : activeTab === 'Profile' ? (
-            <Profile />
-          ) : activeTab === 'Profile' ? (
-            <Profile />
-          ) : activeTab === 'Roadmap' ? (
-            <Roadmap />
-          ) : activeTab === 'Contracts' ? (
-            <Contracts assets={assets} />
-          ) : activeTab === 'Reservations' ? (
-            <Reservations assets={assets} />
-          ) : activeTab === 'Consumables' ? (
-            <Consumables />
-          ) : activeTab === 'Vendors' ? (
-            <VendorPortal assets={assets} />
-          ) : activeTab === 'ESign' ? (
-            <ESignature />
-          ) : activeTab === 'Barcodes' ? (
-            <BarcodeGenerator assets={assets} />
-          ) : (
-            assets.filter(a =>
-              a.Item_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              a.Asset_ID.toLowerCase().includes(searchTerm.toLowerCase())
-            ).length > 0 ? (
-              <AssetGrid
-                assets={assets.filter(a =>
-                  a.Item_Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  a.Asset_ID.toLowerCase().includes(searchTerm.toLowerCase())
-                )}
-                selectedIds={selectedIds}
-                calculateDepreciation={calculateDepreciation}
-                readOnly={!hasPermission('bulk_action')}
-                isMobile={isMobile}
-              />
-            ) : (
-              <div style={styles.emptyState}>
-                <span style={{ fontSize: '48px' }}>🔍</span>
-                <h3>No assets found</h3>
-                <p>Try adjusting your search terms.</p>
-                <button onClick={() => setSearchTerm('')} style={styles.secondaryBtn}>Clear Search</button>
-              </div>
-            )
-          )}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              style={{ width: '100%', height: '100%' }}
+            >
+              {loading ? (
+                <div style={styles.skeletonGrid}>
+                  {[1, 2, 3, 4, 5, 6].map(i => <div key={i} style={styles.skeletonCard} />)}
+                </div>
+              ) : error ? (
+                <div style={styles.errorState}>
+                  <p>⚠️ {error}</p>
+                  <div style={styles.errorActions}>
+                    <button onClick={() => window.location.reload()} style={styles.retryButton}>Retry Live Sync</button>
+                    <button onClick={() => {
+                      setAssets(mockAssets);
+                      setDataSource('demo');
+                      setError(null);
+                    }} style={styles.demoFallbackButton}>View Sample Data (Demo)</button>
+                  </div>
+                </div>
+              ) : activeTab === 'Scan' ? (
+                <div style={styles.scannerWrapper}>
+                  <div style={styles.scannerHeader}>
+                    <h3>Native Asset Scanner</h3>
+                    <p>Point camera at an Asset Tag QR code</p>
+                  </div>
+                  <QRScanner
+                    isMobile={isMobile}
+                    onScan={(data) => {
+                      alert(`Asset Identified: ${data}\nSyncing with Creator...`);
+                      setActiveTab('Inventory'); // Redirect to inventory after scan
+                    }} />
+                </div>
+              ) : activeTab === 'Analytics' ? (
+                <Analytics assets={assets} />
+              ) : activeTab === 'Reports' ? (
+                <Reports assets={assets} consumables={consumables} updateAsset={updateAsset} setActiveTab={setActiveTab} />
+              ) : activeTab === 'Maintenance' ? (
+                <Maintenance assets={assets} updateAsset={updateAsset} />
+              ) : activeTab === 'Activity' ? (
+                <ActivityLog />
+              ) : activeTab === 'Audit' ? (
+                <AuditTool assets={assets} updateAsset={updateAsset} />
+              ) : activeTab === 'Checkout' ? (
+                <CheckoutPortal assets={assets} updateAsset={updateAsset} />
+              ) : activeTab === 'Profile' ? (
+                <Profile />
+              ) : activeTab === 'Roadmap' ? (
+                <Roadmap />
+              ) : activeTab === 'Contracts' ? (
+                <Contracts assets={assets} updateAsset={updateAsset} />
+              ) : activeTab === 'Reservations' ? (
+                <Reservations assets={assets} updateAsset={updateAsset} />
+              ) : activeTab === 'Consumables' ? (
+                <Consumables items={consumables} updateConsumable={updateConsumable} />
+              ) : activeTab === 'Vendors' ? (
+                <VendorPortal assets={assets} vendors={vendors} />
+              ) : activeTab === 'ESign' ? (
+                <ESignature assets={assets} updateAsset={updateAsset} />
+              ) : activeTab === 'Barcodes' ? (
+                <BarcodeGenerator assets={assets} />
+              ) : (
+                assets.filter(a => {
+                  const term = searchTerm.toLowerCase();
+                  return a.Item_Name.toLowerCase().includes(term) ||
+                    a.Asset_ID.toLowerCase().includes(term) ||
+                    (a.Serial_Number && a.Serial_Number.toLowerCase().includes(term));
+                }).length > 0 ? (
+                  <AssetGrid
+                    assets={assets.filter(a => {
+                      const term = searchTerm.toLowerCase();
+                      return a.Item_Name.toLowerCase().includes(term) ||
+                        a.Asset_ID.toLowerCase().includes(term) ||
+                        (a.Serial_Number && a.Serial_Number.toLowerCase().includes(term));
+                    })}
+                    selectedIds={selectedIds}
+                    onToggleSelect={id => setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])}
+                    calculateDepreciation={calculateDepreciation}
+                    setDetailAsset={setDetailAsset}
+                    readOnly={!hasPermission('bulk_action')}
+                    isMobile={isMobile}
+                  />
+                ) : (
+                  <div style={styles.emptyState}>
+                    <span style={{ fontSize: '48px' }}>🔍</span>
+                    <h3>No assets found</h3>
+                    <p>Try adjusting your search terms.</p>
+                    <button onClick={() => setSearchTerm('')} style={styles.secondaryBtn}>Clear Search</button>
+                  </div>
+                )
+              )}
+            </motion.div>
+          </AnimatePresence>
         </section>
 
         {/* Bulk Operations Bar */}
@@ -370,6 +444,90 @@ const App = () => {
           />
         )}
       </main>
+
+      {/* --- ASSET DETAIL MODAL (DIGITAL PASSPORT) --- */}
+      <AnimatePresence>
+        {detailAsset && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={styles.modalOverlay}
+            onClick={() => setDetailAsset(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              style={styles.detailModal}
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={styles.detailHeader}>
+                <div>
+                  <span style={styles.detailTag}>{detailAsset.Category}</span>
+                  <h2 style={styles.detailTitle}>{detailAsset.Item_Name}</h2>
+                  <span style={styles.detailId}>{detailAsset.Asset_ID}</span>
+                </div>
+                <button style={styles.closeBtn} onClick={() => setDetailAsset(null)}>✕</button>
+              </div>
+
+              <div style={styles.detailScrollBody}>
+                <div style={styles.detailGrid}>
+                  <div style={styles.detailInfoCard}>
+                    <span style={styles.infoLabel}>Current Status</span>
+                    <div style={{ ...styles.infoValue, color: 'var(--accent)' }}>{detailAsset.Status}</div>
+                  </div>
+                  <div style={styles.detailInfoCard}>
+                    <span style={styles.infoLabel}>Health Score</span>
+                    <div style={styles.infoValue}>{detailAsset.Health_Score}%</div>
+                  </div>
+                  <div style={styles.detailInfoCard}>
+                    <span style={styles.infoLabel}>Purchase Value</span>
+                    <div style={styles.infoValue}>₹{detailAsset.Cost?.toLocaleString()}</div>
+                  </div>
+                  <div style={styles.detailInfoCard}>
+                    <span style={styles.infoLabel}>Primary Vendor</span>
+                    <div style={styles.infoValue}>{detailAsset.Vendor_Name || 'Standard Supply'}</div>
+                  </div>
+                </div>
+
+                <h4 style={styles.detailSubLabel}>Asset Lifecycle History</h4>
+                <div style={styles.historyTimeline}>
+                  <div style={styles.timelineItem}>
+                    <div style={styles.timelineDot} />
+                    <div style={styles.timelineContent}>
+                      <div style={styles.timelineAction}>Asset Deployed</div>
+                      <div style={styles.timelineDate}>{detailAsset.Purchase_Date}</div>
+                    </div>
+                  </div>
+                  <div style={styles.timelineItem}>
+                    <div style={styles.timelineDot} />
+                    <div style={styles.timelineContent}>
+                      <div style={styles.timelineAction}>Last Audit Captured</div>
+                      <div style={styles.timelineDate}>2025-11-20</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={styles.detailSignatureBox}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ fontSize: '24px' }}>🛡️</span>
+                    <div>
+                      <div style={{ fontWeight: '800', fontSize: '12px' }}>VERIFIED DIGITAL RECORD</div>
+                      <div style={{ fontSize: '10px', color: 'var(--textSecondary)' }}>Hashed on Ledger: 0x71...f9a2</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style={styles.detailFooter}>
+                <button style={styles.secondaryBtn} onClick={() => setDetailAsset(null)}>Close</button>
+                <button style={styles.primaryBtn} onClick={() => { setActiveTab('Maintenance'); setDetailAsset(null); }}>Report Issue</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* MODALS */}
       {showImportModal && (
@@ -405,37 +563,52 @@ const QRScanner = ({ onScan, isMobile }) => {
   return <div id="reader" style={styles.scannerBody}></div>;
 };
 
-const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation, readOnly, isMobile }) => (
+const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation, setDetailAsset, readOnly, isMobile }) => (
   <div style={{
     ...styles.assetGrid,
     gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))',
     gap: isMobile ? '16px' : '24px'
   }}>
-    {assets.map(asset => {
+    {assets.map((asset, index) => {
       const isSelected = selectedIds?.includes(asset.ID);
       const currentValue = calculateDepreciation(asset.Cost, asset.Purchase_Date);
 
       return (
-        <div
+        <motion.div
           key={asset.ID}
+          layout
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2, delay: index * 0.05 }}
+          whileHover={{ y: -5, boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
+          whileTap={{ scale: 0.98 }}
+          className="glass-card"
           style={{
             ...styles.assetCard,
+            padding: '24px',
             border: isSelected ? '2px solid var(--accent)' : '1px solid var(--border)',
-            transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+            cursor: 'pointer'
           }}
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleSelect(asset.ID);
+          onClick={() => {
+            // Trigger detail view on card click
+            const assetObj = assets.find(a => a.ID === asset.ID);
+            setDetailAsset(assetObj);
           }}
         >
           <div style={styles.cardTop}>
             <div style={styles.cardTopLeft}>
-              <div style={{
-                ...styles.checkbox,
-                backgroundColor: isSelected ? 'var(--accent)' : 'transparent',
-                borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
-                opacity: readOnly ? 0 : 1, pointerEvents: readOnly ? 'none' : 'auto'
-              }}>
+              <div
+                style={{
+                  ...styles.checkbox,
+                  backgroundColor: isSelected ? 'var(--accent)' : 'transparent',
+                  borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
+                  opacity: readOnly ? 0 : 1, pointerEvents: readOnly ? 'none' : 'auto'
+                }}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent detail modal from opening when clicking checkbox
+                  onToggleSelect(asset.ID);
+                }}
+              >
                 {isSelected && <span style={styles.checkMark}>✓</span>}
               </div>
               <span style={styles.assetId}>{asset.Asset_ID || "NEW-ASSET"}</span>
@@ -454,7 +627,7 @@ const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation,
             <span style={styles.assignedUser}>{asset.Assigned_User?.display_value || "In Inventory"}</span>
             <div style={styles.healthDot} title="Healthy" />
           </div>
-        </div>
+        </motion.div>
       );
     })}
   </div>
@@ -475,14 +648,21 @@ const BulkOpsBar = ({ count, onAction }) => (
   </div>
 );
 
-const NavItem = ({ icon, label, active, onClick }) => (
+const NavItem = ({ icon, label, active, onClick, count, color }) => (
   <div onClick={onClick} style={{
     ...styles.navItem,
     backgroundColor: active ? 'var(--accentLight)' : 'transparent',
-    color: active ? 'var(--accent)' : 'var(--textSecondary)'
+    color: active ? 'var(--accent)' : 'var(--textSecondary)',
+    position: 'relative'
   }}>
     <span style={styles.navIcon}>{icon}</span>
     <span style={styles.navLabel}>{label}</span>
+    {count > 0 && (
+      <span style={{
+        ...styles.navBadge,
+        backgroundColor: color || 'var(--accent)'
+      }}>{count}</span>
+    )}
   </div>
 );
 
@@ -497,7 +677,12 @@ const styles = {
   navGroup: { flex: 1 },
   navItem: { display: 'flex', alignItems: 'center', padding: '16px 25px', cursor: 'pointer', transition: '0.2s' },
   navIcon: { marginRight: '15px' },
-  navLabel: { fontWeight: '600', fontSize: '15px' },
+  navLabel: { fontWeight: '600', fontSize: '15px', flex: 1 },
+  navBadge: {
+    fontSize: '10px', fontWeight: '900', color: 'white',
+    padding: '2px 6px', borderRadius: '10px',
+    minWidth: '18px', textAlign: 'center'
+  },
   sidebarFooter: { padding: '25px', borderTop: '1px solid var(--border)' },
   connectionStatus: { display: 'flex', alignItems: 'center', fontSize: '10px', fontWeight: '800', color: 'var(--textSecondary)' },
   pulseDot: { width: '8px', height: '8px', borderRadius: '50%', marginRight: '10px' },
@@ -574,7 +759,28 @@ const styles = {
     padding: '8px 16px', background: 'transparent', color: 'var(--text)',
     border: '1px solid var(--border)', borderRadius: '10px',
     fontWeight: '600', cursor: 'pointer', transition: '0.2s'
-  }
+  },
+  modalOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000 },
+  detailModal: { background: 'var(--surface)', width: '600px', maxHeight: '90vh', borderRadius: '30px', padding: '40px', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.4)', border: '1px solid var(--border)' },
+  detailHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '30px' },
+  detailTag: { fontSize: '10px', fontWeight: '900', color: 'var(--accent)', background: 'var(--accentLight)', padding: '4px 12px', borderRadius: '10px', textTransform: 'uppercase' },
+  detailTitle: { fontSize: '32px', fontWeight: '900', margin: '10px 0 4px 0', color: 'var(--text)' },
+  detailId: { fontSize: '14px', color: 'var(--textSecondary)', fontWeight: '600' },
+  closeBtn: { background: 'transparent', border: 'none', color: 'var(--textSecondary)', fontSize: '20px', cursor: 'pointer' },
+  detailScrollBody: { flex: 1, overflowY: 'auto', marginBottom: '30px' },
+  detailGrid: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '30px' },
+  detailInfoCard: { padding: '20px', background: 'var(--background)', borderRadius: '20px', border: '1px solid var(--border)' },
+  infoLabel: { fontSize: '11px', fontWeight: '700', color: 'var(--textSecondary)', textTransform: 'uppercase', marginBottom: '8px', display: 'block' },
+  infoValue: { fontSize: '18px', fontWeight: '900', color: 'var(--text)' },
+  detailSubLabel: { fontSize: '14px', fontWeight: '800', color: 'var(--textSecondary)', marginBottom: '15px' },
+  historyTimeline: { borderLeft: '2px solid var(--border)', marginLeft: '10px', paddingLeft: '20px', marginBottom: '30px' },
+  timelineItem: { position: 'relative', marginBottom: '20px' },
+  timelineDot: { position: 'absolute', left: '-26px', top: '5px', width: '10px', height: '10px', background: 'var(--accent)', borderRadius: '50%' },
+  timelineAction: { fontWeight: '700', fontSize: '14px', color: 'var(--text)' },
+  timelineDate: { fontSize: '12px', color: 'var(--textSecondary)' },
+  detailSignatureBox: { padding: '20px', background: 'linear-gradient(135deg, rgba(9, 132, 227, 0.1), rgba(0, 184, 148, 0.1))', borderRadius: '20px', border: '1px solid rgba(9, 132, 227, 0.2)' },
+  detailFooter: { display: 'flex', gap: '15px', borderTop: '1px solid var(--border)', paddingTop: '30px' },
+  primaryBtn: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer', flex: 1, textAlign: 'center' }
 };
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { mockAssets } from '../mockData';
 
-const CheckoutPortal = () => {
+const CheckoutPortal = ({ assets = [], updateAsset }) => {
     const [form, setForm] = useState({ assetId: '', user: '', action: 'Check-Out', notes: '', dueDate: '' });
     const [recentTransactions, setRecentTransactions] = useState([
         { id: 'TX-101', asset: 'BW-IT-001', user: 'Aditi Tyagi', action: 'Check-Out', time: '10:00 AM', status: 'Active' },
@@ -10,7 +10,16 @@ const CheckoutPortal = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const asset = mockAssets.find(a => a.Asset_ID === form.assetId);
+        const asset = assets.find(a => a.Asset_ID === form.assetId);
+
+        if (asset) {
+            const isCheckingOut = form.action === 'Check-Out';
+            updateAsset(asset.Asset_ID, {
+                Status: isCheckingOut ? 'In Use' : 'Available',
+                Assigned_User: isCheckingOut ? { display_value: form.user } : null,
+                Due_Date: isCheckingOut ? form.dueDate : null
+            });
+        }
 
         const newTx = {
             id: `TX-${Math.floor(Math.random() * 900) + 100}`,
@@ -63,7 +72,7 @@ const CheckoutPortal = () => {
                                 required
                             />
                             <datalist id="asset-list">
-                                {mockAssets.map(a => <option key={a.Asset_ID} value={a.Asset_ID}>{a.Item_Name}</option>)}
+                                {assets.map(a => <option key={a.Asset_ID} value={a.Asset_ID}>{a.Item_Name}</option>)}
                             </datalist>
                         </div>
 
