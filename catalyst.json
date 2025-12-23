@@ -3,6 +3,9 @@
         "source": "dist"
     },
     "functions": {
-        "bridgex": "functions/bridgex"
+        "source": "functions",
+        "targets": [
+            "bridgex"
+        ]
     }
 }

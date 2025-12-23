@@ -6,6 +6,9 @@ const ImportModal = ({ onClose, onImport }) => {
     const [previewData, setPreviewData] = useState([]);
     const [headers, setHeaders] = useState([]);
 
+    const [targetTable, setTargetTable] = useState('Assets');
+    const TABLES = ['Assets', 'Contracts', 'Employees', 'Maintenance', 'Vendors'];
+
     const handleDrag = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -82,21 +85,16 @@ const ImportModal = ({ onClose, onImport }) => {
                 const obj = {};
                 // Basic mapping and ID generation
                 headers.forEach((h, index) => {
-                    // Map common CSV headers to our schema if needed
-                    // For now assume direct mapping
-                    obj[h] = row[index];
+                    if (row[index] !== undefined) obj[h] = row[index];
                 });
 
-                // Generate ID if missing
-                if (!obj.Asset_ID) {
-                    obj.Asset_ID = `IMP-${Math.floor(Math.random() * 10000)}`;
-                }
-                // Default status
-                if (!obj.Status) obj.Status = 'Available';
+                // Helper: Generate specific ID keys if missing
+                if (targetTable === 'Assets' && !obj.Asset_ID) obj.Asset_ID = `IMP-${Math.floor(Math.random() * 10000)}`;
+                if (targetTable === 'Contracts' && !obj.Contract_No) obj.Contract_No = `CON-${Math.floor(Math.random() * 10000)}`;
 
                 fullData.push(obj);
             }
-            onImport(fullData);
+            onImport(fullData, targetTable);
         };
         reader.readAsText(file);
     };
@@ -105,8 +103,22 @@ const ImportModal = ({ onClose, onImport }) => {
         <div style={styles.overlay}>
             <div style={styles.modal} className="glass-card">
                 <div style={styles.header}>
-                    <h3 style={styles.title}>📥 Import Assets</h3>
-                    <button style={styles.closeBtn} onClick={onClose}>×</button>
+                    <div>
+                        <h3 style={styles.title}>📥 Import Data</h3>
+                        <p style={{ fontSize: '12px', color: 'var(--textSecondary)', marginTop: '4px' }}>
+                            Upload CSV to populate database tables.
+                        </p>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <select
+                            value={targetTable}
+                            onChange={(e) => setTargetTable(e.target.value)}
+                            style={styles.tableSelect}
+                        >
+                            {TABLES.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                        <button style={styles.closeBtn} onClick={onClose}>×</button>
+                    </div>
                 </div>
 
                 {!file ? (
@@ -193,7 +205,8 @@ const styles = {
     footer: { display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '32px' },
     cancelBtn: { padding: '12px 24px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '12px', fontWeight: 'bold', color: 'var(--text)', cursor: 'pointer' },
     importBtn: { padding: '12px 32px', background: 'var(--accent)', border: 'none', borderRadius: '12px', fontWeight: 'bold', color: 'white', cursor: 'pointer', boxShadow: '0 4px 12px rgba(9, 132, 227, 0.3)' },
-    disabledBtn: { opacity: 0.5, cursor: 'not-allowed', boxShadow: 'none' }
+    disabledBtn: { opacity: 0.5, cursor: 'not-allowed', boxShadow: 'none' },
+    tableSelect: { padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--background)', color: 'var(--text)', fontWeight: 'bold', outline: 'none' }
 };
 
 export default ImportModal;

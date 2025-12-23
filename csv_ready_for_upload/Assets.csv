@@ -1,0 +1,495 @@
+Asset_ID,Item_Name,Vendor_Name,Purchase_Date,Serial_Number,Assigned_User,Cost,Status,Category,Location,Brand,Model,Site,Department
+AT-00002,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-07-02,000123456,nan,"23,000.00",Available,Electronic,Office,Panasonic,KX NSM520X,A-108,Purchase
+AT-00667,Telephone Receiver SIP-T31P,Reliable Comnet Pvt Ltd,2025-03-29,201043E080026487,nan,"3,500.00",Available,Telephone Receiver,Ground Floor,Yealink,SIP-T31P,J-18 Sec-63,Fabrication
+AT-00378,Powder Coating Plant Set,Pride Technologies India,2024-08-02,nan,nan,"450,000.00",Leased,Powder Coating Machine,Right Side Gallary,nan,nan,A-108,Metal Unit
+AT-00388,Vernier Caliper 300mm,Gupta Hardware And Electricals,2024-08-17,nan,Mr. Abhinav Singh,"4,375.00",Checked out,Electronic,Office,Insize,1112-300,A-108,R&D
+AT-00001,AC Remote,Haier Appliances India Pvt Ltd,2017-07-01,000123456,Mr. Abhinav Singh,"1,850.00",Checked out,Electronic,Office,Haier,ABCD,A-108,CEO
+AT-00004,Ring Bell,Amazone Online,2017-07-04,000123456,Mr. Abhinav Singh,"2,100.00",Checked out,Electronic,Office,Orient,ABCD,A-108,CEO
+AT-00005,"Elitedisplay 23.8""",It Computer Care,2017-07-05,000123456,Mr. Abhinav Singh,"15,000.00",Checked out,Electronic,Office,HP,E-243,A-108,CEO
+AT-00006,"Elitedisplay 23.8""",It Computer Care,2017-07-06,000123456,Mr. Abhinav Singh,"15,000.00",Checked out,Electronic,Office,HP,E-243,A-108,CEO
+AT-00007,"Elitedisplay 23.8""",It Computer Care,2017-07-07,000123456,Mr. Abhinav Singh,"15,000.00",Checked out,Electronic,Office,HP,E-243,A-108,CEO
+AT-00013,Port Drive,Online,2017-07-13,000123456,Mr. Abhinav Singh,"1,200.00",Checked out,Electronic,Office,D-Link,ABCD,A-108,CEO
+AT-00014,Jabra Speak 710 with Wifi Dongle,Avfern Technologies,2017-07-14,000123456,Mr. Abhinav Singh,"29,000.00",Checked out,Electronic,Office,Zebra,7th gen.,A-108,CEO
+AT-00015,TV 4 CCTV Camera,Online,2017-07-15,000123456,Mr. Abhinav Singh,"15,000.00",Checked out,Electronic,Office,SANYO,ABCD,A-108,CEO
+AT-00016,HP Colour Printer,K & K Sales,2017-07-16,CN13H7D3MC,Mr. Abhinav Singh,"15,000.00",Checked out,Electronic,Office,HP,HP Ink Tank - 419,A-108,CEO
+AT-00017,Paper Cutter,Amazone Online,2017-07-17,000123456,Mr. Abhinav Singh,"3,500.00",Checked out,Electronic,Office,Imported,ABCD,A-108,CEO
+AT-00018,Projector System,Gurusons Communications Pvt. Ltd.,2020-12-30,000123456,Mr. Abhinav Singh,"192,000.00",Checked out,Electronic,Office,Epson,EB-147Oui,A-108,CEO
+AT-00019,Projector Remote,Gurusons Communications Pvt. Ltd.,2020-12-30,000123456,Mr. Abhinav Singh,"1,200.00",Checked out,Electronic,Office,Epson,EB-147Oui,A-108,CEO
+AT-00008,Wireless Mouse,It Computer Care,2017-07-08,1817LZX07N88,Mr. Nitish,750.00,Checked out,Electronic,Office,Logitech,M185,A-108,Purchase
+AT-00009,Wireless Mouse,It Computer Care,2017-07-09,7CH03691NV,Mr. Nitish,"1,200.00",Checked out,Electronic,Office,HP,S500,A-108,Purchase
+AT-00020,"HP Display 24""",It Computer Care,2017-07-01,000123456,Priyanka Saini,"15,000.00",Checked out,Electronic,Office,HP,M24Fwa,A-108,HR
+AT-00021,Refurbished HP CPU,It Computer Care,2017-07-02,000123456,Priyanka Saini,"17,500.00",Checked out,Electronic,Office,HP,6th Gen. I5,A-108,HR
+AT-00022,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-07-03,000123456,Priyanka Saini,"3,500.00",Checked out,Electronic,Office,Beetal,ABCD,A-108,HR
+AT-00025,UPS 650Va,It Computer Care,2017-07-06,000123456,Priyanka Saini,"2,200.00",Checked out,Electronic,Office,Microteck,ABCD,A-108,HR
+AT-00026,"HP Display 24""",It Computer Care,2017-07-07,000123456,Kirti Arora,"15,000.00",Checked out,Electronic,Office,HP,M24Fwa,A-108,HR
+AT-00027,Refurbished HP CPU,It Computer Care,2017-07-08,000123456,Kirti Arora,"17,500.00",Checked out,Electronic,Office,HP,6th Gen. I5,A-108,HR
+AT-00028,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-07-09,000123456,Kirti Arora,"3,500.00",Checked out,Electronic,Office,Beetal,ABCD,A-108,HR
+AT-00032,"HP Display 27""",It Computer Care,2017-07-13,000123456,Tapan Singh,"20,000.00",Checked out,Electronic,Office,HP,27F Display,A-108,Design
+AT-00033,HP webcam Camera,It Computer Care,2017-07-14,000123456,Tapan Singh,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00036,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-07-17,000123456,Tapan Singh,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Design
+AT-00037,Refurbished CPU,It Computer Care,2017-07-18,000123456,Tapan Singh,"37,000.00",Checked out,Electronic,Office,REO,ABCD,A-108,Design
+AT-00039,"HP Display 27""",It Computer Care,2017-07-20,000123456,Rahul,"20,000.00",Checked out,Electronic,Office,HP,27F Display,A-108,Design
+AT-00040,HP webcam Camera,It Computer Care,2017-07-21,000123456,Rahul,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00043,Refurbished CPU,It Computer Care,2017-07-24,000123456,Rahul,"37,000.00",Checked out,Electronic,Office,Dell,ABCD,A-108,Design
+AT-00044,Vernier Caliper,Shri Narayana Machinery LLP,2017-07-25,000123456,Rahul,"4,500.00",Checked out,Electronic,Office,Insize,1112-150,A-108,Design
+AT-00045,"HP Display 27""",It Computer Care,2017-07-26,000123456,Shlok,"20,000.00",Checked out,Electronic,Office,HP,27F Display,A-108,Design
+AT-00046,HP webcam Camera,It Computer Care,2017-07-27,000123456,Shlok,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00049,Refurbished CPU,It Computer Care,2017-07-30,000123456,Shlok,"37,000.00",Checked out,Electronic,Office,Dell,ABCD,A-108,Design
+AT-00050,"HP Display 27""",It Computer Care,2017-07-31,000123456,Mr. Kunal Kapoor,"13,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Design
+AT-00051,HP webcam Camera,It Computer Care,2017-08-01,000123456,Mr. Kunal Kapoor,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00054,Laptop,Flipkart Online Sale,2017-08-04,000123456,Mr. Kunal Kapoor,"45,000.00",Checked out,Electronic,Office,HP,ABCD,A-108,Design
+AT-00055,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-08-05,000123456,Mr. Kunal Kapoor,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Design
+AT-00056,"HP Display 27""",It Computer Care,2017-08-06,000123456,Priyanka Singh,"20,000.00",Checked out,Electronic,Office,HP,27F Display,A-108,Design
+AT-00057,HP webcam Camera,It Computer Care,2017-08-07,000123456,Priyanka Singh,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00060,Refurbished CPU,Starmoon Consulting  Services Pvt. Ltd.,2017-08-10,000123456,Priyanka Singh,"100,000.00",Checked out,Electronic,Office,Dell,ABCD,A-108,Design
+AT-00061,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-08-11,000123456,Priyanka Singh,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Design
+AT-00062,"HP Display 27""",It Computer Care,2017-08-12,000123456,Prince Mavi,"20,000.00",Checked out,Electronic,Office,HP,27F Display,A-108,Design
+AT-00063,HP webcam Camera,It Computer Care,2017-08-13,000123456,Prince Mavi,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00066,Refurbished CPU,It Computer Care,2017-08-16,000123456,Prince Mavi,"100,000.00",Checked out,Electronic,Office,Intel,Core i5,A-108,Design
+AT-00067,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-08-17,000123456,Prince Mavi,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Design
+AT-00068,"HP Display 27""",It Computer Care,2017-08-18,000123456,Keshav,"20,000.00",Checked out,Electronic,Office,HP,27F Display,A-108,Design
+AT-00069,HP webcam Camera,It Computer Care,2017-08-19,000123456,Keshav,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00072,Dell Optiplex CPU,Dell International Service Pvt. Ltd.,2017-08-22,000123456,Keshav,"180,000.00",Checked out,Electronic,Office,Dell,Optiplex 390,A-108,Design
+AT-00073,"HP Display 27""",It Computer Care,2017-08-23,000123456,Nupur,"20,000.00",Checked out,Electronic,Office,HP,27F Display,A-108,Design
+AT-00074,HP webcam Camera,It Computer Care,2017-08-24,000123456,Nupur,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Design
+AT-00077,Dell Optiplex CPU,Dell International Service Pvt. Ltd.,2017-08-27,000123456,Nupur,"174,000.00",Checked out,Electronic,Office,Dell,Optiplex 390,A-108,Design
+AT-00078,"HP Display 24""",It Computer Care,2017-08-28,000123456,Nitish,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Purchase
+AT-00079,HP webcam Camera,It Computer Care,2017-08-29,000123456,Nitish,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Purchase
+AT-00082,Dell Optiplex CPU,It Computer Care,2017-09-01,000123456,Nitish,"11,500.00",Checked out,Electronic,Office,Dell,Corei3,A-108,Purchase
+AT-00083,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-09-02,000123456,Nitish,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Purchase
+AT-00085,Konftel Video Conferencing Devices,Avfern Technoliges,2017-09-04,C2A0453260,Nitish,"62,700.00",Checked out,Electronic,Office,Konftel,Cam 20,A-108,Purchase
+AT-00086,Elec. Door Lock,Reliable Safe Works,2017-09-05,000123456,Nitish,"2,800.00",Checked out,Electronic,Office,Godrej,OZFL - 56 F,A-108,Purchase
+AT-00087,"HP Display 24""",It Computer Care,2017-09-06,000123456,Aman,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Accounts
+AT-00088,HP webcam Camera,It Computer Care,2017-09-07,000123456,Aman,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Accounts
+AT-00091,Dell Optiplex CPU,It Computer Care,2017-09-10,000123456,Aman,"20,000.00",Checked out,Electronic,Office,HP,i5 6th Gen.,A-108,Accounts
+AT-00092,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-09-11,000123456,Aman,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Accounts
+AT-00094,"HP Display 24""",It Computer Care,2017-09-13,000123456,Server PC,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Accounts
+AT-00095,HP webcam Camera,It Computer Care,2017-09-14,000123456,Server,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Accounts
+AT-00098,Dell Optiplex CPU,It Computer Care,2017-09-17,000123456,Server,"20,000.00",Checked out,Electronic,Office,HP,i5 6th Gen.,A-108,Accounts
+AT-00099,Caluculator,It Computer Care,2017-09-18,000123456,Server,"11,500.00",Checked out,Electronic,Office,HP,HP126 MW,A-108,Accounts
+1AT-00101,"HP Display 24""",It Computer Care,2017-09-20,000123456,Prashant,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Accounts
+2AT-00102,HP webcam Camera,It Computer Care,2017-09-21,000123456,Prashant,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Accounts
+5AT-00105,Dell Optiplex CPU,It Computer Care,2017-09-24,000123456,Prashant,"20,000.00",Checked out,Electronic,Office,HP,i5 6th Gen.,A-108,Accounts
+6AT-00106,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-09-25,000123456,Prashant,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Accounts
+8AT-00108,"HP Display 24""",It Computer Care,2017-09-27,000123456,Kanchan Bansal,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Accounts
+9AT-00109,HP webcam Camera,It Computer Care,2017-09-28,000123456,Kanchan Bansal,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Accounts
+12AT-00112,Dell Optiplex CPU,It Computer Care,2017-10-01,000123456,Kanchan Bansal,"20,000.00",Checked out,Electronic,Office,HP,i5 6th Gen.,A-108,Accounts
+13AT-00113,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-10-02,000123456,Kanchan Bansal,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Accounts
+15AT-00115,"HP Display 24""",It Computer Care,2017-10-04,000123456,Ravi,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Accounts
+16AT-00116,HP webcam Camera,It Computer Care,2017-10-05,000123456,Ravi,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Accounts
+19AT-00119,Dell Optiplex CPU,It Computer Care,2017-10-08,000123456,Ravi,"20,000.00",Checked out,Electronic,Office,HP,i5 6th Gen.,A-108,Accounts
+20AT-00120,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-10-09,000123456,Ravi,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Accounts
+22AT-00122,"HP Display 24""",It Computer Care,2017-10-11,000123456,Mukesh Gupta,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Accounts
+23AT-00123,HP webcam Camera,It Computer Care,2017-10-12,000123456,Mukesh Gupta,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Accounts
+26AT-00126,Dell Optiplex CPU,It Computer Care,2017-10-15,000123456,Mukesh Gupta,"20,000.00",Checked out,Electronic,Office,HP,i5 6th Gen.,A-108,Accounts
+27AT-00127,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-10-16,000123456,Mukesh Gupta,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Accounts
+29AT-00129,"HP Display 24""",It Computer Care,2017-10-18,000123456,Sachin Sinha,"20,000.00",Checked out,Electronic,Office,HP,24F Display,A-108,Accounts
+30AT-00130,HP webcam Camera,It Computer Care,2017-10-19,000123456,Sachin Sinha,"2,000.00",Checked out,Electronic,Office,HP,W-200,A-108,Accounts
+33AT-00133,Dell Optiplex CPU,It Computer Care,2017-10-22,000123456,Sachin Sinha,"20,000.00",Checked out,Electronic,Office,HP,i5 6th Gen.,A-108,Accounts
+34AT-00134,Telephone Receiver,Reliable Comnet Pvt. Ltd.,2017-10-23,000123456,Sachin Sinha,"3,500.00",Checked out,Electronic,Office,Panasonic,KX-HDV130,A-108,Accounts
+35AT-00135,Godrej Elec. Locker,Amazone Online Sale,2017-10-24,000123456,Accounts Dept.,"60,000.00",Checked out,Electronic,Office,Godrej,ABCD,A-108,Accounts
+AT-00101,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00102,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,050.00",Checked out,Electronic,Ground Floor,Crompton,ABCD,A-108,Fabrication
+AT-00103,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00104,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,350.00",Checked out,Electronic,Ground Floor,Havells,ABCD,A-108,Fabrication
+AT-00105,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,350.00",Checked out,Electronic,Ground Floor,Havells,ABCD,A-108,Fabrication
+AT-00106,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,050.00",Checked out,Electronic,Ground Floor,Crompton,ABCD,A-108,Fabrication
+AT-00107,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00108,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00109,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,050.00",Checked out,Electronic,Ground Floor,Crompton,ABCD,A-108,Fabrication
+AT-00110,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00111,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00112,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,050.00",Checked out,Electronic,Ground Floor,Crompton,ABCD,A-108,Fabrication
+AT-00113,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,050.00",Checked out,Electronic,Basement,Crompton,ABCD,A-108,Fabrication
+AT-00114,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Basement,Super Fan,Super E1,A-108,Fabrication
+AT-00115,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Basement,Super Fan,Super E1,A-108,Fabrication
+AT-00116,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Basement,Super Fan,Super E1,A-108,Fabrication
+AT-00117,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Basement,Super Fan,Super E1,A-108,Fabrication
+AT-00118,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Basement,Super Fan,Super E1,A-108,Fabrication
+AT-00119,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Basement,Super Fan,Super E1,A-108,Fabrication
+AT-00120,Ceiling Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,350.00",Checked out,Electronic,Basement,Havells,ABCD,A-108,Fabrication
+AT-00121,Wall Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,800.00",Checked out,Electronic,Ground Floor,Usha,ABCD,A-108,Fabrication
+AT-00122,Wall Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,800.00",Checked out,Electronic,Ground Floor,Havells,ABCD,A-108,Fabrication
+AT-00123,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00124,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,A-108,Fabrication
+AT-00125,Exhaust Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"1,050.00",Checked out,Electronic,Ground Floor,Crompton,ABCD,A-108,Fabrication
+AT-00126,Polishing Machine,Prem Brother International Pvt. Ltd.,2017-07-01,83761,Fabrication Dept.,"35,000.00",Checked out,Electronic,Ground Floor,Prem Brother,322,A-108,Fabrication
+AT-00127,Beam Saw Cutting Machine,Biesse Mfg. Company Pvt. Ltd.,2017-07-01,1000036125,Fabrication Dept.,"3,200,000.00",Checked out,Electronic,Ground Floor,BIESSE,Selko SK3-370,A-108,Fabrication
+AT-00128,Throughfeet Edgebanding Machine,Biesse Mfg. Company Pvt. Ltd.,2017-07-01,1000035524,Fabrication Dept.,"2,800,000.00",Checked out,Electronic,Ground Floor,BIESSE,JD-340,A-108,Fabrication
+AT-00129,Throughfeet Edgebanding Machine,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"1,800,000.00",Checked out,Electronic,Ground Floor,Gorsan,GE-1621 JSHL Smart,A-108,Fabrication
+AT-00130,Throughfeet Edgebanding Machine,Biesse Mfg. Company Pvt. Ltd.,2017-07-01,1000049701,Fabrication Dept.,"2,500,000.00",Checked out,Electronic,Ground Floor,BIESSE,JD-325,A-108,Fabrication
+AT-00131,Throughfeet Edgebanding Machine,Biesse Mfg. Company Pvt. Ltd.,2017-07-01,1000025916,Fabrication Dept.,"2,400,000.00",Checked out,Electronic,Ground Floor,BIESSE,JD-240,A-108,Fabrication
+AT-00132,Panel Saw Cutting Machine,Felder Group,2017-07-01,441.12.04615,Fabrication Dept.,"750,000.00",Checked out,Electronic,Ground Floor,Felder,K-500/S14,A-108,Fabrication
+AT-00133,Dust Collector with 2 Bags,Ambesun Bright India,2017-07-01,000123456,Fabrication Dept.,"20,500.00",Checked out,Electronic,Ground Floor,Ambesun,ABCD,A-108,Fabrication
+AT-00134,Dust Collector with 2 Bags,Jai Industries,2017-07-01,977,Fabrication Dept.,"17,500.00",Checked out,Electronic,Ground Floor,Jai,31,A-108,Fabrication
+AT-00135,CNC Router Machine,Jai Industries,2017-07-01,15036645,Fabrication Dept.,"1,050,000.00",Checked out,Electronic,Basement,Jai,Jai-1325VI,A-108,Fabrication
+AT-00136,2 Head Multiboaring Machine,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"350,000.00",Checked out,Electronic,Basement,Gorsan,GE-1222 Smart,A-108,Fabrication
+AT-00137,6 Head Multiboaring Machine,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"750,000.00",Checked out,Electronic,Basement,Gorsan,GE-1222 Smart,A-108,Fabrication
+AT-00138,4 Head Multiboaring Machine,Sandeep Machine Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"560,000.00",Checked out,Electronic,Basement,Sandeep Machine,ABCD,A-108,Fabrication
+AT-00139,1 Head Multiboaring Machine,Felder Group,2017-07-01,000123456,Fabrication Dept.,"550,000.00",Checked out,Electronic,Basement,Felder,FD-921,A-108,Fabrication
+AT-00140,Curvalinear Edgebanding Machine,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"1,090,000.00",Checked out,Electronic,Basement,Gorsan,1006 A-Prime,A-108,Fabrication
+AT-00141,CNC Drilling & Cutting Machine,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"2,960,000.00",Checked out,Electronic,Basement,Gorsan,GB-62 Prime,A-108,Fabrication
+AT-00142,Hand Pallet Truck 3 Tonne,Lokpal Industries,2017-07-01,000123456,Fabrication Dept.,"14,500.00",Checked out,Material Handling,Fabrication,Hulk,SS 03 T,A-108,Fabrication
+AT-00180,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,J-18 Sec-63,Fabrication
+AT-00181,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,J-18 Sec-63,Fabrication
+AT-00182,Wall Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"2,500.00",Checked out,Fan,Ground Floor,Standrad,ABCD,J-18 Sec-63,Fabrication
+AT-00186,Ambesun Dustcollector,Ambesun India,2017-07-01,000123456,Fabrication Dept.,"750,000.00",Checked out,Dust Collector,Ground Floor,Ambesun,ABCD,J-18 Sec-63,Fabrication
+AT-00188,Wall Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"2,500.00",Checked out,Fan,Ground Floor,Standrad,ABCD,J-18 Sec-63,Fabrication
+AT-00189,Wall Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"2,500.00",Checked out,Fan,Ground Floor,Standrad,ABCD,J-18 Sec-63,Fabrication
+AT-00191,Ambesun Dustcollector,Ambesun India,2017-07-01,000123456,Fabrication Dept.,"100,000.00",Checked out,Dust Collector,Ground Floor,Ambesun,ABCD,J-18 Sec-63,Fabrication
+AT-00193,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,J-18 Sec-63,Fabrication
+AT-00194,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,J-18 Sec-63,Fabrication
+AT-00199,Air Compressor EG-15-10,Service Equpment Company,2017-07-01,000123456,Fabrication Dept.,"600,000.00",Checked out,Air Compressor,Ground Floor,Elgi,ELVD015R,J-18 Sec-63,Fabrication
+AT-00305,Nihar Cold Press,Nihar Industries,2021-04-13,000123456,Fabrication Dept.,"511,000.00",Checked out,Wood Working Machine,Ground Floor,Nihar,NR-117,J-18 Sec-63,Fabrication
+AT-00306,Wall Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"2,500.00",Checked out,Fan,Ground Floor,Havells,ABCD,J-18 Sec-63,Fabrication
+AT-00307,Multiboring Machine Six Head,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"450,000.00",Checked out,Wood Working Machine,Ground Floor,Gorsan,ABCD,J-18 Sec-63,Fabrication
+AT-00308,Multiboring Machine Seven Head,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"500,000.00",Checked out,Wood Working Machine,Ground Floor,Gorsan,GB710 Li,J-18 Sec-63,Fabrication
+AT-00309,Wall Fan,Krishna Electricals & Hardware,2017-07-01,000123456,Fabrication Dept.,"2,500.00",Checked out,Fan,Ground Floor,Havells,ABCD,J-18 Sec-63,Fabrication
+AT-00310,CNC Drilling Machine,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"500,000.00",Checked out,Wood Working Machine,Ground Floor,Gorsan,GB-62D,J-18 Sec-63,Fabrication
+AT-00311,Multiboring Machine Three Head,Gorsan Impex Pvt. Ltd.,2017-07-01,000123456,Fabrication Dept.,"300,000.00",Checked out,Wood Working Machine,Ground Floor,Gorsan,ABCD,J-18 Sec-63,Fabrication
+AT-00312,Throughfeet Edgebanding Machine,Biesse Mfg. Company Pvt. Ltd.,2021-07-01,1000041244,Fabrication Dept.,"2,950,000.00",Checked out,Edgebander Machine,Ground Floor,BIESSE,JD-340,J-18 Sec-63,Fabrication
+AT-00313,Throughfeet Edgebanding Machine,Biesse Mfg. Company Pvt. Ltd.,2021-07-01,1000048405,Fabrication Dept.,"2,950,000.00",Checked out,Edgebander Machine,Ground Floor,BIESSE,JD-340,J-18 Sec-63,Fabrication
+AT-00314,Beam Saw Cutting Machine,Biesse Mfg. Company Pvt. Ltd.,2021-07-01,1000044409,Fabrication Dept.,"3,500,000.00",Checked out,Wood Cutting Machine,Ground Floor,BIESSE,Selko SK3-370,J-18 Sec-63,Fabrication
+AT-00315,Ambesun Dustcollector,Ambesun,2017-07-01,000123456,Fabrication Dept.,"100,000.00",Checked out,Dust Collector,Ground Floor,Siemens,ABCD,J-18 Sec-63,Fabrication
+AT-00316,Ambesun Dustcollector,Ambesun India,2017-07-01,000123456,Fabrication Dept.,"100,000.00",Checked out,Dust Collector,Ground Floor,Ambesun,ABCD,J-18 Sec-63,Fabrication
+AT-00317,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Fabrication Dept.,"1,200.00",Checked out,Electronic,Ground Floor,Super Fan,Super E1,J-18 Sec-63,Fabrication
+AT-00319,Genset DG Machine 125 Kva,India Genrator Co.,2022-07-01,000123456,Fabrication Dept.,"19,000.00",Checked out,DG Machine,Gallary Rihgt Side,Sudhir,Rent,J-18 Sec-63,Fabrication
+AT-00320,Air Tank EG-15-10,Service Equpment Company,2017-07-01,000123456,Fabrication Dept.,"25,000.00",Checked out,Air Compressor,Gallary Rihgt Side,Elgi,ELVD015R,J-18 Sec-63,Fabrication
+AT-00246,Hand Pallet Truck,Robon India Automation,2017-07-01,000123456,Material Moment,"13,500.00",Checked out,Material Handling,Assembly-1,AAK,APT 2.5T-685N/P,J-18 Sec-63,Assembly
+AT-00297,Hand Pallet Track,Robon India Automation,2017-07-01,000123456,Material Moment,"13,500.00",Checked out,Material Handling,Assembly-1,AAK,APT 2.5T-685N/P,J-18 Sec-63,Assembly
+AT-00143,Hand Pallet Truck,Robon India Automation,2017-07-01,000123456,Material Moment,"13,500.00",Checked out,Material Handling,Fabrication,AAK,APT 2.5T-685N/P,A-108,Fabrication
+AT-00144,Hand Pallet Truck,Robon India Automation,2017-07-01,000123456,Material Moment,"13,500.00",Checked out,Material Handling,Fabrication,AAK,APT 2.5T-685N/P,A-108,Fabrication
+AT-00145,Hand Pallet Truck,Robon India Automation,2017-07-01,000123456,Material Moment,"13,500.00",Checked out,Material Handling,Fabrication,AAK,APT 2.5T-685N/P,A-108,Fabrication
+AT-00146,Hand Pallet Truck,Robon India Automation,2017-07-01,000123456,Material Moment,"13,500.00",Checked out,Material Handling,Fabrication,AAK,APT 2.5T-685N/P,A-108,Fabrication
+AT-00147,Semi- Electric Pallet Truck,Robon India Automation,2017-07-01,000123456,Material Moment,"75,000.00",Checked out,Material Handling,Fabrication,AAK,ASPT 1.5T 550,A-108,Fabrication
+AT-00148,Air Compressor 230V/50HZ,Service Equipment Company,2017-07-01,000123456,Material Moment,"762,000.00",Checked out,Electronic,Top floor,ELGI,EG-30-10V,A-108,Fabrication
+AT-00149,Genst D.G. Machine 125 Kva,Perfect Generator Technologies Pvt. Ltd.,2017-07-01,000123456,Material Moment,"1,000,000.00",Checked out,Electronic,Top floor,Mahindra,125/TP,A-108,Fabrication
+AT-00150,Air Dryer 230V/50HZ,Service Equipment Company,2017-07-01,S04207,Material Moment,"122,000.00",Checked out,Electronic,Top floor,ELGI,EGRD 150,A-108,Fabrication
+AT-00152,Moniter,It Computer Care,2017-07-01,000123456,Vikash Raghav,"11,500.00",Checked out,Electronic,Ground Floor,Dell,ABCD,A-108,Fabrication
+AT-00153,UPS 650 Va,It Computer Care,2017-07-01,000123456,Vikash Raghav,"1,800.00",Checked out,Electronic,Ground Floor,Microtek,ABCD,A-108,Fabrication
+AT-00154,CPU,It Computer Care,2017-07-01,000123456,Vikash Raghav,"10,500.00",Checked out,Electronic,Ground Floor,HP,i3 5th gen.,A-108,Fabrication
+AT-00155,HP Laser Jet Pro MFP Printer,It Computer Care,2017-07-01,000123456,Vikash Raghav,"13,500.00",Checked out,Electronic,Ground Floor,HP,M126mw,A-108,Fabrication
+AT-00156,Acrylic Molding Machine,nan,2017-07-01,000123456,Ramveer Kaushik,"25,000.00",Checked out,Electronic,Ground Floor,Imported,ABCD,A-108,Fabrication
+AT-00157,Hammer Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Fabrication,"8,500.00",Checked out,Electronic,Ground Floor,Bosch,ABCD,A-108,Fabrication
+AT-00158,Drilling Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Fabrication,"8,500.00",Checked out,Electronic,Ground Floor,White Horse,ABCD,A-108,Fabrication
+AT-00159,Drilling Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Fabrication,"8,500.00",Checked out,Electronic,Ground Floor,Bosch,ABCD,A-108,Fabrication
+AT-00160,UPS 1000 Va,It Computer Care,2017-07-01,000123456,Fabrication,"1,800.00",Checked out,Electronic,Ground Floor,Microtek,Legend Plus,A-108,Fabrication
+AT-00161,UPS 1000 Va,It Computer Care,2017-07-01,000123456,Fabrication,"1,800.00",Checked out,Electronic,Ground Floor,Microtek,TGE Pro 100+,A-108,Fabrication
+AT-00163,Moniter,Kanishk Global  It Solutions,2017-07-01,000123456,Fabrication,"11,500.00",Checked out,Electronic,Ground Floor,Lenovo,A20238FD0,A-108,Fabrication
+AT-00164,CPU,It Computer Care,2017-07-01,000123456,Fabrication,"11,000.00",Checked out,Electronic,Ground Floor,Dell,Elite desk,A-108,Fabrication
+AT-00165,"Adjust fan 18""",It Computer Care,2017-07-01,000123456,Fabrication,"7,500.00",Checked out,Electronic,Ground Floor,Crompton,ABCD,A-108,Fabrication
+AT-00166,Inverter 3.6 Kva,It Computer Care,2017-07-01,15E92981014944,Fabrication,"20,500.00",Checked out,Electronic,Ground Floor,Luminous,CROZ E Sine Wave,A-108,Fabrication
+AT-00167,Moniter,It Computer Care,2017-07-01,KBLMTJ012951,Fabrication,"9,500.00",Checked out,Electronic,Ground Floor,ASUS,ABCD,A-108,Fabrication
+AT-00168,UPS 1000 Va,It Computer Care,2017-07-01,000123456,Fabrication,"1,800.00",Checked out,Electronic,Ground Floor,Microtek,Legend Plus,A-108,Fabrication
+AT-00169,UPS 1000 Va,It Computer Care,2017-07-01,000123456,Fabrication,"1,800.00",Checked out,Electronic,Ground Floor,Insize,1112-150,A-108,Fabrication
+AT-00170,UPS 1000 Va,It Computer Care,2017-07-01,000123456,Fabrication,"1,800.00",Checked out,Electronic,Ground Floor,Insize,1112-300,A-108,Fabrication
+AT-00171,UPS 1000 Va,It Computer Care,2017-07-01,000123456,Fabrication,"1,800.00",Checked out,Electronic,Ground Floor,Insize,1112-150,A-108,Fabrication
+AT-00357,Venti (exhaust fan),Krishna Electrical & Hardware,2024-05-30,nan,Fabrication,"1,144.00",Checked out,Electronic,Ground Floor,Standard,nan,J-18,Fabrication
+AT-00201,Teliphone,Reliable Comnet Pvt. Ltd.,2017-07-01,000123456,Vinod,"2,500.00",Checked out,Electronic,Assembly-1,Beetel,F28-0033,J-18 Sec-63,Assembly
+AT-00210,TSC Printer,Rudra Lables,2017-07-01,000123456,Vinod,"18,500.00",Checked out,Electronic,Assembly-1,TSC,TTP.244Pro,J-18 Sec-63,Assembly
+AT-00213,Moniter,Kanishk Global  It Solutions,2017-07-01,000123456,Vinod,"11,500.00",Checked out,Electronic,Assembly-1,Lenovo,A20238FD0,J-18 Sec-63,Assembly
+AT-00214,CPU,It Computer Care,2017-07-01,000123456,Vinod,"11,000.00",Checked out,Electronic,Assembly-1,HP,Elite desk,J-18 Sec-63,Assembly
+AT-00215,UPS,It Computer Care,2017-07-01,000123456,Vinod,"1,850.00",Checked out,Electronic,Assembly-1,Microtek,UPS TP PRO 650+,J-18 Sec-63,Assembly
+AT-00202,Teliphone,Reliable Comnet Pvt. Ltd.,2017-07-01,000123456,Sanjay,"2,500.00",Checked out,Electronic,Assembly-1,Beetel,F28-0033,J-18 Sec-63,Assembly
+AT-00205,Moniter,Kanishk Global  It Solutions,2017-07-01,000123456,Sanjay,"11,500.00",Checked out,Electronic,Assembly-1,Dell,CMB-50D3,J-18 Sec-63,Assembly
+AT-00206,High Definition  720p(Camera),It Computer Care,2017-07-01,000123456,Sanjay,750.00,Checked out,Electronic,Assembly-1,HP,W200,J-18 Sec-63,Assembly
+AT-00207,UPS,It Computer Care,2017-07-01,000123456,Sanjay,"1,800.00",Checked out,Electronic,Assembly-1,Microtek,ABCD,J-18 Sec-63,Assembly
+AT-00208,CPU,It Computer Care,2017-07-01,000123456,Sanjay,"10,500.00",Checked out,Electronic,Assembly-1,Dell,ABCD,J-18 Sec-63,Assembly
+AT-00209,HP Laser Jet Pro MFP Printer,It Computer Care,2017-07-01,000123456,Sanjay,"13,500.00",Checked out,Electronic,Assembly-1,HP,M126nw,J-18 Sec-63,Assembly
+AT-00345,Wireless conference mic with speaker,Amazon,2024-05-15,FBA79005,Sanjay,"5,490.00",Checked out,Electronic,J-18 Sec-63,Audio Array,AM-W45,J-18,Assembly
+AT-00347,HikVision DS-U08 1080p,Amazon,2024-04-23,K33056962,Sanjay,"1,286.00",Checked out,Electronic,J-18 Sec-63,HikVision,DS-U02,J-18,Assembly
+AT-00379,Semi Automatic Box Strapping Machine,Maruti Packaging  Industries,2024-07-24,nan,Sanjay,"34,000.00",Checked out,Strapping Machine,J-18 sec--63,nan,nan,J-18 Sec-63,Assembly
+AT-00380,Semi Automatic Box Strapping Machine,Maruti Packaging  Industries,2024-07-24,nan,Sanjay,"34,000.00",Checked out,Strapping Machine,J-18 sec--63,nan,nan,J-18 Sec-63,Assembly
+AT-00381,Kaymo Pnematic 32118 Nailer Machine,Gupta Hardware And Electricals,2024-07-20,nan,Sanjay,"3,100.00",Checked out,Pnumatic Nailer Machine,J-18 sec--63,Kaymo,Eco-32118,J-18 Sec-63,Assembly
+AT-00623,"Router Machine 6""",Sai Machinery Store,2025-02-10,nan,Sanjay,"4,000.00",Checked out,Electronic,J-18 sec-63,Dongcheng,nan,J-18 Sec-63,Assembly
+AT-00625,Pneumatic Stapler Machine,Gupta Hardware And Electricals,2025-02-10,nan,Sanjay,"2,600.00",Checked out,Pneumatic,J-18 sec-63,Kaymo,ECO-PS-8016,J-18 Sec-63,Assembly
+AT-00630,Pneumatic Stapler Machine,Gupta Hardware And Electricals,2025-03-06,nan,Sanjay,"2,600.00",Checked out,Pneumatic,J-18 sec-63,Kaymo,ECO-PS-8016,J-18 Sec-63,Assembly
+AT-00637,Sealing Machine,Hindustan Packaging,2025-03-11,123456,Hardware Line,"1,450.00",Checked out,Electronic,3rd floor,AS India,ABCD,J-18,Assembly
+AT-00638,Sealing Machine,Hindustan Packaging,2025-03-11,123456,Hardware Line,"1,450.00",Checked out,Electronic,3rd floor,AS India,ABCD,J-18,Assembly
+AT-00639,Sealing Machine,Hindustan Packaging,2025-03-22,123456,Hardware Line,"1,450.00",Checked out,Electronic,3rd floor,AS India,ABCD,J-18,Assembly
+AT-00640,Sealing Machine,Hindustan Packaging,2025-03-22,123456,Hardware Line,"1,450.00",Checked out,Electronic,3rd floor,AS India,ABCD,J-18,Assembly
+AT-00225,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00226,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00227,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00228,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00229,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00230,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00231,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00232,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00233,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00234,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00235,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00236,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00237,Sealing Machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Hardware Line,"1,450.00",Checked out,Electronic,Assembly-1,AS India,ABCD,J-18 Sec-63,Assembly
+AT-00217,ElectronicsTape Dispenser,Amazone Online Sale,2017-07-01,000123456,Hardware Line,"9,500.00",Checked out,Electronic,Assembly-1,Genric,M-1000,J-18 Sec-63,Assembly
+AT-00218,ElectronicsTape Dispenser,Amazone Online Sale,2017-07-01,000123456,Hardware Line,"9,500.00",Checked out,Electronic,Assembly-1,Genric,M-1000,J-18 Sec-63,Assembly
+AT-00219,Laser Machine,Amazone Online Sale,2017-07-01,000123456,Assembly,"250,000.00",Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00220,Refrigerated Water Circulator,Amazone Online Sale,2017-07-01,000123456,Assembly,"25,000.00",Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00221,Air Moter (220v Ac),Amazone Online Sale,2017-07-01,000123456,Assembly,"8,000.00",Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00258,"Adjust fan 18""",Regis Technologis,2017-07-01,000123456,Assembly,"8,000.00",Checked out,Electronic,Assembly-1,Local,ABCD,J-18 Sec-63,Assembly
+AT-00259,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00260,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00261,Battery Charger 12VDC,Robon India Automation,2017-07-01,000123456,Assembly,800.00,Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00262,Battery Charger 12VDC,Robon India Automation,2017-07-01,000123456,Assembly,800.00,Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00263,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00264,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00265,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00266,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00267,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00268,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00269,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00270,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00271,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00272,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00273,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00274,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00275,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00276,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00277,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00278,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00279,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00280,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00281,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00282,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00283,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00284,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00285,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00286,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00287,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00288,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00289,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00290,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00291,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00292,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00293,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00294,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00295,Water Cooler,Air Command Engineers,2017-07-01,000123456,Assembly,"38,000.00",Checked out,Electronic,Assembly-1,Sidwal Cool Star,nan,J-18 Sec-63,Assembly
+AT-00296,Washing machine,Flipkart,2017-07-01,000123456,Assembly,"10,500.00",Checked out,Electronic,Assembly-1,Flipkart Marq,MQSA65H5B/2020,J-18 Sec-63,Assembly
+AT-00300,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,J-18 Sec-63,Assembly
+AT-00247,"Adjust fan 18""",Regis Technologis,2017-07-01,000123456,Assembly,"8,000.00",Checked out,Electronic,Assembly-1,Local,ABCD,J-18 Sec-63,Assembly
+AT-00250,Buffing Machine Polisher Motor,Regis Technologis,2017-07-01,000123456,Assembly,"8,000.00",Checked out,Electronic,Assembly-1,Rajlaxmi,ABCD,J-18 Sec-63,Assembly
+AT-00251,"Adjust fan 18""",Regis Technologis,2017-07-01,000123456,Assembly,"8,000.00",Checked out,Electronic,Assembly-1,Local,ABCD,J-18 Sec-63,Assembly
+301AT-00301,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,A-108,Assembly
+302AT-00302,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,A-108,Assembly
+303AT-00303,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,A-108,Assembly
+304AT-00304,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,A-108,Assembly
+305AT-00305,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,A-108,Assembly
+306AT-00306,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,A-108,Assembly
+307AT-00307,Printer Cartridge,IT Computer Care,2017-07-01,000123456,Assembly,"1,150.00",Checked out,Electronic,Assembly-1,HP,CC388A,A-108,Assembly
+308AT-00308,Hand Pallet Track,Robon India Automation,2017-07-01,000123456,Assembly,"13,500.00",Checked out,Material Handling,Assembly-1,AAK,APT 2.5T-685N/P,A-108,Assembly
+309AT-00309,CPU,It Computer Care,2017-07-01,000123456,Assembly,"9,500.00",Checked out,Electronic,Assembly-1,Dell,Dell- i3 5th Gen,A-108,Assembly
+AT-00238,Chimney,Amazone Online Sale,2017-07-01,000123456,Thermocol line,"8,400.00",Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00239,Battery Charger 12VDC,Amazone Online Sale,2017-07-01,000123456,Thermocol line,800.00,Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00240,Battery Charger 12VDC,Amazone Online Sale,2017-07-01,000123456,Thermocol line,800.00,Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00241,Conveyor,Ecosonic System,2017-07-01,000123456,Assembly Line,"35,000.00",Checked out,Material Handling,Assembly-1,Eco,ABCD,J-18 Sec-63,Assembly
+AT-00242,Conveyor,Ecosonic System,2017-07-01,000123456,Assembly Line,"35,000.00",Checked out,Material Handling,Assembly-1,Eco,ABCD,J-18 Sec-63,Assembly
+AT-00243,Conveyor,Ecosonic System,2017-07-01,000123456,Assembly Line,"35,000.00",Checked out,Material Handling,Assembly-1,Eco,ABCD,J-18 Sec-63,Assembly
+AT-00244,Conveyor,Ecosonic System,2017-07-01,000123456,Assembly Line,"35,000.00",Checked out,Material Handling,Assembly-1,Eco,ABCD,J-18 Sec-63,Assembly
+AT-00245,Conveyor,Ecosonic System,2017-07-01,000123456,Assembly Line,"35,000.00",Checked out,Material Handling,Assembly-1,Eco,ABCD,J-18 Sec-63,Assembly
+AT-00252,Ceiling Fan,Yashika Enterprises,2017-07-01,000123456,Assembly Line,"1,200.00",Checked out,Electronic,Assembly-1,Super Fan,Super E1,J-18 Sec-63,Assembly
+AT-00253,Hotgun,Shri Narayan Machinery LLP,2017-07-01,000123456,Assembly Line,800.00,Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00254,Hotgun,Shri Narayan Machinery LLP,2017-07-01,000123456,Assembly Line,800.00,Checked out,Electronic,Assembly-1,Imported,ABCD,J-18 Sec-63,Assembly
+AT-00255,Electric Drill machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Assembly Line,"3,000.00",Checked out,Electronic,Assembly-1,Bosch,ABCD,J-18 Sec-63,Assembly
+AT-00256,Electric Drill machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Assembly Line,"3,000.00",Checked out,Electronic,Assembly-1,Bosch,ABCD,J-18 Sec-63,Assembly
+AT-00257,Electric Drill machine,Shri Narayan Machinery LLP,2017-07-01,000123456,Assembly Line,"3,000.00",Checked out,Electronic,Assembly-1,Bosch,ABCD,J-18 Sec-63,Assembly
+AT-00248,Conveyor,Ecosonic System,2017-07-01,000123456,Assembly Line,"35,000.00",Checked out,Material Handling,Assembly-1,Eco,ABCD,J-18 Sec-63,Assembly
+AT-00249,Conveyor,Ecosonic System,2017-07-01,000123456,Assembly Line,"35,000.00",Checked out,Material Handling,Assembly-1,Eco,ABCD,J-18 Sec-63,Assembly
+AT-00298,Kaymo Pneumatic Pinner,Shri Narayan Machinery LLP,2017-07-01,000123456,Assembly Line,"3,500.00",Checked out,Air Gun,Assembly-1,Kaymo,ECO-PP6422,J-18 Sec-63,Assembly
+AT-00299,Kaymo Pneumatic Pinner,Shri Narayan Machinery LLP,2017-07-01,000123456,Assembly Line,"3,500.00",Checked out,Air Gun,Assembly-1,Kaymo,ECO-PP6422,J-18 Sec-63,Assembly
+AT-00327,Hilty Machine,Sai Machinery Store,2024-03-07,nan,Vikas Raghav,"10,500.00",Checked out,Electronic,J-18 Sec-63,Makita,nan,J-18,Fabrication
+AT-00346,Wireless conference mic with speaker,Amazon,2024-05-07,FBA79005,Vikas Raghav,"4,973.00",Checked out,Electronic,J-18 Sec-63,Audio Array,AM-W45,J-18,Fabrictaion
+AT-00329,Hilty Machine Hammer Heavy Duty 1130KW,Jagjeet Machinery Store,2024-04-09,0500028484,Vikas Raghav,"13,500.00",Checked out,Electronic,J-18 Sec-63,Kress,KU-332P,J-18,Fabrication
+AT-00330,Pressusre Washer Model 620 Kg,Jagjeet Machinery Store,2024-04-24,0100078161,Vikas Raghav,"6,400.00",Checked out,Electronic,J-18 Sec-63,Kress,KG620,J-18,Fabrication
+AT-00331,Biesse Machine Pendrive,nan,2024-04-25,1000041244,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DT50/32GBIN,J-18,Fabrication
+AT-00332,Biesse Machine Pendrive,nan,2024-04-26,1000044409,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DT50/32GB,J-18,Fabrication
+AT-00333,Biesse Machine Pendrive,nan,2024-04-27,36125,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DT50/16GBIN,J-18,Fabrication
+AT-00334,Biesse Machine Pendrive,nan,2024-04-28,1000036125,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DT50/32GB,J-18,Fabrication
+AT-00335,Biesse Machine Pendrive,nan,2024-04-29,1000048405,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,Sophia Parts,J-18,Fabrication
+AT-00336,Biesse Machine Pendrive,nan,2024-04-30,1000044409,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DT50/16GB,J-18,Fabrication
+AT-00337,Biesse Machine Pendrive,nan,2024-05-01,1000044409,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DT50/32GB,J-18,Fabrication
+AT-00338,Biesse Machine Pendrive,nan,2024-05-02,1000048405,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DTKN/64GB,J-18,Fabrication
+AT-00339,Biesse Machine Pendrive,nan,2024-05-03,1000041244,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,Sophia Parts,J-18,Fabrication
+AT-00340,Biesse Machine Pendrive,nan,2024-05-04,1000035524,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,DT50/16GB,J-18,Fabrication
+AT-00341,Biesse Machine Pendrive,nan,2024-05-05,nan,Vikas Raghav,700.00,Checked out,Electronic,J-18 Sec-63,Biesse,Sophia Parts,J-18,Fabrication
+AT-00321,Drilling Machine 10mm,Shri Narayana Machinery LLP,2023-10-31,nan,Vikas Raghav,"2,100.00",Checked out,Electronic,Fabrication,Makita,M0600B,A-108,Fabrication
+AT-00344,HikVision DS-U08 1080p,Amazon,2024-05-16,K33056962,Vikas Raghav,"1,178.00",Checked out,Electronic,J-18 Sec-63,HikVision,DS-U02,J-18,Fabrictaion
+317AT-00317,Vernier Caliper 150mm,Shri Narayana Machinery LLP,2023-10-17,nan,Vikas Raghav,"4,500.00",Checked out,Electronic,Fabrication,Insize,1112-150,A-108,Fabrication
+318AT-00318,Vernier Caliper 300mm,Shri Narayana Machinery LLP,2023-10-17,nan,Vikas Raghav,"4,500.00",Checked out,Electronic,Fabrication,Insize,1112-150,A-108,Fabrication
+319AT-00319,Drilling Machine 13mm,Shiv Shakti Enterprises,2023-10-14,nan,Vikas Raghav,"2,350.00",Checked out,Electronic,Fabrication,Bosch,ABCD,A-108,Fabrication
+AT-00622,"Moniter 19""",It Computer Care,2024-10-17,nan,Vikas Raghav,"4,491.00",Checked out,Electronic,Ground Floor JD-340,Lenovo,D19-10,J-18,Fabrication
+AT-00365,Biesse Machine Pendrive,Biesse India,2024-06-11,1000048405,Vikas Raghav,700.00,Checked out,Electronic,J-18 sec--63,Biesse,nan,J-18,Fabrication
+AT-00366,Biesse Machine Pendrive,Biesse India,2024-06-12,1000041244,Vikas Raghav,700.00,Checked out,Electronic,J-18 sec--63,Biesse,nan,J-18,Fabrication
+AT-00370,Water Cooler,Air Command Engineers,2024-06-20,CC04CD-25626,Vikas Raghav,"32,203.00",Checked out,Water Cooler,J-18 sec--63,Sidhwal,CS-60120,J-18 Sec 63,Fabrication
+AT-00397,Kaymo Pnematic 32118 Nailer Machine,Gupta Hardware And Electricals,2024-09-23,nan,Vikas Raghav,"3,200.00",Checked out,Pnumatic Nailer Machine,J-18 sec-63,Kaymo,Eco-32118,J-18 Sec-63,Fabrication
+AT-00602,Electronic Weighing Scale Machine,Alfa Scale,2024-09-24,nan,Vikas Raghav,"12,500.00",Checked out,Weighing Machine,J-18 Sec-63,Bajaj Plus,nan,J-18,Fabrication
+AT-00661,Vernier Caliper 300mm,Gupta Hardware And Electricals,2025-04-17,nan,Vikas Raghav,"4,300.00",Checked out,Electronic,Ground Floor,Insize,1112-300,J-18 Sec-63,Fabrication
+AT-00662,Vernier Caliper 300mm,Gupta Hardware And Electricals,2025-04-17,nan,Vikas Raghav,"4,300.00",Checked out,Electronic,Ground Floor,Insize,1112-300,J-18 Sec-63,Fabrication
+AT-00663,Vernier Caliper 300mm,Gupta Hardware And Electricals,2025-04-17,nan,Vikas Raghav,"4,300.00",Checked out,Electronic,Ground Floor,Insize,1112-300,J-18 Sec-63,Fabrication
+AT-00664,Vernier Caliper 150mm,Gupta Hardware And Electricals,2025-04-17,nan,Vikas Raghav,"1,580.00",Checked out,Electronic,Ground Floor,Insize,1112-150,J-18 Sec-63,Fabrication
+AT-00665,Vernier Caliper 150mm,Gupta Hardware And Electricals,2025-04-17,nan,Vikas Raghav,"1,580.00",Checked out,Electronic,Ground Floor,Insize,1112-150,J-18 Sec-63,Fabrication
+AT-00647,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Vikas Raghav,"59,000.00",Checked out,Electronic,Ground Floor,Xtream,M3,J-18 Sec-63,Fabrication
+AT-00648,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Vikas Raghav,"59,000.00",Checked out,Electronic,Ground Floor,Xtream,M3,J-18 Sec-63,Fabrication
+AT-00649,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Vikas Raghav,"59,000.00",Checked out,Electronic,Ground Floor,Xtream,M3,J-18 Sec-63,Fabrication
+AT-00674,Hand Pallet Truck 3 Tonne,Lokpal Industries,2025-04-24,nan,Vikas Raghav,"17,700.00",Checked out,Material Handling,Fabrication,Hulk,Solo 30LSN,J-18,Fabrication
+AT-00675,Hand Pallet Truck 3 Tonne,Lokpal Industries,2025-04-24,nan,Vikas Raghav,"17,700.00",Checked out,Material Handling,Fabrication,Hulk,Solo 30LSN,J-18,Fabrication
+AT-00676,Hand Pallet Truck 3 Tonne,Lokpal Industries,2025-04-24,nan,Vikas Raghav,"17,700.00",Checked out,Material Handling,Fabrication,Hulk,Solo 30LSN,J-18,Fabrication
+AT-00677,Hand Pallet Truck 3 Tonne,Lokpal Industries,2025-04-24,nan,Vikas Raghav,"17,700.00",Checked out,Material Handling,Fabrication,Hulk,Solo 30LSN,J-18,Fabrication
+AT-00678,Hand Pallet Truck 3 Tonne,Lokpal Industries,2025-04-24,nan,Vikas Raghav,"17,700.00",Checked out,Material Handling,Fabrication,Hulk,Solo 30LSN,J-18,Fabrication
+AT-00322,Heat Blower (Room Heater),Krishna Electricals & Hardware 2023-24,2024-01-19,nan,Riya Sharma,885.00,Checked out,Electronic,Gaurd Room,Osham,KAYCEE,A-108,Gaurd Room
+AT-00323,Grenaro Wireless Microphone,Amzone India,2024-01-20,X001KC5PSR,Abhinav Sir,"2,064.00",Checked out,Electronic,Gaurd Room,Grenaro,J13,A-108,CEO
+AT-00614,"Drill Machine 4""",Gupta Hardware And Electricals,2024-10-16,nan,Abhinav Sir,"2,500.00",Checked out,Drill Machine,nan,Bosch,GSB-600,nan,Sector-79
+AT-00325,Digital Laser Meter Mesuring,Amazon India,2024-03-02,B010M5GD2G,Anshul,"2,194.00",Checked out,Electronic,Office,Freemans,Pro-L40,A-108,Design
+AT-00343,Vivo Y18e 4/64 Gem GREEN,Shree Balaji Mobile World,2024-05-13,6935117881928,Bhanu,"8,499.00",Checked out,Electronic,A-108 Sec-65,Vivo,Vivo Y18e,A-108,CCE
+AT-00348,HikVision DS-U08 1080p,Amazon,2024-04-23,K33056962,Shivam,"1,286.00",Checked out,Electronic,J-18 Sec-63,HikVision,DS-U02,J-18,Dispatch
+AT-00349,"Angle Griender 4""",Shri Narayan Machinery LLP,2024-05-14,nan,Birendra,"1,800.00",Checked out,Electronic,Sofa Unit,Bosch,nan,A-108,FDC
+AT-00619,Scissor Table Lift 500Kgs,Robon Automation Pvt. Ltd.,2024-12-25,nan,Birendra,"22,000.00",Checked out,Scissor Lift,2nd Floor,AAK,APMS 500 S(T),A-108,Sofa Unit
+AT-00629,Pneumatic Stapler Machine,Gupta Hardware And Electricals,2025-02-25,nan,Birendra,"2,600.00",Checked out,Pneumatic,2nd Floor,Kaymo,ECO-PS-8016,A-108,Sofa Unit
+AT-00371,Foam Shredding Machine,Multipro Mchines Pvt Ltd,2024-06-24,nan,Birendra,"50,900.00",Checked out,Cutting Machine,2nd Floor,Multipro,IFSD-50,A-108,Sofa Unit
+AT-00373,Jack Heavy Duty Stitiching Machine,Dharm Sewtech,2024-06-13,nan,Birendra,"20,800.00",Checked out,Stitiching Machine,2nd Floor,Jack,F5-HL-7,A-108,Sofa Unit
+AT-00368,Scissor Table Lift 500Kgs,Robon Automation Pvt. Ltd.,2024-05-20,nan,Birendra,"22,000.00",Checked out,Scissor Lift,2nd Floor,AAK,APMS 500 S(T),A-108,Sofa Unit
+AT-00382,Jack Cloth Cutting Machine 811,Pal Sewing Machine,2024-07-18,nan,Birendra,"20,000.00",Checked out,Fabric Cutting Machine,2nd Floor,Jack,JK-T3,A-108,Sofa Unit
+AT-00356,Work Trimmer,Amazon,2024-06-01,nan,Birendra,"2,573.00",Checked out,Machine,A-108 Sec-65,JPT,B0BX4B8W96,A-108,Sofa Unit
+AT-00353,Pneumatic Stapler Machine,Gupta Hardware And Electricals,2024-05-15,nan,Birendra,"11,000.00",Checked out,Pneumatic,2nd Floor,Kaymo,ECO-PS-10050E3,A-108,Sofa Unit
+AT-00354,Pneumatic Stapler Machine,Gupta Hardware And Electricals,2024-05-15,nan,Birendra,"2,550.00",Checked out,Pneumatic,2nd Floor,Kaymo,ECO-PS-8016,A-108,Sofa Unit
+AT-00358,Pneumatic Stapler Machine,Gupta Hardware And Electricals,2024-05-30,nan,Birendra,"2,550.00",Checked out,Pneumatic,2nd Floor,Kaymo,ECO-PS-8016,A-108,Sofa Unit
+313AT-00313,Spray Gun,Ambey Paints,2023-07-28,000123456,Birendra,"1,050.00",Checked out,Air Gun,Sector -79,G-Nut,nan,Sector -79,Sector -79
+AT-00669,Telephone Receiver,Reliable Comnet Pvt Ltd,2025-03-29,201043E080025177,Birendra,"3,500.00",Checked out,Telephone Receiver,Ground Floor,Yealink,SIP-T31P,A-108,A-FS Store
+AT-00654,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Birendra,"59,000.00",Checked out,Electronic,Ground Floor,Xtream,M3,A-108,A-FS Store
+AT-00655,LED Bulb 50W Havells,Krishna Electricals & Hardware,2025-04-02,nan,Birendra,650.00,Checked out,Electronic,2nd Floor,Havells,50W,A-108,Sofa Unit
+AT-00656,LED Bulb 50W Havells,Krishna Electricals & Hardware,2025-04-02,nan,Birendra,650.00,Checked out,Electronic,2nd Floor,Havells,50W,A-108,Sofa Unit
+AT-00657,LED Bulb 50W Havells,Krishna Electricals & Hardware,2025-04-02,nan,Birendra,650.00,Checked out,Electronic,2nd Floor,Havells,50W,A-108,Sofa Unit
+AT-00658,LED Bulb 50W Havells,Krishna Electricals & Hardware,2025-04-02,nan,Birendra,650.00,Checked out,Electronic,2nd Floor,Havells,50W,A-108,Sofa Unit
+AT-00659,LED Bulb 50W Havells,Krishna Electricals & Hardware,2025-04-02,nan,Birendra,650.00,Checked out,Electronic,2nd Floor,Havells,50W,A-108,Sofa Unit
+AT-00660,Cealing Fan 1200mm White,Krishna Electricals & Hardware,2025-04-02,nan,Birendra,"1,228.00",Checked out,Electronic,2nd Floor,Havells,nan,A-108,Sofa Unit
+AT-00350,Wall Fan Standard,Krishna Electrical & Hardware,2024-05-08,nan,Sales,"1,822.00",Checked out,Electronic,Office,Standard,nan,A-108,Sales
+AT-00351,Venti (exhaust fan),Krishna Electrical & Hardware,2024-05-07,nan,Accounts,"1,144.00",Checked out,Electronic,Office,Standard,nan,A-108,Accounts
+AT-00352,Venti (exhaust fan),Krishna Electrical & Hardware,2024-05-07,nan,Pantry,"1,144.00",Checked out,Electronic,Office,Standard,nan,A-108,Pantry
+AT-00355,Gas Cutter,Shri Narayan Machinery LLP,2024-05-16,nan,Rizwan Ali,"2,600.00",Checked out,Welding,J-18 Sec-63,nan,nan,J-18,Fabrication
+AT-00384,Grease Gun Bucket 6 kgs Cap.,Gupta Hardware And Electricals,2024-08-20,nan,Rizwan Ali,"3,930.00",Checked out,Grease Filling Machine,Ground Floor,Taparia,nan,J-18 Sec-63,Fabrication
+AT-00385,Portable Cut Off Machine,Harsim Enterprises,2024-08-13,394970K,Rizwan Ali,"14,500.00",Checked out,Cutting Machine,Ground Floor,Makita,LW1401,J-18 Sec-63,Fabrication
+AT-00377,KPT Shakti Blower,Shri Narayan Machinery LLP,2024-07-24,nan,Rizwan Ali,"1,800.00",Checked out,Electronic,Ground Floor,nan,SBL-500E,J-18 Sec-63,Fabrication
+AT-00605,"Router Machine 6""",Shri Narayan Machinery LLP,2024-09-24,nan,Rizwan Ali,"3,500.00",Checked out,Electronic,J-18 sec-63,Dongcheng,nan,J-18 Sec-63,Fabrication
+AT-00393,Scissor Table Lift 500Kgs,Robon Automation Pvt. Ltd.,2024-09-29,nan,Rizwan Ali,"22,000.00",Checked out,Scissor Lift,Ground Floor,AAK,APMS 500 S(T),J-18 Sec-63,Fabrication
+AT-00395,"Hand Grinder 4""",Gupta Hardware And Electricals,2024-09-05,132620172,Rizwan Ali,"2,350.00",Checked out,Grinder Machine,Ground Floor,Dewalt,DW 810 IN,J-18 Sec-63,Metal Unit
+AT-00642,Kpt-18V Max Battery Screwdriver,Shri Narayan Machinery LLP,2025-03-24,nan,Rizwan Ali,"3,500.00",Checked out,Electronic,Ground Floor,KPT,KPT-18V,J-18 Sec-63,Fabrication
+AT-00643,Kpt-18V Max Battery Screwdriver,Shri Narayan Machinery LLP,2025-03-24,nan,Rizwan Ali,"3,500.00",Checked out,Electronic,Ground Floor,KPT,KPT-18V,J-18 Sec-63,Fabrication
+310AT-00310,Moniter,It Computer Care,2017-07-01,000123456,Sanajay,"9,500.00",Checked out,Electronic,Assembly-1,Dell,22F,A-108,Assembly
+312AT-00312,Digital Protactor 360 C,Shri Narayan Machinery LLP,2023-07-27,2611220236,Anshul Gandhi,"2,617.00",Checked out,Electronic,Office,INSIZE,2176-300,A-108,Design
+314AT-00314,CG Submersibile,Excelserv and Co.,2023-10-18,WIVP 186165,nan,"11,271.00",Checked out,Electronic,Outer,CG,nan,A-108,Main Unit
+315AT-00315,CG Pannel,Excelserv and Co.,2023-10-18,WGME 106789,nan,"2,372.00",Checked out,Electronic,Outer,CG,nan,A-108,Main Unit
+316AT-00316,FIxed Wireless Phone F3-4G,Reliable Comnet Pvt  Ltd,2023-07-13,nan,nan,"5,120.00",Checked out,Electronic,Guard Room,Panasonic,nan,A-108,Guard Room
+AT-00367,Vivo Y18e 4/64 Gem Green,Shree balaji Mobile world,2024-06-13,867725076977176,nan,"8,500.00",Checked out,Electronic,Office,Vivo,Y18e,A-108,CCT
+AT-00342,Sintex Water Tank 2000 Ltrs,Balaji Traders,2024-05-04,123456,nan,"10,500.00",Checked out,Water Tank,J-18 Sec-63,Plasto,Abcd,J-18,Top Floor
+AT-00328,Sintex Water Tank 1000 Ltrs,Shiv Sanitary Store,2024-03-14,nan,nan,"10,500.00",Checked out,Water Tank,J-18 Sec-63,Sintex,nan,J-18,Top Floor
+AT-00398,Kpt-18V Max Battery Screwdriver,Shri Narayan Machinery LLP,2024-09-24,nan,Vinod Yadav,"3,500.00",Checked out,Electronic,J-18 sec-63,KPT,KPT-18V,J-18 Sec-63,Assembly
+320AT-00320,Drilling Machine 10mm,Shri Narayana Machinery LLP,2023-10-31,nan,Vinod Yadav,"2,100.00",Checked out,Electronic,Assembly-1,Makita,M0600B,A-108,Assembly
+AT-00650,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Vinod Yadav,"59,000.00",Checked out,Electronic,3rd Floor,Xtream,M3,J-18 Sec-63,Assembly
+AT-00651,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Vinod Yadav,"59,000.00",Checked out,Electronic,3rd Floor,Xtream,M3,J-18 Sec-63,Assembly
+AT-00652,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Vinod Yadav,"59,000.00",Checked out,Electronic,3rd Floor,Xtream,M3,J-18 Sec-63,Assembly
+AT-00401,Die Plinth Pin 6 Cavity,My Technology,2020-07-01,nan,Sunil Kumar,"20,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00402,Die Lock Patti 2 Cavity,Precision Technologies,2021-07-01,nan,Sunil Kumar,"10,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00403,Die Cabinet Roun Knob Single Cavity Old,My Technology,2021-10-01,nan,Sunil Kumar,"12,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00404,Die Roun Base Buffer 27mm 2 Cavity,Precision Technologies,2021-07-01,nan,Sunil Kumar,"10,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00405,Die Round Freddie Ring Single Cavity,Precision Technologies,2020-01-27,nan,Sunil Kumar,"14,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00406,Die Oval Rod Bracket 15x30 2 Cavity,Precision Technologies,2022-10-10,nan,Sunil Kumar,"20,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00407,Die Eco Bracket 2 Cavity,My Technology,2023-10-01,nan,Sunil Kumar,"3,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00408,Die Self Support Pin PVC Part 4 Cavity,Precision Technologies,2023-01-17,nan,Sunil Kumar,"13,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00409,Die Self Support Pin Cover Rubber 4 Cavity,Precision Technologies,2023-01-17,nan,Sunil Kumar,"13,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00410,Die Key Holder Knob 4 Cavity Old,My Technology,2022-08-01,nan,Sunil Kumar,"3,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00411,Die Base Buffer 38x38 Single Cavity,My Technology,2021-10-01,nan,Sunil Kumar,"40,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00412,Die U Clamp 2 Cavity 19mm,My Technology,2018-08-08,nan,Sunil Kumar,"25,700.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00413,Die U Clamp 2 Cavity 20mm,My Technology,2022-04-16,nan,Sunil Kumar,"1,500.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00414,Die Round Base Buffer 6x20mm Regis Make,My Technology,2022-04-16,nan,Sunil Kumar,"20,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00415,Die Lock Patti 38mm Old,My Technology,2021-10-01,nan,Sunil Kumar,"3,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00416,Die Magnet Catch,Precision Technologies,2023-08-22,nan,Sunil Kumar,"35,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00417,Die Plinth Pin 2 Cavity,My Technology,2021-10-01,nan,Sunil Kumar,"12,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00418,Die Reodesk Round Base Buffer 12mm 2 Cavity,My Technology,2017-07-01,nan,Sunil Kumar,"10,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00419,Die PAB Round For SS Screw Cover,My Technology,2017-07-01,nan,Sunil Kumar,"6,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00422,Die Spring Pin Cover 2 Cavity,Precision Technologies,2023-08-14,nan,Sunil Kumar,"22,500.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00423,Die Spring Pin 4 Cavity,Precision Technologies,2023-08-14,nan,Sunil Kumar,"25,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00424,Die Round Cabinet Knob New,Precision Technologies,2024-08-12,nan,Sunil Kumar,"17,500.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00425,Die Corner Support Patti 2 Cavity (Spacer),Precision Technologies,2023-08-11,nan,Sunil Kumar,"18,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00426,Die Square Gutka (Jonney),Precision Technologies,2023-08-11,nan,Sunil Kumar,"20,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00427,Die Key Holder Knob 4 Cavity New,Precision Technologies,2024-08-12,nan,Sunil Kumar,"24,500.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00428,Plastic Hand Molding Machine 30gms,Chawri Bazar,2023-10-26,nan,Sunil Kumar,"36,000.00",Checked out,Molding Machine,4th Floor,Amrut Brothers,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00490,Semi Automatic Plastic Molding Machine 100gms,Amrut Brothers Machinery Private Limited,2020-10-26,nan,Sunil Kumar,"896,500.00",Checked out,Molding Machine,4th Floor,Amrut Brothers,ABST-S-100,J-18 Sec 63,Plastic Metal Unit
+AT-00491,Plastic Hand Molding Machine 30gms,Amrut Brothers Machinery Private Limited,2019-10-26,nan,Sunil Kumar,"22,000.00",Checked out,Molding Machine,4th Floor,Amrut Brothers,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00492,Plastic Cutter Grinder,Amrut Brothers Machinery Private Limited,2019-10-26,nan,Sunil Kumar,"10,000.00",Checked out,Molding Machine,4th Floor,Amrut Brothers,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00493,Wall Fan,Krishna Electrical & Hardware,2017-07-01,nan,Sunil Kumar,"2,000.00",Checked out,Fan,4th Floor,Standard,nan,J-18 Sec 63,Metal Unit
+AT-00495,Die Base Buffer 75x75,My Technology,2022-01-31,nan,Sunil Kumar,"65,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00496,Die Cabinet Handle,My Technology,2022-01-31,nan,Sunil Kumar,"47,400.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00498,Heater For Hand Molding Machine,Shri Narayan Machinery LLP,2022-01-31,nan,Sunil Kumar,"6,500.00",Checked out,Heater,4th Floor,nan,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00499,Base Buffer Plate Die,My Technology,2022-01-31,nan,Sunil Kumar,"1,200.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00374,"Electric Oven 18""x21""x1",Dee Kay Electricals,2024-07-12,nan,Sunil Kumar,"33,000.00",Checked out,Oven,4th Floor,nan,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00641,Die Glass Door Hinge LG+RH,Noida Machine Tools,2025-03-28,nan,Sunil Kumar,"34,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00604,Plastic Hooks Die,M.A. Engineering Works,2024-09-23,nan,Sunil Kumar,"17,500.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00612,Hnadmold Leveller 2 Cav Mold,Precision Technologies,2024-11-22,nan,Sunil Kumar,"25,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00613,Hnadmold Insert Part 1 Cav Mold,Precision Technologies,2024-11-22,nan,Sunil Kumar,"25,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec-63,Plastic Metal Unit
+AT-00420,Die Inclined Leg,Precision Technologies,2022-07-14,nan,Pradeep Sharma,"165,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00421,Die Straight leg,My Technology,2022-08-01,nan,Pradeep Sharma,"75,000.00",Checked out,Mould,4th Floor,nan,nan,J-18 Sec 63,Plastic Metal Unit
+AT-00451,Shearing Machine( MS Sheet Cutting),Rajesh Machines (India) LLP,2022-01-03,nan,Vijay,"629,000.00",Checked out,Cutting Machine,Basement,Rajesh,RP-Cut-VR-2504,A-108,Metal Unit
+AT-00452,Sheet Bending Machine,Rajesh Machines (India) LLP,2022-01-03,nan,Vijay,"640,001.00",Checked out,Bending Machine,Basement,Rajesh,RP-Bend-VR-2500mm,A-108,Metal Unit
+AT-00453,Pipe Bending Machine,S.N. Enterprises,2021-09-16,nan,Vijay,"725,000.00",Checked out,Bending Machine,Basement,SNE,nan,A-108,Metal Unit
+AT-00454,Sander(Grinding) Machine,Raj Laxmi,2021-12-24,nan,Vijay,"20,825.00",Checked out,Metal Grinding Machine,Basement,Raj Laxmi,nan,A-108,Metal Unit
+AT-00455,Spot Welding Machine,Raj Laxmi,2021-12-24,nan,Vijay,"43,325.00",Checked out,Welding Machine,Basement,Raj Laxmi,nan,A-108,Metal Unit
+AT-00456,Pipe Cutting Machine,S.N. Enterprises,2021-09-16,nan,Vijay,"480,000.00",Checked out,Cutting Machine,Basement,SNE,nan,A-108,Metal Unit
+AT-00457,Mig Welding Machine,Lincoln Electric Company(india) Pvt Ltd,2018-08-09,nan,Vijay,"52,000.00",Checked out,Welding Machine,Basement,Linconlon,nan,A-108,Metal Unit
+AT-00458,Drilling Machine,Indian Engg. Corporataion,2021-09-23,nan,Vijay,"20,000.00",Checked out,Drilling Machine,Basement,Itco,nan,A-108,Metal Unit
+AT-00459,Drilling Cum Tapping Machine,Indian Engg. Corporataion,2021-09-23,nan,Vijay,"55,000.00",Checked out,Drilling Machine,Basement,Itco,nan,A-108,Metal Unit
+AT-00460,Punching Power Press 30 Tonne,Rajesh Machines (India) LLP,2022-01-03,nan,Vijay,"185,000.00",Checked out,Power Press,Basement,Rajesh Machines,RCP-30,A-108,Metal Unit
+AT-00461,Punching Power Press 10 Tonne,Rajesh Machines (India) LLP,2022-01-03,nan,Vijay,"85,000.00",Checked out,Power Press,Basement,Rajesh,RCP-10,A-108,Metal Unit
+AT-00462,Hand Drill 4mm,Shri Narayan Machinery LLP,2017-07-01,nan,Vijay,"4,500.00",Checked out,Drill Machine,Basement,Bosch,ABCD,A-108,Metal Unit
+AT-00463,Wall Fan,Krishna Electrical & Hardware,2017-07-01,nan,Vijay,"2,000.00",Checked out,Fan,Basement,Crompton,nan,A-108,Metal Unit
+AT-00464,"Ceiling Fan 48""",Yashika Enterprises,2017-07-01,000123456,Vijay,"1,200.00",Checked out,Electronic,Basement,Super Fan,Super E1,A-108,Metal Unit
+AT-00465,Air Cooler,Yash Packers,2021-07-01,nan,Vijay,"4,800.00",Checked out,Electronic,Basement,Gold Star,nan,A-108,Metal Unit
+AT-00466,"Hand Grinder 5""",Shri Narayan Machinery LLP,2017-07-01,nan,Vijay,"4,500.00",Checked out,Drill Machine,Basement,Bosch,ABCD,A-108,Metal Unit
+AT-00494,Air Cooler,Yash Packers,2021-07-01,nan,Vijay,"3,500.00",Checked out,Electronic,Basement,Gold Star,nan,A-108,Metal Unit
+AT-00615,Vernier Caliper 300mm,Gupta Hardware And Electricals,2024-12-19,nan,Vijay,"4,350.00",Checked out,Vernier Caliper,Basement,Insize,1112-300,A-108,Design
+AT-00624,Cutting & Punching Die For ST-CBN Support Patti,M.A. Engineering Works,2025-01-28,nan,Vijay,"28,000.00",Checked out,Mould,Basement,nan,nan,A-108,Metal Unit
+AT-00627,Bosch Pencil Grinder,Gupta Hardware And Electricals,2025-02-10,6082942Y94,Vijay,"6,300.00",Checked out,Electronic,Basement,Bosch,GGS-3000L,A-108,Metal Unit
+AT-00631,Bosch Nut Revert Machine,Gupta Hardware And Electricals,2025-03-20,nan,Vijay,"3,750.00",Checked out,Electronic,Basement,Bosch,nan,A-108,Metal Unit
+AT-00632,Bosch Drill Machine,Gupta Hardware And Electricals,2025-03-20,nan,Vijay,"2,300.00",Checked out,Electronic,Basement,Bosch,nan,A-108,Metal Unit
+AT-00375,Straight Line Glass Round Edging Machine,S. K. Glass Machines (India) Pvt. Ltd.,2023-04-28,nan,Vijay,"535,000.00",Checked out,Glass Machine,Ground Floor Back Side Gallary,SK Glass,SKR-121,A-108,Metal Unit
+AT-00386,Oval Shape Hanger Plate HPL-7 Die,M.A. Engineering Works,2024-08-22,nan,Vijay,"31,000.00",Checked out,Mould,Basement,nan,nan,A-108,Metal Unit
+AT-00383,KPN V-Bending Die,M.A. Engineering Works,2024-07-03,nan,Vijay,"36,000.00",Checked out,Mould,Basement,nan,nan,A-108,Metal Unit
+AT-00399,"Hand Grinder 4""",Gupta Hardware And Electricals,2024-09-27,132620148,Vijay,"2,350.00",Checked out,Grinder Machine,Basement,Dewalt,DW 810 IN,A-108,Metal Unit
+AT-00400,"Hand Grinder 4""",Gupta Hardware And Electricals,2024-09-27,132620147,Vijay,"2,350.00",Checked out,Grinder Machine,Basement,Dewalt,DW 810 IN,A-108,Metal Unit
+AT-00601,Electronic Weighing Scale Machine,Alfa Scale,2024-09-24,nan,Vijay,"12,500.00",Checked out,Weighing Machine,Basement,Bajaj Plus,nan,A-108,Metal Unit
+AT-00603,35x15mm Cutting & Punching Die,M.A. Engineering Works,2024-09-23,nan,Vijay,"28,000.00",Checked out,Mould,Basement,nan,nan,A-108,Metal Unit
+AT-00396,Pipe  Flattening Die,M.A. Engineering Works,2024-09-02,nan,Vijay,"14,000.00",Checked out,Mould,Basement,nan,nan,A-108,Metal Unit
+AT-00394,iBELL Mig Digital Welding Machine,Amazone India,2024-09-13,0723-0116,Vijay,"18,772.00",Checked out,Welding Machine,Basement,iBELL,IBL MIG 220-81,A-108,Metal Unit
+AT-00634,Tappering Machine With 2 Die Set,S.N. Enterprises,2025-03-05,nan,Vijay,"911,000.00",Checked out,Tappring Machine,Basement,SNE,SNE-50-400,A-108,Metal Unit
+AT-00635,Roller Pipe Bending Machine WIth 2 Die Set,S.N. Enterprises,2025-03-05,nan,Vijay,"299,000.00",Checked out,Bending Machine,Basement,SNE,SNE-38-3R-HYD,A-108,Metal Unit
+AT-00636,Mould For Glass Hinge Pin Two Cavity,M.A. Engineering Works,2025-03-03,nan,Vijay,"26,500.00",Checked out,Mould,Basement,nan,nan,A-108,Metal Unit
+AT-00671,Telephone Receiver,Reliable Comnet Pvt Ltd,2025-03-29,nan,Aditi Tyagi,783.00,Checked out,Telephone Receiver,1st Floor,Beetal,M500,A-108,Spare
+AT-00672,Telephone Receiver,Reliable Comnet Pvt Ltd,2025-03-29,nan,Aditi Tyagi,783.00,Checked out,Telephone Receiver,1st Floor,Beetal,M500,A-108,Spare
+AT-00673,Telephone Receiver,Reliable Comnet Pvt Ltd,2025-03-29,nan,Aditi Tyagi,783.00,Checked out,Telephone Receiver,1st Floor,Beetal,M500,A-108,Spare
+AT-00359,Air Cooler kapsun 120 Ltrs.,Reliable Safe Works,2024-05-29,nan,Shivam Thripathi,"16,780.00",Checked out,Air Cooler,2nd Floor,Mast,nan,J-18,FG Warehouse
+AT-00360,Air Cooler GI Metal,Noida Steel,2024-02-29,nan,Sujeet Kumar,"3,800.00",Checked out,Air Cooler,Security Room,nan,nan,J-18,Guard Room
+AT-00361,Air Cooler GI Metal,Noida Steel,2024-05-29,nan,Pradeep Kumar,"3,800.00",Checked out,Air Cooler,Security Room,nan,nan,A-108,Guard Room
+AT-00362,Fully Automatic Strapping Machine,RSL Packaging Solution,2024-05-27,nan,Sanjay/Vinod,"180,000.00",Checked out,Straping Machine,3rd floor,Transpack,TP-6000,J-18,Assembly
+AT-00372,Electric Polisher 180mm,Gupta Hardware and Electricals,2024-06-20,nan,Sanjay/Vinod,"2,400.00",Checked out,Buffing Machine,3rd floor,nan,nan,J-18,Assembly
+AT-00363,Air Cooler GI Metal,Noida Steel,2024-05-29,nan,Sonu Kumar,"3,800.00",Checked out,Air Cooler,2nd Floor,nan,nan,J-18,HR
+AT-00364,Glass Door Lock,Amazon,2024-06-03,nan,Rishabh,952.00,Checked out,Door Lock,4th floor,YOPRAM,HSN:3925,J-18,RM Warehouse
+AT-00387,Redmi 13C Stardust black 6/128 GB storage,Amazone Online Sale,2024-08-28,867443071526002,Pawan,"8,499.00",Checked out,Mobile Phone & adapter,Office,Xiaomi,Redmi 13 C,A-108,CCT
+AT-00610,Desktop Computer System,It Computer Care,2024-08-31,nan,Pawan,"21,567.00",Checked out,Electronic,A-108,Dell,i5 8th Gen.,A-108,CCE
+AT-00389,H111 Logitech Headphones,It Computer Care,2024-09-04,nan,Suraj,750.00,Checked out,Electronic,Office,Logitech,nan,A-108,CCE
+AT-00390,H111 Logitech Headphones,It Computer Care,2024-09-04,nan,Mukesh Jha,750.00,Checked out,Electronic,Office,Logitech,nan,A-108,Sales & Support
+AT-00391,H111 Logitech Headphones,It Computer Care,2024-09-04,nan,Rachit Gupta,750.00,Checked out,Electronic,Office,Logitech,nan,A-108,Jr. Data Analyst
+AT-00392,H111 Logitech Headphones,It Computer Care,2024-09-04,nan,Sanjay Kumar,"7,500.00",Checked out,Electronic,J-18 sec-63,Logitech,nan,J-18 Sec-63,Assembly
+AT-00608,H111 Logitech Headphones,It Computer Care,2024-11-25,nan,Prabhakar,750.00,Checked out,Electronic,A-108,Logitech,nan,A-108,CCE
+AT-00609,Desktop Computer System,It Computer Care,2024-08-31,nan,Payal Sinha,"21,567.00",Checked out,Electronic,A-108,Dell,i5 8th Gen.,A-108,CCE
+AT-00611,H111 Logitech Headphones,It Computer Care,2024-11-25,nan,Amit,750.00,Checked out,Electronic,A-108,Logitech,nan,A-108,CCE
+AT-00616,Heat Blower (Room Heater),Krishna Electricals & Hardware 2023-24,2024-12-27,nan,Ankit Kumar,885.00,Checked out,Electronic,Gaurd Room-I,Osham,KAYCEE,J-18,Security
+AT-00618,Siren Bell 1Km,Krishna Electricals & Hardware 2023-24,2024-12-18,nan,Ankit Kumar,"1,750.00",Checked out,Electronic,Gaurd Room-I,nan,nan,J-18,Security
+AT-00617,Venti (exhaust fan),Krishna Electrical & Hardware,2024-12-27,nan,Meter Room,"1,550.00",Checked out,Electronic,Meter Room,Standard,nan,A-108,Fabrication
+AT-00620,"Moniter 24""",It Computer Care,2024-10-17,9H.LLSLB.QBN,Sushil Kumar,"7,542.00",Checked out,Electronic,Ground Floor,Benq,Gw2490,J-18,Fabrication
+AT-00621,"Moniter 27""",It Computer Care,2024-10-17,9H.LLTLB.QBN,Govind Kumar,"9,576.00",Checked out,Electronic,1st Floor,Benq,Gw2790,A-108,Office
+AT-00626,Vernier Caliper 150mm,Gupta Hardware And Electricals,2025-01-14,nan,Pradeep/Rishav,"1,580.00",Checked out,Electronic,4th Floor,Insize,1112-150,"J-18, Sec-63",RM Warehouse
+AT-00628,Digital Micro Metre,Gupta Hardware And Electricals,2025-02-10,nan,Pradeep/Rishav,"3,300.00",Checked out,Electronic,4th Floor,Insize,nan,"J-18, Sec-63",RM Warehouse
+AT-00633,Vernier Caliper 150mm,Gupta Hardware And Electricals,2025-03-04,nan,Kunal Kapoor,"1,620.00",Checked out,Electronic,Office,Insize,1112-150,A-108,Design
+AT-00644,"HP Display 24""",It Computer Care,2025-03-31,123456,Shruti Chawla,"9,661.00",Checked out,Electronic,Office,HP,S5 524SH,A-108,Accounts
+AT-00645,Refurbished HP CPU,It Computer Care,2025-03-31,123456,Shruti Chawla,"16,200.00",Checked out,Electronic,Office,HP,8th Gen. I5,A-108,Accounts
+AT-00653,Xtreme Evaporative Air Cooler M3 Series,Xtreme Coolers Pvt. Ltd.,2024-06-05,123457,Risab,"59,000.00",Checked out,Electronic,4th Floor,Xtream,M3,J-18 Sec-63,RM Warehouse
+AT-00668,Telephone Receiver,Reliable Comnet Pvt Ltd,2025-03-29,201043E080024608,Ankit Pal,"3,500.00",Checked out,Telephone Receiver,Ground Floor,Yealink,SIP-T31P,J-18 Sec-63,J-18 Guard Room
+AT-00670,Telephone Receiver,Reliable Comnet Pvt Ltd,2025-03-29,201043E080027083,Anshul Ghandhi,"3,500.00",Checked out,Telephone Receiver,1st Floor,Yealink,M500,A-108,Design

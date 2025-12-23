@@ -16,16 +16,17 @@ const Roadmap = () => {
         // IN PROGRESS (Security Sprint)
         { id: 10, title: 'User Role Management', status: 'In Progress', category: 'Security', description: 'Admin vs Viewer roles and permissions.' },
 
-        // PLANNED (Asset Tiger Parity)
-        { id: 11, title: 'Mobile App (PWA)', status: 'Planned', category: 'Platform', description: 'Installable PWA for field audits.' },
-        { id: 12, title: 'Audit Trail Logs', status: 'Planned', category: 'Compliance', description: 'Immutable history of all asset changes.' },
-        { id: 13, title: 'Contracts & Warranties', status: 'Planned', category: 'Finance', description: 'Track expiration dates with email alerts.' },
-        { id: 14, title: 'E-Signatures', status: 'Planned', category: 'Compliance', description: 'Digital signatures for asset checkout/checkin.' },
-        { id: 15, title: 'Asset Reservations', status: 'Planned', category: 'Ops', description: 'Calendar-based booking system for shared assets.' },
-        { id: 16, title: 'Consumables Tracking', status: 'Planned', category: 'Inventory', description: 'Quantity tracking for ink, paper, parts.' },
-        { id: 17, title: 'Vendor Portal', status: 'Planned', category: 'Ext', description: 'Allow vendors to upload invoices directly.' },
-        { id: 18, title: 'Zoho CRM Integration', status: 'Planned', category: 'Integrations', description: 'Sync assets with CRM Accounts/Deals.' },
-        { id: 19, title: 'Barcode Generation', status: 'Planned', category: 'Ops', description: 'Generate and print QR/Barcodes for assets.' },
+        // COMPLETED (Asset Tiger Parity Sprint)
+        { id: 13, title: 'Contracts & Warranties', status: 'Completed', category: 'Finance', description: 'Track expiration dates with email alerts.' },
+        { id: 14, title: 'E-Signatures', status: 'Completed', category: 'Compliance', description: 'Digital signatures for asset checkout/checkin.' },
+        { id: 15, title: 'Asset Reservations', status: 'Completed', category: 'Ops', description: 'Calendar-based booking system for shared assets.' },
+        { id: 16, title: 'Consumables Tracking', status: 'Completed', category: 'Inventory', description: 'Quantity tracking for ink, paper, parts.' },
+        { id: 17, title: 'Vendor Portal', status: 'Completed', category: 'Ext', description: 'Allow vendors to upload invoices directly.' },
+        { id: 19, title: 'Barcode Generation', status: 'Completed', category: 'Ops', description: 'Generate and print QR/Barcodes for assets.' },
+
+        // IN PROGRESS (Integrations)
+        { id: 18, title: 'Zoho CRM Integration', status: 'In Progress', category: 'Integrations', description: 'Sync assets with CRM Accounts/Deals.' },
+        { id: 20, title: 'PWA Mobile App', status: 'In Progress', category: 'Platform', description: 'Installable App functionality.' },
     ];
 
     const columns = [

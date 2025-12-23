@@ -1,7 +1,7 @@
 {
     "name": "bridgex",
-    "type": "appLogic",
-    "stack": "node18",
+    "type": "advancedIO",
+    "stack": "node20",
     "execution": {
         "main": "index.js"
     }
