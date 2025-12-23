@@ -314,7 +314,7 @@ const App = () => {
           <NavItem id="Vendors" icon="🏢" label="Vendors" active={activeTab === 'Vendors'} onClick={() => { setActiveTab('Vendors'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="ESign" icon="✍️" label="E-Sign" active={activeTab === 'ESign'} onClick={() => { setActiveTab('ESign'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Barcodes" icon="🏷️" label="Tagging" active={activeTab === 'Barcodes'} onClick={() => { setActiveTab('Barcodes'); if (isMobile) setIsSidebarOpen(false); }} />
-          <NavItem id="CRM" icon="🔗" label="CRM Sync" active={activeTab === 'CRM'} onClick={() => { setActiveTab('CRM'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="CRM" icon="🔗" label="Zoho Sync" active={activeTab === 'CRM'} onClick={() => { setActiveTab('CRM'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Roadmap" icon="🚀" label="Roadmap" active={activeTab === 'Roadmap'} onClick={() => { setActiveTab('Roadmap'); if (isMobile) setIsSidebarOpen(false); }} />
         </div>
         <div style={styles.sidebarFooter}>
