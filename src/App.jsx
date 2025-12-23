@@ -199,19 +199,25 @@ const App = () => {
     setLoading(true);
     try {
       if (dataSource === 'live') {
+        console.log(`[Import] Sending ${data.length} records to ${targetTable}...`);
         const res = await fetch('/server/bridgex', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'import', data: data, table_name: targetTable })
         });
 
-        if (!res.ok) throw new Error("Backend import failed");
+        const result = await res.json();
+        console.log('[Import] Server response:', result);
 
-        alert(`✅ Success: ${data.length} records imported into ${targetTable}!`);
+        if (!res.ok || result.status === 'error') {
+          throw new Error(result.message || 'Backend import failed');
+        }
+
+        alert(`✅ Success: ${result.message || data.length + ' records imported!'}`);
         if (targetTable === 'Assets') {
           window.location.reload();
         } else {
-          setLoading(false); // Just stop loading for other tables
+          setLoading(false);
         }
       } else {
         // Demo
