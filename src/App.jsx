@@ -25,12 +25,14 @@ import ImportModal from './components/ImportModal';
 import HamburgerMenu from './components/HamburgerMenu';
 import OfflineBanner from './components/OfflineBanner';
 import InstallPWA from './components/InstallPWA';
+import AssetGroupedView from './components/AssetGroupedView';
 
 // ASSET LEDGER PRO - v5.5 (PRODUCTION READY)
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('Asset List');
+  const [assetViewMode, setAssetViewMode] = useState('grouped'); // 'list' or 'grouped'
   const [assets, setAssets] = useState([]);
   const [consumables, setConsumables] = useState(mockConsumables);
   const [vendors, setVendors] = useState(mockVendors);
@@ -380,6 +382,38 @@ const App = () => {
                     📥 Import CSV
                   </button>
                 )}
+                <div style={{ display: 'flex', gap: '4px', background: 'var(--background)', borderRadius: '10px', padding: '4px', border: '1px solid var(--border)' }}>
+                  <button
+                    onClick={() => setAssetViewMode('list')}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: assetViewMode === 'list' ? 'var(--accent)' : 'transparent',
+                      color: assetViewMode === 'list' ? 'white' : 'var(--text)',
+                      fontSize: '12px',
+                      fontWeight: '700',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    ☰ List
+                  </button>
+                  <button
+                    onClick={() => setAssetViewMode('grouped')}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: assetViewMode === 'grouped' ? 'var(--accent)' : 'transparent',
+                      color: assetViewMode === 'grouped' ? 'white' : 'var(--text)',
+                      fontSize: '12px',
+                      fontWeight: '700',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    ▦ Grouped
+                  </button>
+                </div>
                 {hasPermission('bulk_action') && (
                   <button
                     onClick={() => {
@@ -507,6 +541,11 @@ const App = () => {
                 <BarcodeGenerator assets={assets} />
               ) : activeTab === 'CRM' ? (
                 <CRMIntegration />
+              ) : assetViewMode === 'grouped' ? (
+                <AssetGroupedView
+                  assets={assets}
+                  onSelectAsset={(asset) => setDetailAsset(asset)}
+                />
               ) : (
                 assets.filter(a => {
                   const term = searchTerm.toLowerCase();
