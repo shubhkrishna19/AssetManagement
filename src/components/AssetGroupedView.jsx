@@ -1,24 +1,47 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Market price reference data (Flipkart/Amazon averages)
+// Market price reference data (Flipkart/Amazon averages for office assets)
 const marketPrices = {
-    'monitor': { low: 8000, high: 16000, avg: 12000 },
-    'telephone': { low: 500, high: 2500, avg: 1400 },
-    'mouse': { low: 300, high: 1800, avg: 1000 },
-    'laptop': { low: 35000, high: 95000, avg: 64500 },
-    'printer': { low: 8000, high: 28000, avg: 17500 },
-    'webcam': { low: 800, high: 6000, avg: 3200 },
-    'keyboard': { low: 400, high: 3000, avg: 1700 },
-    'chair': { low: 5000, high: 25000, avg: 15000 },
-    'desk': { low: 8000, high: 35000, avg: 21500 },
-    'ac': { low: 25000, high: 60000, avg: 42500 },
-    'projector': { low: 30000, high: 150000, avg: 90000 },
+    // IT Equipment
+    'telephone': { low: 800, high: 2500, avg: 1650 },
+    'receiver': { low: 800, high: 2500, avg: 1650 },
+    'laptop': { low: 35000, high: 95000, avg: 65000 },
+    'dell': { low: 45000, high: 85000, avg: 65000 },
+    'latitude': { low: 45000, high: 85000, avg: 65000 },
+    'mouse': { low: 300, high: 1500, avg: 900 },
+    'wireless mouse': { low: 400, high: 2000, avg: 1200 },
+    'webcam': { low: 1000, high: 5000, avg: 3000 },
+    'camera': { low: 1000, high: 5000, avg: 3000 },
+    'monitor': { low: 8000, high: 18000, avg: 13000 },
+    'display': { low: 10000, high: 25000, avg: 17500 },
+    'printer': { low: 8000, high: 35000, avg: 21500 },
     'scanner': { low: 8000, high: 25000, avg: 16500 },
-    'ups': { low: 3000, high: 15000, avg: 9000 },
-    'router': { low: 1500, high: 8000, avg: 4750 },
-    'server': { low: 100000, high: 500000, avg: 300000 },
-    'default': { low: 1000, high: 10000, avg: 5500 }
+    // Furniture
+    'chair': { low: 3000, high: 15000, avg: 9000 },
+    'table': { low: 5000, high: 25000, avg: 15000 },
+    'desk': { low: 8000, high: 30000, avg: 19000 },
+    'cabinet': { low: 8000, high: 35000, avg: 21500 },
+    'rack': { low: 5000, high: 20000, avg: 12500 },
+    // Machinery
+    'machine': { low: 50000, high: 500000, avg: 275000 },
+    'multiboaring': { low: 150000, high: 800000, avg: 475000 },
+    'cutting': { low: 80000, high: 400000, avg: 240000 },
+    'punching': { low: 50000, high: 300000, avg: 175000 },
+    'die': { low: 20000, high: 150000, avg: 85000 },
+    'saw': { low: 30000, high: 200000, avg: 115000 },
+    'panel': { low: 100000, high: 600000, avg: 350000 },
+    // Electronics
+    'ac': { low: 30000, high: 65000, avg: 47500 },
+    'remote': { low: 300, high: 1500, avg: 900 },
+    'ups': { low: 5000, high: 25000, avg: 15000 },
+    'router': { low: 2000, high: 8000, avg: 5000 },
+    // Vehicles
+    'vehicle': { low: 400000, high: 2000000, avg: 1200000 },
+    'car': { low: 500000, high: 2500000, avg: 1500000 },
+    'bike': { low: 50000, high: 200000, avg: 125000 },
+    // Default
+    'default': { low: 5000, high: 50000, avg: 27500 }
 };
 
 const getMarketPrice = (itemName) => {

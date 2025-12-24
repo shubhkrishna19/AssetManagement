@@ -26,6 +26,7 @@ import HamburgerMenu from './components/HamburgerMenu';
 import OfflineBanner from './components/OfflineBanner';
 import InstallPWA from './components/InstallPWA';
 import AssetGroupedView from './components/AssetGroupedView';
+import ViewToggle from './components/ViewToggle';
 
 // ASSET LEDGER PRO - v5.5 (PRODUCTION READY)
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
@@ -382,38 +383,6 @@ const App = () => {
                     📥 Import CSV
                   </button>
                 )}
-                <div style={{ display: 'flex', gap: '4px', background: 'var(--background)', borderRadius: '10px', padding: '4px', border: '1px solid var(--border)' }}>
-                  <button
-                    onClick={() => setAssetViewMode('list')}
-                    style={{
-                      padding: '6px 12px',
-                      borderRadius: '8px',
-                      border: 'none',
-                      background: assetViewMode === 'list' ? 'var(--accent)' : 'transparent',
-                      color: assetViewMode === 'list' ? 'white' : 'var(--text)',
-                      fontSize: '12px',
-                      fontWeight: '700',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    ☰ List
-                  </button>
-                  <button
-                    onClick={() => setAssetViewMode('grouped')}
-                    style={{
-                      padding: '6px 12px',
-                      borderRadius: '8px',
-                      border: 'none',
-                      background: assetViewMode === 'grouped' ? 'var(--accent)' : 'transparent',
-                      color: assetViewMode === 'grouped' ? 'white' : 'var(--text)',
-                      fontSize: '12px',
-                      fontWeight: '700',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    ▦ Grouped
-                  </button>
-                </div>
                 {hasPermission('bulk_action') && (
                   <button
                     onClick={() => {
@@ -456,6 +425,7 @@ const App = () => {
               {dataSource === 'live' ? "🟢 REMOTE DB" : "🎭 DEMO DATA"}
               <span style={{ fontSize: '10px', opacity: 0.6 }}>(Click to Switch)</span>
             </div>
+            <ViewToggle viewMode={assetViewMode} setViewMode={setAssetViewMode} />
             <ThemeToggle />
             <div
               style={{ ...styles.avatar, cursor: 'pointer', width: 'auto', padding: '0 12px', borderRadius: '20px', gap: '8px' }}
