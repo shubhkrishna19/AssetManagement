@@ -72,7 +72,10 @@ const AssetGroupedView = ({ assets = [], onSelectAsset }) => {
             const key = normalizeItemName(asset.Item_Name);
             if (!groups[key]) {
                 const rawCategory = asset.Category || '';
-                const validCategory = rawCategory && !rawCategory.match(/^[0-9.]+$/) ? rawCategory : 'Uncategorized';
+                // Filter out status values that are incorrectly stored as categories
+                const invalidCategories = ['Checked Out', 'Available', 'Assigned', 'Under Maintenance', 'Disposed', 'Lost', 'In Transit'];
+                const isInvalidCategory = !rawCategory || rawCategory.match(/^[0-9.]+$/) || invalidCategories.includes(rawCategory);
+                const validCategory = isInvalidCategory ? 'Uncategorized' : rawCategory;
                 groups[key] = {
                     id: key,
                     name: asset.Item_Name || 'Unknown Item',
