@@ -1,153 +1,250 @@
 // Mock Asset Data - Used when API Bridge is offline
 // This provides a realistic demo experience during development
+// Prices are realistic Indian market values (2024)
 
 export const mockAssets = [
+    // IT Equipment - Laptops
     {
-        ID: "1",
-        Asset_ID: "BW-IT-001",
-        Item_Name: "Dell Latitude 5520",
-        Category: "IT Equipment",
-        Status: "Assigned",
+        ID: "1", Asset_ID: "BW-IT-001", Item_Name: "Dell Latitude 5540",
+        Category: "IT Equipment", Status: "Assigned",
         Assigned_User: { display_value: "Shubh Krishna" },
-        Purchase_Date: "2023-06-15",
-        Cost: 85000,
-        Location: "Head Office - Bangalore",
-        Health_Score: 92,
-        Vendor_Name: "Dell Enterprise"
+        Purchase_Date: "2023-06-15", Cost: 78500,
+        Location: "A-108", Health_Score: 92, Vendor_Name: "Dell India"
     },
     {
-        ID: "2",
-        Asset_ID: "BW-IT-002",
-        Item_Name: "MacBook Pro 14\"",
-        Category: "IT Equipment",
-        Status: "Assigned",
+        ID: "2", Asset_ID: "BW-IT-002", Item_Name: "MacBook Pro 14\" M3",
+        Category: "IT Equipment", Status: "Assigned",
         Assigned_User: { display_value: "Design Team" },
-        Purchase_Date: "2024-01-10",
-        Cost: 199000,
-        Location: "Creative Studio",
-        Health_Score: 98,
-        Vendor_Name: "Apple Business"
+        Purchase_Date: "2024-01-10", Cost: 199000,
+        Location: "J-18", Health_Score: 98, Vendor_Name: "Apple India"
     },
     {
-        ID: "3",
-        Asset_ID: "BW-FN-001",
-        Item_Name: "Executive Desk - Walnut",
-        Category: "Furniture",
-        Status: "Available",
+        ID: "3", Asset_ID: "BW-IT-003", Item_Name: "HP EliteBook 840 G9",
+        Category: "IT Equipment", Status: "Available",
         Assigned_User: null,
-        Purchase_Date: "2022-03-20",
-        Cost: 45000,
-        Location: "Warehouse A",
-        Health_Score: 85,
-        Vendor_Name: "Office Depot"
+        Purchase_Date: "2023-09-20", Cost: 92000,
+        Location: "A-108", Health_Score: 95, Vendor_Name: "HP India"
     },
     {
-        ID: "4",
-        Asset_ID: "BW-IT-003",
-        Item_Name: "HP LaserJet Pro MFP",
-        Category: "IT Equipment",
-        Status: "Under Maintenance",
-        Assigned_User: { display_value: "Operations" },
-        Purchase_Date: "2021-11-05",
-        Cost: 32000,
-        Location: "Print Room",
-        Health_Score: 45,
-        Vendor_Name: "Dell Enterprise"
+        ID: "4", Asset_ID: "BW-IT-004", Item_Name: "Lenovo ThinkPad X1 Carbon",
+        Category: "IT Equipment", Status: "Assigned",
+        Assigned_User: { display_value: "Anandini Singh" },
+        Purchase_Date: "2024-03-05", Cost: 145000,
+        Location: "A-108", Health_Score: 99, Vendor_Name: "Lenovo India"
+    },
+    // IT Equipment - Desktops & Monitors
+    {
+        ID: "5", Asset_ID: "BW-IT-005", Item_Name: "Dell OptiPlex 7010",
+        Category: "IT Equipment", Status: "Assigned",
+        Assigned_User: { display_value: "Accounts Dept" },
+        Purchase_Date: "2023-04-12", Cost: 65000,
+        Location: "J-18", Health_Score: 88, Vendor_Name: "Dell India"
     },
     {
-        ID: "5",
-        Asset_ID: "BW-VH-001",
-        Item_Name: "Mahindra Bolero",
-        Category: "Vehicle",
-        Status: "Assigned",
-        Assigned_User: { display_value: "Logistics Team" },
-        Purchase_Date: "2020-08-12",
-        Cost: 850000,
-        Location: "Mumbai Depot",
-        Health_Score: 72,
-        Vendor_Name: "Mahindra & Mahindra"
+        ID: "6", Asset_ID: "BW-IT-006", Item_Name: "LG UltraWide 34\" Monitor",
+        Category: "IT Equipment", Status: "Assigned",
+        Assigned_User: { display_value: "Design Team" },
+        Purchase_Date: "2023-08-25", Cost: 48000,
+        Location: "J-18", Health_Score: 94, Vendor_Name: "LG Electronics"
     },
     {
-        ID: "6",
-        Asset_ID: "BW-FN-002",
-        Item_Name: "Conference Table - 12 Seater",
-        Category: "Furniture",
-        Status: "Available",
+        ID: "7", Asset_ID: "BW-IT-007", Item_Name: "Dell 27\" 4K Monitor P2723QE",
+        Category: "IT Equipment", Status: "Available",
         Assigned_User: null,
-        Purchase_Date: "2023-02-28",
-        Cost: 120000,
-        Location: "Board Room",
-        Health_Score: 95,
-        Vendor_Name: "Office Depot"
+        Purchase_Date: "2024-02-15", Cost: 42000,
+        Location: "A-108", Health_Score: 100, Vendor_Name: "Dell India"
+    },
+    // Printers & Peripherals
+    {
+        ID: "8", Asset_ID: "BW-IT-008", Item_Name: "HP LaserJet Pro MFP M428fdw",
+        Category: "IT Equipment", Status: "Available",
+        Assigned_User: { display_value: "Admin Office" },
+        Purchase_Date: "2022-11-10", Cost: 38500,
+        Location: "A-108", Health_Score: 72, Vendor_Name: "HP India"
     },
     {
-        ID: "7",
-        Asset_ID: "BW-IT-004",
-        Item_Name: "Cisco IP Phone 8845",
-        Category: "IT Equipment",
-        Status: "Assigned",
-        Assigned_User: { display_value: "Reception" },
-        Purchase_Date: "2022-07-15",
-        Cost: 18500,
-        Location: "Front Desk",
-        Health_Score: 88,
-        Vendor_Name: "Cisco Systems"
+        ID: "9", Asset_ID: "BW-IT-009", Item_Name: "Canon imageRUNNER 2630i",
+        Category: "IT Equipment", Status: "Under Maintenance",
+        Assigned_User: { display_value: "Print Room" },
+        Purchase_Date: "2021-06-20", Cost: 125000,
+        Location: "J-18", Health_Score: 45, Vendor_Name: "Canon India"
     },
     {
-        ID: "8",
-        Asset_ID: "BW-MC-001",
-        Item_Name: "CNC Router Machine",
-        Category: "Machinery",
-        Status: "In Use",
+        ID: "10", Asset_ID: "BW-IT-010", Item_Name: "Logitech MX Master 3S Mouse",
+        Category: "IT Equipment", Status: "Assigned",
+        Assigned_User: { display_value: "Shubh Krishna" },
+        Purchase_Date: "2024-01-05", Cost: 8900,
+        Location: "A-108", Health_Score: 100, Vendor_Name: "Logitech"
+    },
+    // Networking & Infrastructure
+    {
+        ID: "11", Asset_ID: "BW-IT-011", Item_Name: "Cisco Catalyst 9200 Switch",
+        Category: "IT Equipment", Status: "Assigned",
+        Assigned_User: { display_value: "Server Room" },
+        Purchase_Date: "2022-03-15", Cost: 185000,
+        Location: "A-108", Health_Score: 90, Vendor_Name: "Cisco Systems"
+    },
+    {
+        ID: "12", Asset_ID: "BW-IT-012", Item_Name: "Dell PowerEdge R750 Server",
+        Category: "IT Equipment", Status: "Assigned",
+        Assigned_User: { display_value: "IT Department" },
+        Purchase_Date: "2023-01-20", Cost: 450000,
+        Location: "A-108", Health_Score: 95, Vendor_Name: "Dell India"
+    },
+    {
+        ID: "13", Asset_ID: "BW-IT-013", Item_Name: "APC Smart-UPS 10kVA",
+        Category: "IT Equipment", Status: "Assigned",
+        Assigned_User: { display_value: "Server Room" },
+        Purchase_Date: "2022-08-10", Cost: 285000,
+        Location: "A-108", Health_Score: 82, Vendor_Name: "APC India"
+    },
+    // Furniture
+    {
+        ID: "14", Asset_ID: "BW-FN-001", Item_Name: "Featherlite Executive Chair",
+        Category: "Furniture", Status: "Assigned",
+        Assigned_User: { display_value: "CEO Office" },
+        Purchase_Date: "2023-02-10", Cost: 28500,
+        Location: "A-108", Health_Score: 95, Vendor_Name: "Featherlite"
+    },
+    {
+        ID: "15", Asset_ID: "BW-FN-002", Item_Name: "Godrej L-Shaped Workstation",
+        Category: "Furniture", Status: "Available",
+        Assigned_User: null,
+        Purchase_Date: "2022-09-15", Cost: 32000,
+        Location: "J-18", Health_Score: 88, Vendor_Name: "Godrej Interio"
+    },
+    {
+        ID: "16", Asset_ID: "BW-FN-003", Item_Name: "Conference Table 12-Seater",
+        Category: "Furniture", Status: "Available",
+        Assigned_User: null,
+        Purchase_Date: "2021-11-20", Cost: 145000,
+        Location: "A-108", Health_Score: 92, Vendor_Name: "Godrej Interio"
+    },
+    {
+        ID: "17", Asset_ID: "BW-FN-004", Item_Name: "Steel Filing Cabinet 4-Drawer",
+        Category: "Furniture", Status: "Assigned",
+        Assigned_User: { display_value: "HR Department" },
+        Purchase_Date: "2020-06-10", Cost: 12500,
+        Location: "J-18", Health_Score: 75, Vendor_Name: "Godrej Interio"
+    },
+    {
+        ID: "18", Asset_ID: "BW-FN-005", Item_Name: "Visitor Sofa Set 3+1+1",
+        Category: "Furniture", Status: "Available",
+        Assigned_User: null,
+        Purchase_Date: "2023-05-25", Cost: 68000,
+        Location: "A-108", Health_Score: 98, Vendor_Name: "Urban Ladder"
+    },
+    // Machinery (Woodworking)
+    {
+        ID: "19", Asset_ID: "BW-MC-001", Item_Name: "CNC Wood Router 4x8",
+        Category: "Machinery", Status: "Assigned",
         Assigned_User: { display_value: "Production Floor" },
-        Purchase_Date: "2019-04-10",
-        Cost: 2500000,
-        Location: "Factory Unit 1",
-        Health_Score: 68,
-        Vendor_Name: "CleanFaster Services"
+        Purchase_Date: "2019-08-15", Cost: 1850000,
+        Location: "Off-Site", Health_Score: 68, Vendor_Name: "Biesse India"
     },
     {
-        ID: '6',
-        Asset_ID: 'AST-006',
-        Item_Name: 'Projector 4K',
-        Purchase_Date: '2023-01-20',
-        Cost: 85000,
-        Category: 'Electronics',
-        Status: 'Available',
+        ID: "20", Asset_ID: "BW-MC-002", Item_Name: "Edge Banding Machine Automatic",
+        Category: "Machinery", Status: "Assigned",
+        Assigned_User: { display_value: "Production Floor" },
+        Purchase_Date: "2020-03-20", Cost: 980000,
+        Location: "Off-Site", Health_Score: 72, Vendor_Name: "Homag India"
+    },
+    {
+        ID: "21", Asset_ID: "BW-MC-003", Item_Name: "Panel Saw Sliding Table",
+        Category: "Machinery", Status: "Under Maintenance",
+        Assigned_User: { display_value: "Wood Workshop" },
+        Purchase_Date: "2018-11-10", Cost: 450000,
+        Location: "Off-Site", Health_Score: 45, Vendor_Name: "Altendorf"
+    },
+    {
+        ID: "22", Asset_ID: "BW-MC-004", Item_Name: "Dust Collector Industrial",
+        Category: "Machinery", Status: "Assigned",
+        Assigned_User: { display_value: "Factory" },
+        Purchase_Date: "2021-02-28", Cost: 185000,
+        Location: "Off-Site", Health_Score: 85, Vendor_Name: "Nederman"
+    },
+    // Vehicles
+    {
+        ID: "23", Asset_ID: "BW-VH-001", Item_Name: "Mahindra Bolero Pikup",
+        Category: "Vehicle", Status: "Assigned",
+        Assigned_User: { display_value: "Logistics Team" },
+        Purchase_Date: "2022-05-15", Cost: 925000,
+        Location: "Off-Site", Health_Score: 78, Vendor_Name: "Mahindra"
+    },
+    {
+        ID: "24", Asset_ID: "BW-VH-002", Item_Name: "Tata Ace Gold Delivery Van",
+        Category: "Vehicle", Status: "Assigned",
+        Assigned_User: { display_value: "Delivery Dept" },
+        Purchase_Date: "2023-08-10", Cost: 685000,
+        Location: "Off-Site", Health_Score: 92, Vendor_Name: "Tata Motors"
+    },
+    {
+        ID: "25", Asset_ID: "BW-VH-003", Item_Name: "Toyota Innova Crysta",
+        Category: "Vehicle", Status: "Assigned",
+        Assigned_User: { display_value: "Management" },
+        Purchase_Date: "2024-02-20", Cost: 2450000,
+        Location: "A-108", Health_Score: 100, Vendor_Name: "Toyota India"
+    },
+    // Electronics & Appliances
+    {
+        ID: "26", Asset_ID: "BW-EL-001", Item_Name: "Daikin 1.5 Ton Split AC",
+        Category: "Electronics", Status: "Assigned",
+        Assigned_User: { display_value: "Conference Room" },
+        Purchase_Date: "2023-04-05", Cost: 52000,
+        Location: "A-108", Health_Score: 95, Vendor_Name: "Daikin India"
+    },
+    {
+        ID: "27", Asset_ID: "BW-EL-002", Item_Name: "Samsung 65\" 4K Smart TV",
+        Category: "Electronics", Status: "Available",
         Assigned_User: null,
-        Health_Score: 90,
-        Vendor_Name: "Cisco Systems"
+        Purchase_Date: "2023-09-12", Cost: 89000,
+        Location: "A-108", Health_Score: 100, Vendor_Name: "Samsung India"
+    },
+    {
+        ID: "28", Asset_ID: "BW-EL-003", Item_Name: "Epson EB-2265U Projector",
+        Category: "Electronics", Status: "Available",
+        Assigned_User: null,
+        Purchase_Date: "2022-07-20", Cost: 145000,
+        Location: "J-18", Health_Score: 88, Vendor_Name: "Epson India"
+    },
+    {
+        ID: "29", Asset_ID: "BW-EL-004", Item_Name: "Panasonic PABX System",
+        Category: "Electronics", Status: "Assigned",
+        Assigned_User: { display_value: "Reception" },
+        Purchase_Date: "2021-10-15", Cost: 78000,
+        Location: "A-108", Health_Score: 80, Vendor_Name: "Panasonic India"
+    },
+    {
+        ID: "30", Asset_ID: "BW-EL-005", Item_Name: "Bose SoundLink Revolve+",
+        Category: "Electronics", Status: "Assigned",
+        Assigned_User: { display_value: "Conference Room" },
+        Purchase_Date: "2024-01-25", Cost: 24500,
+        Location: "A-108", Health_Score: 100, Vendor_Name: "Bose India"
     }
 ];
 
 export const mockReservations = [
-    { id: 1, assetId: 'BLW-002', userId: 'user1', userName: 'Priya Sharma', startDate: '2025-12-26', endDate: '2025-12-28', status: 'Approved', purpose: 'Client Presentation' },
-    { id: 2, assetId: 'BLW-030', userId: 'user2', userName: 'Suresh Driver', startDate: '2025-12-27', endDate: '2025-12-29', status: 'Pending', purpose: 'Warehouse Delivery' },
-    { id: 3, assetId: 'BLW-051', userId: 'user3', userName: 'Amit Patel', startDate: '2025-12-30', endDate: '2025-12-31', status: 'Approved', purpose: 'Training Session' },
-    { id: 4, assetId: 'BLW-001', userId: 'user4', userName: 'Neha Singh', startDate: '2026-01-02', endDate: '2026-01-05', status: 'Approved', purpose: 'Remote Work Assignment' },
-    { id: 5, assetId: 'BLW-032', userId: 'user5', userName: 'Warehouse Team', startDate: '2026-01-10', endDate: '2026-01-12', status: 'Pending', purpose: 'Inventory Reorganization' },
-    { id: 6, assetId: 'BLW-005', userId: 'user1', userName: 'Priya Sharma', startDate: '2026-01-15', endDate: '2026-01-18', status: 'Cancelled', purpose: 'Field Survey' },
-    { id: 7, assetId: 'BLW-040', userId: 'user6', userName: 'IT Admin', startDate: '2025-12-25', endDate: '2025-12-26', status: 'Approved', purpose: 'Server Maintenance Window' }
+    { id: 1, assetId: 'BW-IT-002', userId: 'user1', userName: 'Priya Sharma', startDate: '2025-12-26', endDate: '2025-12-28', status: 'Approved', purpose: 'Client Presentation' },
+    { id: 2, assetId: 'BW-VH-001', userId: 'user2', userName: 'Suresh Driver', startDate: '2025-12-27', endDate: '2025-12-29', status: 'Pending', purpose: 'Warehouse Delivery' },
+    { id: 3, assetId: 'BW-EL-003', userId: 'user3', userName: 'Amit Patel', startDate: '2025-12-30', endDate: '2025-12-31', status: 'Approved', purpose: 'Training Session' },
+    { id: 4, assetId: 'BW-IT-001', userId: 'user4', userName: 'Neha Singh', startDate: '2026-01-02', endDate: '2026-01-05', status: 'Approved', purpose: 'Remote Work Assignment' },
+    { id: 5, assetId: 'BW-VH-002', userId: 'user5', userName: 'Warehouse Team', startDate: '2026-01-10', endDate: '2026-01-12', status: 'Pending', purpose: 'Inventory Delivery' }
 ];
 
 export const mockContracts = [
-    { id: 1, contractNo: 'CON-2024-001', vendor: 'Dell Enterprise', type: 'AMC', startDate: '2024-01-01', endDate: '2025-12-31', value: 250000, status: 'Active', assets: ['BLW-001', 'BLW-003', 'BLW-004'], description: 'Annual Maintenance Contract for all Dell laptops' },
-    { id: 2, contractNo: 'CON-2024-002', vendor: 'Mahindra & Mahindra', type: 'Service Agreement', startDate: '2024-06-01', endDate: '2026-05-31', value: 180000, status: 'Active', assets: ['BLW-030', 'BLW-031'], description: 'Fleet maintenance and servicing contract' },
-    { id: 3, contractNo: 'CON-2023-005', vendor: 'Office Depot', type: 'Supply Contract', startDate: '2023-01-01', endDate: '2024-12-31', value: 95000, status: 'Expired', assets: [], description: 'Office supplies and consumables supply agreement' },
-    { id: 4, contractNo: 'CON-2024-003', vendor: 'Cisco Systems', type: 'Support', startDate: '2024-03-15', endDate: '2027-03-14', value: 420000, status: 'Active', assets: ['BLW-041'], description: '3-year smart net total care for networking equipment' },
-    { id: 5, contractNo: 'CON-2024-004', vendor: 'PowerSafe India', type: 'AMC', startDate: '2024-07-01', endDate: '2025-06-30', value: 75000, status: 'Active', assets: ['BLW-042'], description: 'UPS maintenance including battery replacement' }
+    { id: 1, contractNo: 'CON-2024-001', vendor: 'Dell India', type: 'AMC', startDate: '2024-01-01', endDate: '2025-12-31', value: 250000, status: 'Active', assets: ['BW-IT-001', 'BW-IT-005', 'BW-IT-007'], description: 'Annual Maintenance Contract for Dell equipment' },
+    { id: 2, contractNo: 'CON-2024-002', vendor: 'Mahindra Service', type: 'Service', startDate: '2024-06-01', endDate: '2026-05-31', value: 180000, status: 'Active', assets: ['BW-VH-001'], description: 'Fleet maintenance contract' },
+    { id: 3, contractNo: 'CON-2024-003', vendor: 'Biesse India', type: 'AMC', startDate: '2024-01-01', endDate: '2024-12-31', value: 350000, status: 'Active', assets: ['BW-MC-001'], description: 'CNC Router maintenance and support' },
+    { id: 4, contractNo: 'CON-2024-004', vendor: 'Cisco Systems', type: 'SmartNet', startDate: '2024-03-15', endDate: '2027-03-14', value: 420000, status: 'Active', assets: ['BW-IT-011'], description: '3-year support for networking' }
 ];
 
 export const mockWarranties = [
-    { id: 1, assetId: 'BLW-002', assetName: 'MacBook Pro 14', vendor: 'Apple Business', type: 'AppleCare+', startDate: '2024-01-10', endDate: '2027-01-09', status: 'Active', coverage: 'Full replacement, accidental damage' },
-    { id: 2, assetId: 'BLW-001', assetName: 'Dell Latitude 5520', vendor: 'Dell Enterprise', type: 'ProSupport Plus', startDate: '2023-06-15', endDate: '2026-06-14', status: 'Active', coverage: 'Next-day onsite service, accidental damage' },
-    { id: 3, assetId: 'BLW-020', assetName: 'CNC Cutting Machine', vendor: 'Bosch India', type: 'Extended Warranty', startDate: '2022-08-01', endDate: '2025-07-31', status: 'Expiring Soon', coverage: 'Parts and labor, excludes consumables' },
-    { id: 4, assetId: 'BLW-040', assetName: 'Dell PowerEdge Server', vendor: 'Dell Enterprise', type: 'ProSupport', startDate: '2023-11-01', endDate: '2026-10-31', status: 'Active', coverage: '24x7 support, 4-hour response' },
-    { id: 5, assetId: 'BLW-012', assetName: 'Conference Table 12-Seater', vendor: 'Godrej Interio', type: 'Standard Warranty', startDate: '2022-03-01', endDate: '2024-02-28', status: 'Expired', coverage: 'Manufacturing defects only' },
-    { id: 6, assetId: 'BLW-021', assetName: 'Industrial Printer XL', vendor: 'HP Enterprise', type: 'CarePack', startDate: '2024-02-01', endDate: '2027-01-31', status: 'Active', coverage: 'Onsite service, print head replacement' }
+    { id: 1, assetId: 'BW-IT-002', assetName: 'MacBook Pro 14"', vendor: 'Apple India', type: 'AppleCare+', startDate: '2024-01-10', endDate: '2027-01-09', status: 'Active', coverage: 'Full replacement, accidental damage' },
+    { id: 2, assetId: 'BW-IT-001', assetName: 'Dell Latitude 5540', vendor: 'Dell India', type: 'ProSupport', startDate: '2023-06-15', endDate: '2026-06-14', status: 'Active', coverage: 'Next-day onsite service' },
+    { id: 3, assetId: 'BW-MC-001', assetName: 'CNC Wood Router', vendor: 'Biesse India', type: 'Extended', startDate: '2019-08-15', endDate: '2025-08-14', status: 'Expiring Soon', coverage: 'Parts and labor' },
+    { id: 4, assetId: 'BW-VH-003', assetName: 'Toyota Innova Crysta', vendor: 'Toyota India', type: 'Standard', startDate: '2024-02-20', endDate: '2027-02-19', status: 'Active', coverage: '3-year warranty' }
 ];
 
-// Summary stats for dashboard (can be computed from mockAssets)
 export const mockStats = {
     totalAssets: mockAssets.length,
     totalValue: mockAssets.reduce((sum, a) => sum + a.Cost, 0),
@@ -155,51 +252,49 @@ export const mockStats = {
     available: mockAssets.filter(a => a.Status === "Available").length,
     maintenance: mockAssets.filter(a => a.Status === "Under Maintenance").length,
     avgHealth: Math.round(mockAssets.reduce((sum, a) => sum + a.Health_Score, 0) / mockAssets.length),
-
-    // Chart Ready Data
     categoryData: [
-        { name: 'IT Equipment', value: 4, color: '#0984e3' },
-        { name: 'Furniture', value: 2, color: '#00b894' },
-        { name: 'Vehicle', value: 1, color: '#fdcb6e' },
-        { name: 'Machinery', value: 1, color: '#e17055' },
+        { name: 'IT Equipment', value: 13, color: '#1a4f8b' },
+        { name: 'Furniture', value: 5, color: '#00b894' },
+        { name: 'Machinery', value: 4, color: '#e17055' },
+        { name: 'Vehicle', value: 3, color: '#fdcb6e' },
+        { name: 'Electronics', value: 5, color: '#6c5ce7' },
     ],
     healthData: [
-        { name: 'Excellent', value: 48, color: '#00b894' },
-        { name: 'Good', value: 32, color: '#0984e3' },
-        { name: 'Fair', value: 15, color: '#fdcb6e' },
-        { name: 'Poor', value: 5, color: '#e74c3c' },
+        { name: 'Excellent (90+)', value: 15, color: '#00b894' },
+        { name: 'Good (70-89)', value: 10, color: '#0984e3' },
+        { name: 'Fair (50-69)', value: 3, color: '#fdcb6e' },
+        { name: 'Poor (<50)', value: 2, color: '#e74c3c' },
     ],
     trendData: [
-        { month: 'Jan', value: 1200000 },
-        { month: 'Feb', value: 1500000 },
-        { month: 'Mar', value: 1400000 },
-        { month: 'Apr', value: 2500000 },
-        { month: 'May', value: 2800000 },
-        { month: 'Jun', value: 3200000 },
-        { month: 'Jul', value: 3904500 },
+        { month: 'Jul', value: 5200000 },
+        { month: 'Aug', value: 5800000 },
+        { month: 'Sep', value: 6200000 },
+        { month: 'Oct', value: 7100000 },
+        { month: 'Nov', value: 7800000 },
+        { month: 'Dec', value: 8543500 },
     ]
 };
 
 export const mockConsumables = [
-    { id: 1, name: 'Printer Paper (A4)', category: 'Office', quantity: 45, threshold: 10, unit: 'Reams', cost: 450, status: 'In Stock' },
-    { id: 2, name: 'Sanitizer Refill', category: 'Health', quantity: 2, threshold: 5, unit: 'Bottles', cost: 120, status: 'Low Stock' },
-    { id: 3, name: 'HDMI Cables 2m', category: 'IT', quantity: 12, threshold: 3, unit: 'Pcs', cost: 350, status: 'In Stock' },
-    { id: 4, name: 'Coffee Beans', category: 'Pantry', quantity: 0, threshold: 2, unit: 'Kg', cost: 800, status: 'Out of Stock' }
+    { id: 1, name: 'Printer Paper A4 (500 sheets)', category: 'Office', quantity: 45, threshold: 10, unit: 'Reams', cost: 320, status: 'In Stock' },
+    { id: 2, name: 'HP 12A Toner Cartridge', category: 'IT', quantity: 3, threshold: 5, unit: 'Pcs', cost: 2800, status: 'Low Stock' },
+    { id: 3, name: 'HDMI Cable 2m', category: 'IT', quantity: 12, threshold: 3, unit: 'Pcs', cost: 450, status: 'In Stock' },
+    { id: 4, name: 'Sanitizer 500ml', category: 'Health', quantity: 8, threshold: 5, unit: 'Bottles', cost: 180, status: 'In Stock' },
+    { id: 5, name: 'Coffee Beans Premium', category: 'Pantry', quantity: 2, threshold: 3, unit: 'Kg', cost: 850, status: 'Low Stock' },
+    { id: 6, name: 'Sticky Notes (Pack of 12)', category: 'Office', quantity: 0, threshold: 5, unit: 'Packs', cost: 280, status: 'Out of Stock' }
 ];
 
 export const mockVendors = [
-    { id: 1, name: 'Dell Enterprise', type: 'Hardware', contact: 'Michael Scott', email: 'sales@dell.com', phone: '1-800-DELL-BIZ', rating: 4.5, status: 'Preferred' },
-    { id: 2, name: 'Office Depot', type: 'Supplies', contact: 'Dwight Schrute', email: 'orders@officedepot.com', phone: '555-0199', rating: 3.8, status: 'Active' },
-    { id: 3, name: 'CleanFaster Services', type: 'Maintenance', contact: 'Creed Bratton', email: 'support@cleanfaster.com', phone: '555-9000', rating: 2.5, status: 'Under Review' },
-    { id: 4, name: 'Apple Business', type: 'Hardware', contact: 'Tim Cook', email: 'enterprise@apple.com', phone: '1-800-MY-APPLE', rating: 5.0, status: 'Preferred' },
-    { id: 5, name: 'Mahindra & Mahindra', type: 'Vehicles', contact: 'Anand Mahindra', email: 'fleet@mahindra.com', phone: '+91-22-2490', rating: 4.8, status: 'Preferred' },
-    { id: 6, name: 'Cisco Systems', type: 'Networking', contact: 'Chuck Robbins', email: 'sales@cisco.com', phone: '1-800-CISCO-BIZ', rating: 4.6, status: 'Active' }
+    { id: 1, name: 'Dell India', type: 'Hardware', contact: 'Rajesh Kumar', email: 'enterprise@dell.co.in', phone: '1800-425-3355', rating: 4.5, status: 'Preferred' },
+    { id: 2, name: 'Godrej Interio', type: 'Furniture', contact: 'Anita Desai', email: 'b2b@godrejinterio.com', phone: '1800-267-6766', rating: 4.2, status: 'Active' },
+    { id: 3, name: 'Biesse India', type: 'Machinery', contact: 'Marco Rossi', email: 'service@biesse.in', phone: '+91-80-4669', rating: 4.8, status: 'Preferred' },
+    { id: 4, name: 'Apple India', type: 'Hardware', contact: 'Enterprise Sales', email: 'business@apple.in', phone: '000-800-040-1966', rating: 5.0, status: 'Preferred' },
+    { id: 5, name: 'Mahindra Service', type: 'Vehicles', contact: 'Service Center', email: 'fleet@mahindra.com', phone: '1800-209-6006', rating: 4.3, status: 'Active' }
 ];
 
 export const mockMaintenance = [
-    { id: 1, assetId: 'BLW-004', assetName: 'Lenovo ThinkPad X1', issueType: 'Hardware Failure', priority: 'High', status: 'In Progress', reportedBy: 'Ravi Kumar', reportedDate: '2025-12-20', assignedTo: 'IT Support Team', notes: 'Screen flickering issue, replacement ordered' },
-    { id: 2, assetId: 'BLW-022', assetName: 'Wood Laminating Press', issueType: 'Mechanical', priority: 'Critical', status: 'Pending Parts', reportedBy: 'Production Manager', reportedDate: '2025-12-18', assignedTo: 'Maintenance Crew', notes: 'Hydraulic pump failure, awaiting spare parts from vendor' },
-    { id: 3, assetId: 'BLW-042', assetName: 'UPS 10KVA', issueType: 'Electrical', priority: 'Medium', status: 'Scheduled', reportedBy: 'Facilities', reportedDate: '2025-12-22', assignedTo: 'Vendor - PowerSafe', notes: 'Battery replacement due, scheduled for Dec 28' },
-    { id: 4, assetId: 'BLW-030', assetName: 'Tata Ace Delivery Van', issueType: 'Servicing', priority: 'Low', status: 'Completed', reportedBy: 'Suresh Driver', reportedDate: '2025-12-15', assignedTo: 'Mahindra Service Center', notes: 'Regular 20,000 km service completed' },
-    { id: 5, assetId: 'BLW-013', assetName: 'Filing Cabinet 4-Drawer', issueType: 'Disposal Request', priority: 'Low', status: 'Pending Approval', reportedBy: 'Admin', reportedDate: '2025-12-21', assignedTo: 'Asset Manager', notes: 'Cabinet damaged beyond repair, recommend disposal' }
+    { id: 1, assetId: 'BW-IT-009', assetName: 'Canon imageRUNNER 2630i', issueType: 'Paper Jam Frequent', priority: 'Medium', status: 'In Progress', reportedBy: 'Admin Staff', reportedDate: '2025-12-20', assignedTo: 'Canon Service', notes: 'Roller replacement scheduled' },
+    { id: 2, assetId: 'BW-MC-003', assetName: 'Panel Saw Sliding Table', issueType: 'Motor Issue', priority: 'High', status: 'Pending Parts', reportedBy: 'Production Manager', reportedDate: '2025-12-18', assignedTo: 'Altendorf Service', notes: 'Waiting for motor from Germany' },
+    { id: 3, assetId: 'BW-IT-013', assetName: 'APC Smart-UPS 10kVA', issueType: 'Battery Replacement', priority: 'Medium', status: 'Scheduled', reportedBy: 'IT Team', reportedDate: '2025-12-22', assignedTo: 'APC Service', notes: 'Battery pack ordered, replacement on Dec 30' },
+    { id: 4, assetId: 'BW-VH-001', assetName: 'Mahindra Bolero Pikup', issueType: 'Regular Service', priority: 'Low', status: 'Completed', reportedBy: 'Driver', reportedDate: '2025-12-15', assignedTo: 'Mahindra Service', notes: '25,000 km service completed' }
 ];
