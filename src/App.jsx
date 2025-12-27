@@ -357,12 +357,6 @@ const App = () => {
       )}
 
       <main style={styles.mainArea}>
-        {/* Demo Mode Banner */}
-        {dataSource === 'demo' && (
-          <div style={styles.demoBanner}>
-            🎭 <strong>Demo Mode Active</strong> — Showing sample data. Deploy the Catalyst bridge to enable live sync.
-          </div>
-        )}
 
         <header style={{ ...styles.contentHeader, padding: isMobile ? '0 20px' : '0 40px' }}>
           <div style={styles.headerLeft}>
@@ -426,23 +420,6 @@ const App = () => {
             )}
           </div>
           <div style={styles.headerActions}>
-            <div
-              onClick={() => {
-                const newMode = dataSource === 'live' ? 'demo' : 'live';
-                setDataSource(newMode);
-                localStorage.setItem('app_mode', newMode);
-                window.location.reload();
-              }}
-              style={{ ...styles.syncPulse, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--surface)', padding: '6px 12px', borderRadius: '20px', border: '1px solid var(--border)' }}
-            >
-              <div style={{
-                width: '10px', height: '10px', borderRadius: '50%',
-                background: dataSource === 'live' ? '#00b894' : '#fdcb6e',
-                boxShadow: dataSource === 'live' ? '0 0 8px #00b894' : 'none'
-              }} />
-              {dataSource === 'live' ? "🟢 REMOTE DB" : "🎭 DEMO DATA"}
-              <span style={{ fontSize: '10px', opacity: 0.6 }}>(Click to Switch)</span>
-            </div>
             <ViewToggle viewMode={assetViewMode} setViewMode={setAssetViewMode} />
             <ThemeToggle />
             <div
@@ -862,12 +839,12 @@ const NavItem = ({ icon, label, active, onClick, count, color }) => (
 // --- STYLING ---
 
 const styles = {
-  appContainer: { display: 'flex', height: '100vh', width: '100vw', background: 'var(--background)', fontFamily: 'Inter, sans-serif' },
-  sidebar: { width: '260px', background: 'var(--surface)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column' },
+  appContainer: { display: 'flex', height: '100vh', width: '100vw', background: 'var(--background)', fontFamily: 'Inter, sans-serif', overflow: 'hidden' },
+  sidebar: { width: '260px', height: '100vh', background: 'var(--surface)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', flexShrink: 0 },
   sidebarHeader: { padding: '40px 25px', display: 'flex', alignItems: 'center' },
   logoCircle: { width: '40px', height: '40px', background: 'var(--accent)', borderRadius: '12px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900' },
   logoText: { marginLeft: '12px', fontSize: '20px', fontWeight: '900', color: 'var(--text)' },
-  navGroup: { flex: 1 },
+  navGroup: { flex: 1, overflowY: 'auto' },
   navItem: { display: 'flex', alignItems: 'center', padding: '16px 25px', cursor: 'pointer', transition: '0.2s' },
   navIcon: { marginRight: '15px' },
   navLabel: { fontWeight: '600', fontSize: '15px', flex: 1 },

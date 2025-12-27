@@ -71,10 +71,12 @@ const AssetGroupedView = ({ assets = [], onSelectAsset }) => {
         assets.forEach(asset => {
             const key = normalizeItemName(asset.Item_Name);
             if (!groups[key]) {
+                const rawCategory = asset.Category || '';
+                const validCategory = rawCategory && !rawCategory.match(/^[0-9.]+$/) ? rawCategory : 'Uncategorized';
                 groups[key] = {
                     id: key,
                     name: asset.Item_Name || 'Unknown Item',
-                    category: asset.Category || 'Uncategorized',
+                    category: validCategory,
                     items: [],
                     totalValue: 0,
                     minValue: Infinity,
@@ -103,9 +105,9 @@ const AssetGroupedView = ({ assets = [], onSelectAsset }) => {
         return Object.values(groups);
     }, [assets]);
 
-    // Get unique categories
+    // Get unique categories - filter out invalid ones
     const categories = useMemo(() => {
-        const cats = ['All', ...new Set(groupedData.map(g => g.category).filter(c => c && c !== 'Uncategorized'))];
+        const cats = ['All', ...new Set(groupedData.map(g => g.category).filter(c => c && c !== 'Uncategorized' && !c.match(/^[0-9.]+$/)))];
         return cats.slice(0, 8);
     }, [groupedData]);
 
