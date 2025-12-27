@@ -4,8 +4,9 @@ import { mockAssets } from '../mockData';
 const Reports = ({ assets = [], consumables = [], updateAsset, setActiveTab }) => {
     const [filters, setFilters] = useState({ category: 'all', status: 'all' });
     const [activeReport, setActiveReport] = useState('inventory');
+    const [viewMode, setViewMode] = useState('table'); // 'table' or 'grouped'
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortConfig, setSortConfig] = useState({ key: 'Asset_ID', direction: 'asc' });
+    const [sortConfig, setSortConfig] = useState({ key: 'Cost', direction: 'desc' });
 
     // Calculate Depreciation Logic (Hardened)
     const calculateDepreciation = (asset) => {
@@ -192,163 +193,212 @@ const Reports = ({ assets = [], consumables = [], updateAsset, setActiveTab }) =
                     <button onClick={exportToCSV} style={styles.exportBtn}>
                         📥 Export CSV
                     </button>
+                    <button
+                        onClick={() => setViewMode(viewMode === 'table' ? 'grouped' : 'table')}
+                        style={styles.viewToggleBtn}
+                    >
+                        {viewMode === 'table' ? '📂 Grouped View' : '📋 Table View'}
+                    </button>
                 </div>
             </div>
+
+            {/* GROUPED VIEW */}
+            {viewMode === 'grouped' && activeReport === 'inventory' && (
+                <div style={styles.groupedContainer}>
+                    {Object.entries(
+                        filteredAndSortedData
+                            .filter(a => a.Category && !a.Category.match(/^[0-9.]+$/))
+                            .reduce((acc, asset) => {
+                                const cat = asset.Category || 'Uncategorized';
+                                if (!acc[cat]) acc[cat] = [];
+                                acc[cat].push(asset);
+                                return acc;
+                            }, {})
+                    ).map(([category, catAssets]) => (
+                        <div key={category} style={styles.categoryGroup}>
+                            <h3 style={styles.groupHeader}>📂 {category} <span style={styles.groupCount}>({catAssets.length} assets)</span></h3>
+                            <div style={styles.groupedGrid}>
+                                {Object.entries(
+                                    catAssets.reduce((acc, asset) => {
+                                        const loc = asset.Location || 'Unassigned';
+                                        if (!acc[loc]) acc[loc] = [];
+                                        acc[loc].push(asset);
+                                        return acc;
+                                    }, {})
+                                ).map(([location, locAssets]) => (
+                                    <div key={location} style={styles.locationCard}>
+                                        <div style={styles.locationHeader}>📍 {location}</div>
+                                        {locAssets.slice(0, 3).map(asset => (
+                                            <div key={asset.Asset_ID} style={styles.groupedAssetItem}>
+                                                <span style={styles.groupedAssetId}>{asset.Asset_ID}</span>
+                                                <span style={styles.groupedAssetName}>{asset.Item_Name}</span>
+                                            </div>
+                                        ))}
+                                        {locAssets.length > 3 && <div style={styles.moreItems}>+{locAssets.length - 3} more</div>}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             {/* TABLE AREA */}
-            <div className="glass-card" style={styles.tableCard}>
-                <div style={styles.tableWrapper}>
-                    <table style={styles.table}>
-                        <thead>
-                            <tr>
-                                <SortHeader label={activeReport === 'supply' ? "Name" : "Asset ID"} field={activeReport === 'supply' ? "name" : "Asset_ID"} currentSort={sortConfig} onSort={requestSort} />
-                                <SortHeader label={activeReport === 'supply' ? "Category" : "Name"} field={activeReport === 'supply' ? "category" : "Item_Name"} currentSort={sortConfig} onSort={requestSort} />
+            {viewMode === 'table' && (
+                <div className="glass-card" style={styles.tableCard}>
+                    <div style={styles.tableWrapper}>
+                        <table style={styles.table}>
+                            <thead>
+                                <tr>
+                                    <SortHeader label={activeReport === 'supply' ? "Name" : "Asset ID"} field={activeReport === 'supply' ? "name" : "Asset_ID"} currentSort={sortConfig} onSort={requestSort} />
+                                    <SortHeader label={activeReport === 'supply' ? "Category" : "Name"} field={activeReport === 'supply' ? "category" : "Item_Name"} currentSort={sortConfig} onSort={requestSort} />
 
-                                {activeReport === 'inventory' && (
-                                    <>
-                                        <SortHeader label="Category" field="Category" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Value" field="Cost" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Location" field="Location" currentSort={sortConfig} onSort={requestSort} />
-                                    </>
-                                )}
+                                    {activeReport === 'inventory' && (
+                                        <>
+                                            <SortHeader label="Category" field="Category" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Value" field="Cost" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Location" field="Location" currentSort={sortConfig} onSort={requestSort} />
+                                        </>
+                                    )}
 
-                                {activeReport === 'depreciation' && (
-                                    <>
-                                        <SortHeader label="Purchase Date" field="Purchase_Date" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Orig. Cost" field="Cost" currentSort={sortConfig} onSort={requestSort} />
-                                        <th style={styles.th}>Age (Yrs)</th>
-                                        <th style={styles.th}>Est. Depreciation</th>
-                                        <SortHeader label="Book Value" field="BookValue" currentSort={sortConfig} onSort={requestSort} />
-                                    </>
-                                )}
+                                    {activeReport === 'depreciation' && (
+                                        <>
+                                            <SortHeader label="Purchase Date" field="Purchase_Date" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Orig. Cost" field="Cost" currentSort={sortConfig} onSort={requestSort} />
+                                            <th style={styles.th}>Age (Yrs)</th>
+                                            <th style={styles.th}>Est. Depreciation</th>
+                                            <SortHeader label="Book Value" field="BookValue" currentSort={sortConfig} onSort={requestSort} />
+                                        </>
+                                    )}
 
-                                {activeReport === 'maintenance' && (
-                                    <>
-                                        <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Health" field="Health_Score" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Location" field="Location" currentSort={sortConfig} onSort={requestSort} />
-                                        <th style={styles.th}>Action Required</th>
-                                    </>
-                                )}
+                                    {activeReport === 'maintenance' && (
+                                        <>
+                                            <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Health" field="Health_Score" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Location" field="Location" currentSort={sortConfig} onSort={requestSort} />
+                                            <th style={styles.th}>Action Required</th>
+                                        </>
+                                    )}
 
-                                {activeReport === 'risk' && (
-                                    <>
-                                        <SortHeader label="Health" field="Health_Score" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Warranty" field="Warranty_Expiry" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
-                                        <th style={styles.th}>Critical Reason</th>
-                                    </>
-                                )}
-                                {activeReport === 'supply' && (
-                                    <>
-                                        <SortHeader label="Stock Level" field="quantity" currentSort={sortConfig} onSort={requestSort} />
-                                        <SortHeader label="Status" field="status" currentSort={sortConfig} onSort={requestSort} />
-                                        <th style={styles.th}>Action Required</th>
-                                    </>
-                                )}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredAndSortedData.length === 0 ? (
-                                <tr><td colSpan="7" style={{ ...styles.td, textAlign: 'center', padding: '40px', color: '#94a3b8' }}>No records found matching your criteria.</td></tr>
-                            ) : (
-                                filteredAndSortedData.map((item, index) => (
-                                    <tr key={item.ID || item.id} style={{ ...styles.tr, background: index % 2 === 0 ? 'var(--surface)' : 'var(--background)' }}>
-                                        <td style={{ ...styles.td, fontWeight: '700' }}>
-                                            {item.displayType === 'consumable' ? item.displayName : item.Asset_ID}
-                                        </td>
-                                        <td style={styles.td}>
-                                            {item.displayType === 'consumable' ? item.displayCategory : item.displayName}
-                                        </td>
+                                    {activeReport === 'risk' && (
+                                        <>
+                                            <SortHeader label="Health" field="Health_Score" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Warranty" field="Warranty_Expiry" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Status" field="Status" currentSort={sortConfig} onSort={requestSort} />
+                                            <th style={styles.th}>Critical Reason</th>
+                                        </>
+                                    )}
+                                    {activeReport === 'supply' && (
+                                        <>
+                                            <SortHeader label="Stock Level" field="quantity" currentSort={sortConfig} onSort={requestSort} />
+                                            <SortHeader label="Status" field="status" currentSort={sortConfig} onSort={requestSort} />
+                                            <th style={styles.th}>Action Required</th>
+                                        </>
+                                    )}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredAndSortedData.length === 0 ? (
+                                    <tr><td colSpan="7" style={{ ...styles.td, textAlign: 'center', padding: '40px', color: '#94a3b8' }}>No records found matching your criteria.</td></tr>
+                                ) : (
+                                    filteredAndSortedData.map((item, index) => (
+                                        <tr key={item.ID || item.id} style={{ ...styles.tr, background: index % 2 === 0 ? 'var(--surface)' : 'var(--background)' }}>
+                                            <td style={{ ...styles.td, fontWeight: '700' }}>
+                                                {item.displayType === 'consumable' ? item.displayName : item.Asset_ID}
+                                            </td>
+                                            <td style={styles.td}>
+                                                {item.displayType === 'consumable' ? item.displayCategory : item.displayName}
+                                            </td>
 
-                                        {activeReport === 'inventory' && (
-                                            <>
-                                                <td style={styles.td}><span style={styles.categoryBadge}>{item.Category}</span></td>
-                                                <td style={styles.td}><StatusBadge status={item.Status} /></td>
-                                                <td style={{ ...styles.td, fontWeight: '700' }}>{formatCurrency(item.Cost)}</td>
-                                                <td style={styles.td}>{item.Location}</td>
-                                            </>
-                                        )}
-
-                                        {activeReport === 'depreciation' && (() => {
-                                            const dep = calculateDepreciation(item);
-                                            return (
+                                            {activeReport === 'inventory' && (
                                                 <>
-                                                    <td style={styles.td}>{item.Purchase_Date}</td>
-                                                    <td style={styles.td}>{formatCurrency(item.Cost)}</td>
-                                                    <td style={styles.td}>{dep.age}</td>
-                                                    <td style={{ ...styles.td, color: '#ef4444' }}>-{formatCurrency(dep.depreciation)}</td>
-                                                    <td style={{ ...styles.td, fontWeight: '800', color: '#10b981' }}>{formatCurrency(dep.bookValue)}</td>
+                                                    <td style={styles.td}><span style={styles.categoryBadge}>{item.Category}</span></td>
+                                                    <td style={styles.td}><StatusBadge status={item.Status} /></td>
+                                                    <td style={{ ...styles.td, fontWeight: '700' }}>{formatCurrency(item.Cost)}</td>
+                                                    <td style={styles.td}>{item.Location}</td>
                                                 </>
-                                            );
-                                        })()}
+                                            )}
 
-                                        {activeReport === 'maintenance' && (
-                                            <>
-                                                <td style={styles.td}><StatusBadge status={item.Status} /></td>
-                                                <td style={styles.td}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                        <div style={{ width: '60px', height: '6px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden' }}>
-                                                            <div style={{ width: `${item.Health_Score}%`, height: '100%', background: item.Health_Score > 80 ? '#10b981' : item.Health_Score > 50 ? '#f59e0b' : '#ef4444' }} />
+                                            {activeReport === 'depreciation' && (() => {
+                                                const dep = calculateDepreciation(item);
+                                                return (
+                                                    <>
+                                                        <td style={styles.td}>{item.Purchase_Date}</td>
+                                                        <td style={styles.td}>{formatCurrency(item.Cost)}</td>
+                                                        <td style={styles.td}>{dep.age}</td>
+                                                        <td style={{ ...styles.td, color: '#ef4444' }}>-{formatCurrency(dep.depreciation)}</td>
+                                                        <td style={{ ...styles.td, fontWeight: '800', color: '#10b981' }}>{formatCurrency(dep.bookValue)}</td>
+                                                    </>
+                                                );
+                                            })()}
+
+                                            {activeReport === 'maintenance' && (
+                                                <>
+                                                    <td style={styles.td}><StatusBadge status={item.Status} /></td>
+                                                    <td style={styles.td}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                            <div style={{ width: '60px', height: '6px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden' }}>
+                                                                <div style={{ width: `${item.Health_Score}%`, height: '100%', background: item.Health_Score > 80 ? '#10b981' : item.Health_Score > 50 ? '#f59e0b' : '#ef4444' }} />
+                                                            </div>
+                                                            <span style={{ fontWeight: '700', fontSize: '12px' }}>{item.Health_Score}%</span>
                                                         </div>
-                                                        <span style={{ fontWeight: '700', fontSize: '12px' }}>{item.Health_Score}%</span>
-                                                    </div>
-                                                </td>
-                                                <td style={styles.td}>{item.Location}</td>
-                                                <td style={styles.td}>
-                                                    <button style={styles.actionBtn} onClick={() => setActiveTab('Maintenance')}>Schedule Service</button>
-                                                </td>
-                                            </>
-                                        )}
+                                                    </td>
+                                                    <td style={styles.td}>{item.Location}</td>
+                                                    <td style={styles.td}>
+                                                        <button style={styles.actionBtn} onClick={() => setActiveTab('Maintenance')}>Schedule Service</button>
+                                                    </td>
+                                                </>
+                                            )}
 
-                                        {activeReport === 'risk' && (
-                                            <>
-                                                <td style={styles.td}>
-                                                    <span style={{ color: item.Health_Score < 50 ? '#ef4444' : 'inherit', fontWeight: '800' }}>
-                                                        {item.Health_Score}%
-                                                    </span>
-                                                </td>
-                                                <td style={styles.td}>{item.Warranty_Expiry || 'NONE'}</td>
-                                                <td style={styles.td}><StatusBadge status={item.Status} /></td>
-                                                <td style={styles.td}>
-                                                    <span style={styles.riskReasonBadge}>
-                                                        {item.Health_Score < 50 ? 'Critical Health' : 'Unprotected Asset'}
-                                                    </span>
-                                                </td>
-                                            </>
-                                        )}
+                                            {activeReport === 'risk' && (
+                                                <>
+                                                    <td style={styles.td}>
+                                                        <span style={{ color: item.Health_Score < 50 ? '#ef4444' : 'inherit', fontWeight: '800' }}>
+                                                            {item.Health_Score}%
+                                                        </span>
+                                                    </td>
+                                                    <td style={styles.td}>{item.Warranty_Expiry || 'NONE'}</td>
+                                                    <td style={styles.td}><StatusBadge status={item.Status} /></td>
+                                                    <td style={styles.td}>
+                                                        <span style={styles.riskReasonBadge}>
+                                                            {item.Health_Score < 50 ? 'Critical Health' : 'Unprotected Asset'}
+                                                        </span>
+                                                    </td>
+                                                </>
+                                            )}
 
-                                        {activeReport === 'supply' && (
-                                            <>
-                                                <td style={styles.td}>
-                                                    <span style={{ color: item.quantity <= item.threshold ? '#ef4444' : 'inherit', fontWeight: '800' }}>
-                                                        {item.quantity} {item.unit}
-                                                    </span>
-                                                </td>
-                                                <td style={styles.td}>
-                                                    <span style={{
-                                                        ...styles.badge,
-                                                        background: item.status === 'In Stock' ? '#dcfce7' : '#fee2e2',
-                                                        color: item.status === 'In Stock' ? '#15803d' : '#b91c1c'
-                                                    }}>{item.status}</span>
-                                                </td>
-                                                <td style={styles.td}>
-                                                    <button style={styles.actionBtn} onClick={() => setActiveTab('Consumables')}>Restock Now</button>
-                                                </td>
-                                            </>
-                                        )}
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                            {activeReport === 'supply' && (
+                                                <>
+                                                    <td style={styles.td}>
+                                                        <span style={{ color: item.quantity <= item.threshold ? '#ef4444' : 'inherit', fontWeight: '800' }}>
+                                                            {item.quantity} {item.unit}
+                                                        </span>
+                                                    </td>
+                                                    <td style={styles.td}>
+                                                        <span style={{
+                                                            ...styles.badge,
+                                                            background: item.status === 'In Stock' ? '#dcfce7' : '#fee2e2',
+                                                            color: item.status === 'In Stock' ? '#15803d' : '#b91c1c'
+                                                        }}>{item.status}</span>
+                                                    </td>
+                                                    <td style={styles.td}>
+                                                        <button style={styles.actionBtn} onClick={() => setActiveTab('Consumables')}>Restock Now</button>
+                                                    </td>
+                                                </>
+                                            )}
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style={styles.footer}>
+                        <span>Showing {filteredAndSortedData.length} {activeReport === 'supply' ? 'items' : 'assets'}</span>
+                    </div>
                 </div>
-
-                <div style={styles.footer}>
-                    <span>Showing {filteredAndSortedData.length} {activeReport === 'supply' ? 'items' : 'assets'}</span>
-                </div>
-            </div>
+            )} {/* Close Table View conditional */}
         </div>
     );
 };
@@ -411,7 +461,19 @@ const styles = {
     badge: { padding: '6px 12px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' },
     riskReasonBadge: { background: '#fff1f2', color: '#e11d48', padding: '4px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '800', textTransform: 'uppercase' },
     actionBtn: { padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--accent)', fontWeight: '700', cursor: 'pointer', fontSize: '11px' },
-    footer: { padding: '16px 24px', fontSize: '13px', color: 'var(--textSecondary)', background: 'var(--background)', borderTop: '1px solid var(--border)' }
+    footer: { padding: '16px 24px', fontSize: '13px', color: 'var(--textSecondary)', background: 'var(--background)', borderTop: '1px solid var(--border)' },
+    viewToggleBtn: { padding: '12px 20px', borderRadius: '16px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' },
+    groupedContainer: { display: 'flex', flexDirection: 'column', gap: '32px' },
+    categoryGroup: { background: 'var(--surface)', padding: '24px', borderRadius: '24px', border: '1px solid var(--border)' },
+    groupHeader: { fontSize: '18px', fontWeight: '800', marginBottom: '16px', color: 'var(--text)', display: 'flex', alignItems: 'center', gap: '10px' },
+    groupCount: { fontSize: '12px', color: 'var(--textSecondary)', fontWeight: '600' },
+    groupedGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' },
+    locationCard: { background: 'var(--background)', borderRadius: '16px', padding: '16px', border: '1px solid var(--border)' },
+    locationHeader: { fontSize: '14px', fontWeight: '800', marginBottom: '12px', color: 'var(--accent)' },
+    groupedAssetItem: { display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--border)' },
+    groupedAssetId: { fontSize: '11px', fontWeight: '700', color: 'var(--textSecondary)' },
+    groupedAssetName: { fontSize: '12px', fontWeight: '600', color: 'var(--text)', textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' },
+    moreItems: { fontSize: '11px', color: 'var(--accent)', fontWeight: '700', marginTop: '8px', textAlign: 'center' }
 };
 
 export default Reports;

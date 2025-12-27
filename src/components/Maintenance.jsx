@@ -67,6 +67,27 @@ const Maintenance = ({ assets = [], updateAsset }) => {
                 </div>
             </div>
 
+            {/* PREDICTIVE INSIGHTS */}
+            <div style={styles.insightsCard} className="glass-card">
+                <h3 style={styles.sectionTitle}>🔮 Predictive Maintenance Insights</h3>
+                <div style={styles.insightsGrid}>
+                    {assets.filter(a => a.Health_Score && a.Health_Score < 70).slice(0, 4).map(asset => (
+                        <div key={asset.Asset_ID} style={styles.insightItem}>
+                            <div style={styles.insightIcon}>⚠️</div>
+                            <div>
+                                <div style={styles.insightAsset}>{asset.Item_Name}</div>
+                                <div style={styles.insightReason}>Health: {asset.Health_Score}% - Service Recommended</div>
+                            </div>
+                        </div>
+                    ))}
+                    {assets.filter(a => a.Health_Score && a.Health_Score < 70).length === 0 && (
+                        <div style={{ textAlign: 'center', color: 'var(--textSecondary)', padding: '20px' }}>
+                            ✅ All assets healthy! No immediate maintenance predicted.
+                        </div>
+                    )}
+                </div>
+            </div>
+
 
 
             <div style={{ ...styles.content, gridTemplateColumns: hasPermission('create') ? '1fr 1.5fr' : '1fr' }}>
@@ -233,7 +254,15 @@ const styles = {
     itemAsset: { fontSize: '15px', fontWeight: '700', color: 'var(--text)', marginBottom: '4px' },
     itemIssue: { fontSize: '13px', color: 'var(--textSecondary)' },
     itemDate: { fontSize: '11px', color: 'var(--textSecondary)' },
-    actionSelect: { padding: '2px 8px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)', fontSize: '10px', fontWeight: '700', cursor: 'pointer', outline: 'none' }
+    actionSelect: { padding: '2px 8px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)', fontSize: '10px', fontWeight: '700', cursor: 'pointer', outline: 'none' },
+    itemFooter: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' },
+    itemPriority: { fontSize: '11px', color: 'var(--textSecondary)', fontWeight: '600' },
+    insightsCard: { background: 'var(--surface)', padding: '24px', borderRadius: '24px', border: '1px solid var(--border)', boxShadow: 'var(--shadow)', marginBottom: '32px' },
+    insightsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' },
+    insightItem: { display: 'flex', gap: '12px', alignItems: 'center', padding: '16px', background: 'rgba(243, 156, 18, 0.08)', borderRadius: '16px', border: '1px solid rgba(243, 156, 18, 0.2)' },
+    insightIcon: { fontSize: '24px' },
+    insightAsset: { fontSize: '14px', fontWeight: '700', color: 'var(--text)' },
+    insightReason: { fontSize: '12px', color: '#d35400', fontWeight: '600' }
 };
 
 export default Maintenance;

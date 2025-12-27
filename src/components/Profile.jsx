@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { useUser } from '../context/UserContext';
 
 const Profile = () => {
     const { isDark, toggleTheme } = useTheme();
+    const { currentUser, login } = useUser();
+    const [isEditing, setIsEditing] = useState(false);
+    const [editData, setEditData] = useState({ ...currentUser });
+
+    const handleSave = () => {
+        login(editData.role); // In a real app, this would update more fields in a DB
+        // For simulation, we'll just alert success
+        alert("✅ Profile updated successfully.");
+        setIsEditing(false);
+    };
 
     return (
         <div style={styles.container}>
@@ -13,21 +24,47 @@ const Profile = () => {
                 {/* User Card */}
                 <div style={styles.card}>
                     <div style={styles.profileHeader}>
-                        <div style={styles.largeAvatar}>SK</div>
+                        <div style={styles.largeAvatar}>{currentUser.avatar}</div>
                         <div>
-                            <h3 style={styles.userName}>Shubh Krishna</h3>
-                            <p style={styles.userRole}>System Administrator</p>
+                            <h3 style={styles.userName}>{currentUser.name}</h3>
+                            <p style={styles.userRole}>{currentUser.role.toUpperCase()}</p>
                         </div>
                     </div>
 
-                    <div style={styles.infoList}>
-                        <InfoItem label="Email" value="shubh@onslate.com" />
-                        <InfoItem label="Organization" value="AssetPro Enterprise" />
-                        <InfoItem label="Role" value="Managing Director" />
-                        <InfoItem label="Location" value="Bangalore, India" />
-                    </div>
-
-                    <button style={styles.editBtn}>Edit Profile</button>
+                    {isEditing ? (
+                        <div style={styles.editForm}>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Full Name</label>
+                                <input
+                                    style={styles.input}
+                                    value={editData.name}
+                                    onChange={e => setEditData({ ...editData, name: e.target.value })}
+                                />
+                            </div>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Avatar Initials</label>
+                                <input
+                                    style={styles.input}
+                                    value={editData.avatar}
+                                    onChange={e => setEditData({ ...editData, avatar: e.target.value })}
+                                />
+                            </div>
+                            <div style={styles.modalActions}>
+                                <button style={styles.cancelBtn} onClick={() => setIsEditing(false)}>Cancel</button>
+                                <button style={styles.saveBtn} onClick={handleSave}>Save Changes</button>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <div style={styles.infoList}>
+                                <InfoItem label="Email" value={`${currentUser.name.split(' ')[0].toLowerCase()}@bluewud.com`} />
+                                <InfoItem label="Organization" value="Bluewud Enterprise" />
+                                <InfoItem label="Role" value={currentUser.role} />
+                                <InfoItem label="Status" value="Active" />
+                            </div>
+                            <button style={styles.editBtn} onClick={() => setIsEditing(true)}>Edit Profile</button>
+                        </>
+                    )}
                 </div>
 
                 {/* System Settings */}
@@ -50,18 +87,6 @@ const Profile = () => {
                             <div style={styles.settingDesc}>Receive maintenance and audit alerts</div>
                         </div>
                         <input type="checkbox" defaultChecked style={styles.checkbox} />
-                    </div>
-
-                    <div style={styles.settingItem}>
-                        <div>
-                            <div style={styles.settingLabel}>Export Defaults</div>
-                            <div style={styles.settingDesc}>Preferred format for report downloads</div>
-                        </div>
-                        <select style={styles.select}>
-                            <option>CSV (Excel)</option>
-                            <option>PDF Report</option>
-                            <option>JSON Data</option>
-                        </select>
                     </div>
                 </div>
 
@@ -105,14 +130,20 @@ const styles = {
     infoItem: { display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid var(--border)' },
     infoLabel: { fontSize: '13px', color: 'var(--textSecondary)', fontWeight: '500' },
     infoValue: { fontSize: '14px', color: 'var(--text)', fontWeight: '700' },
-    editBtn: { width: '100%', padding: '14px', borderRadius: '12px', border: 'none', background: 'var(--accent)', color: 'white', fontWeight: '700', cursor: 'pointer' },
+    editBtn: { width: '100%', padding: '14px', borderRadius: '12px', border: 'none', background: 'var(--accent)', color: 'white', fontWeight: '700', cursor: 'pointer', transition: '0.2s' },
+    editForm: { display: 'flex', flexDirection: 'column', gap: '20px' },
+    formGroup: { display: 'flex', flexDirection: 'column', gap: '8px' },
+    label: { fontSize: '12px', fontWeight: '800', textTransform: 'uppercase', color: 'var(--textSecondary)' },
+    input: { padding: '12px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--background)', color: 'var(--text)', outline: 'none' },
+    modalActions: { display: 'flex', gap: '10px', marginTop: '10px' },
+    saveBtn: { flex: 1, padding: '12px', borderRadius: '10px', border: 'none', background: 'var(--accent)', color: 'white', fontWeight: '700', cursor: 'pointer' },
+    cancelBtn: { flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text)', fontWeight: '700', cursor: 'pointer' },
     sectionTitle: { fontSize: '18px', fontWeight: '700', color: 'var(--text)', marginBottom: '24px' },
     settingItem: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid var(--border)' },
     settingLabel: { fontSize: '15px', fontWeight: '700', color: 'var(--text)', marginBottom: '4px' },
     settingDesc: { fontSize: '13px', color: 'var(--textSecondary)' },
     toggleBtn: { padding: '8px 16px', borderRadius: '20px', border: '1px solid var(--border)', background: 'var(--background)', color: 'var(--text)', fontWeight: '600', cursor: 'pointer', fontSize: '12px' },
     checkbox: { width: '20px', height: '20px', cursor: 'pointer' },
-    select: { padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--background)', color: 'var(--text)', outline: 'none' },
     logoDropzone: { height: '120px', border: '2px dashed var(--border)', borderRadius: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', marginTop: '10px' },
 };
 

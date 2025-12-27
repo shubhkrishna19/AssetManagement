@@ -27,6 +27,9 @@ import OfflineBanner from './components/OfflineBanner';
 import InstallPWA from './components/InstallPWA';
 import AssetGroupedView from './components/AssetGroupedView';
 import ViewToggle from './components/ViewToggle';
+import ReminderManager from './components/ReminderManager';
+import AllotmentMaster from './components/AllotmentMaster';
+import AdminDashboard from './components/AdminDashboard';
 
 // ASSET LEDGER PRO - v5.5 (PRODUCTION READY)
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
@@ -35,16 +38,17 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('Asset List');
   const [assetViewMode, setAssetViewMode] = useState('grouped'); // 'list' or 'grouped'
   const [assets, setAssets] = useState([]);
+  const [reminders, setReminders] = useState(() => {
+    const saved = localStorage.getItem('bw_reminders');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [consumables, setConsumables] = useState(mockConsumables);
   const [vendors, setVendors] = useState(mockVendors);
-  const [loading, setLoading] = useState(!CONFIG.IS_DEMO_MODE);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Initialize state with LocalStorage preference if available, else Config
-  const [dataSource, setDataSource] = useState(() => {
-    const savedMode = localStorage.getItem('app_mode');
-    if (savedMode) return savedMode; // 'live' or 'demo'
-    return CONFIG.IS_DEMO_MODE ? 'demo' : 'connecting';
-  });
+
+  // Production Sync Only
+  const dataSource = 'live';
 
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,6 +56,7 @@ const App = () => {
   const [showImportModal, setShowImportModal] = useState(false);
   const [detailAsset, setDetailAsset] = useState(null);
   const { currentUser, login, hasPermission } = useUser();
+  const isAdmin = ['super-admin', 'manager'].includes(currentUser.role);
   const { logAction } = useAudit();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -60,24 +65,14 @@ const App = () => {
   useEffect(() => {
     setLoading(true);
 
-    // DEMO MODE: Bypass network
-    if (dataSource === 'demo') {
-      console.log("🎭 DEMO MODE ACTIVE");
-      setAssets(mockAssets);
-      setLoading(false);
-      return;
-    }
-
     const fetchAssets = async () => {
       const endpoints = [
-        '/api/bridgex',
-        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/bridgex', // User's Verified URL
+        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/bridgex',
         '/server/bridgex'
       ];
 
       for (const url of endpoints) {
         try {
-          // console.log(`🛰 PROBING: ${url}`);
           const res = await fetch(url, { method: 'GET', mode: 'cors' });
           const text = await res.text();
           let data;
@@ -87,25 +82,24 @@ const App = () => {
             setAssets(data.records || []);
             setLoading(false);
             setError(null);
-            console.log("🛰 LIVE SYNC ESTABLISHED via:", url);
             return;
           }
-        } catch (e) {
-          // Silent fail for probe
-        }
+        } catch (e) { }
       }
 
-      // If all fail
-      console.warn("⚠️ Live Bridge Unreachable. Switching to Demo.");
-      setAssets(mockAssets);
+      setError("Connection to Bluewud Enterprise Cloud failed.");
       setLoading(false);
-      // setDataSource('demo'); // Don't auto-switch, let user see error or empty
     };
 
     fetchAssets();
-  }, [dataSource, activeTab]); // Re-run when toggle changes
+  }, [activeTab]);
 
   // ... (Keyboard effects skipped)
+
+  // Persist Reminders
+  useEffect(() => {
+    localStorage.setItem('bw_reminders', JSON.stringify(reminders));
+  }, [reminders]);
 
   const updateAsset = async (assetId, updates) => {
     // 1. Optimistic UI Update
@@ -277,8 +271,19 @@ const App = () => {
     };
   }, [assets, consumables]);
 
-  const calculateDepreciation = (cost, purchaseDate, usefulLife = 5) => {
+  const calculateDepreciation = (cost, purchaseDate, category = 'General') => {
     if (!cost || !purchaseDate) return 'N/A';
+
+    const lifeRates = {
+      'Electronics': 3,
+      'IT Equipment': 3,
+      'Industrial': 10,
+      'Machinery': 10,
+      'Furniture': 7,
+      'General': 5
+    };
+
+    const usefulLife = lifeRates[category] || lifeRates['General'];
     const purchase = new Date(purchaseDate);
     const now = new Date();
     const ageYears = (now - purchase) / (1000 * 60 * 60 * 24 * 365.25);
@@ -300,13 +305,19 @@ const App = () => {
       }}>
         <div style={styles.sidebarHeader}>
           <div style={styles.logoCircle}>BW</div>
-          <h1 style={styles.logoText}>Bluewud</h1>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h1 style={styles.logoText}>Bluewud</h1>
+            <span style={{ fontSize: '9px', fontWeight: '600', color: 'var(--textSecondary)', letterSpacing: '0.05em' }}>ASSET MANAGEMENT</span>
+          </div>
         </div>
         <div style={styles.navGroup}>
           <NavItem id="Asset List" icon="📦" label="Asset List" active={activeTab === 'Asset List'} onClick={() => { setActiveTab('Asset List'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Analytics" icon="📊" label="Analytics" active={activeTab === 'Analytics'} onClick={() => { setActiveTab('Analytics'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Reports" icon="📋" label="Reports" active={activeTab === 'Reports'} onClick={() => { setActiveTab('Reports'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Maintenance" icon="🔧" label="Maintenance" active={activeTab === 'Maintenance'} count={alerts.maintenance} color="#f39c12" onClick={() => { setActiveTab('Maintenance'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="Reminders" icon="🔔" label="Reminders" active={activeTab === 'Reminders'} count={reminders.length} color="#74b9ff" onClick={() => { setActiveTab('Reminders'); if (isMobile) setIsSidebarOpen(false); }} />
+          {isAdmin && <NavItem id="Allotment" icon="👤" label="Allotment" active={activeTab === 'Allotment'} onClick={() => { setActiveTab('Allotment'); if (isMobile) setIsSidebarOpen(false); }} />}
+          {isAdmin && <NavItem id="Admin" icon="🛠️" label="Admin" active={activeTab === 'Admin'} onClick={() => { setActiveTab('Admin'); if (isMobile) setIsSidebarOpen(false); }} />}
           <NavItem id="Activity" icon="📜" label="Activity Log" active={activeTab === 'Activity'} onClick={() => { setActiveTab('Activity'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Audit" icon="🛡️" label="Physical Audit" active={activeTab === 'Audit'} onClick={() => { setActiveTab('Audit'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Checkout" icon="🔄" label="Check-In/Out" active={activeTab === 'Checkout'} count={alerts.overdue} color="#e74c3c" onClick={() => { setActiveTab('Checkout'); if (isMobile) setIsSidebarOpen(false); }} />
@@ -356,7 +367,14 @@ const App = () => {
         <header style={{ ...styles.contentHeader, padding: isMobile ? '0 20px' : '0 40px' }}>
           <div style={styles.headerLeft}>
             {isMobile && <HamburgerMenu isOpen={isSidebarOpen} onClick={() => setIsSidebarOpen(!isSidebarOpen)} />}
-            <h2 style={{ ...styles.tabTitle, fontSize: isMobile ? '20px' : '24px' }}>{activeTab}</h2>
+            <motion.h2
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+              style={{ ...styles.tabTitle, fontSize: isMobile ? '20px' : '24px' }}
+            >
+              <span style={styles.gradientTitle}>{activeTab}</span>
+            </motion.h2>
             {activeTab === 'Asset List' && (
               <div style={styles.headerLeftActions}>
                 <div style={styles.searchWrapper}>
@@ -430,11 +448,13 @@ const App = () => {
             <div
               style={{ ...styles.avatar, cursor: 'pointer', width: 'auto', padding: '0 12px', borderRadius: '20px', gap: '8px' }}
               onClick={() => {
-                const newRole = currentUser.role === 'admin' ? 'viewer' : 'admin';
-                login(newRole);
-                logAction('ROLE_SWITCH', `Switched role to ${newRole.toUpperCase()}`, currentUser.name, 'info');
+                const roles = ['super-admin', 'manager', 'technician', 'viewer'];
+                const currentIndex = roles.indexOf(currentUser.role);
+                const nextRole = roles[(currentIndex + 1) % roles.length];
+                login(nextRole);
+                logAction('ROLE_SWITCH', `Switched role to ${nextRole.toUpperCase()}`, currentUser.name, 'info');
               }}
-              title={`Current Role: ${currentUser.role.toUpperCase()}. Click to switch.`}
+              title={`Current Role: ${currentUser.role.toUpperCase()}. Click to switch roles.`}
             >
               <span style={{ fontSize: '12px', fontWeight: '800' }}>{currentUser.role.toUpperCase()}</span>
               {currentUser.avatar}
@@ -490,7 +510,21 @@ const App = () => {
               ) : activeTab === 'Activity' ? (
                 <ActivityLog />
               ) : activeTab === 'Audit' ? (
-                <AuditTool assets={assets} updateAsset={updateAsset} />
+                <AuditTool
+                  assets={assets}
+                  updateAsset={updateAsset}
+                  onNewAsset={(newAsset) => {
+                    setAssets(prev => [newAsset, ...prev]);
+                    if (dataSource === 'live') {
+                      // Fire and forget or handle error as needed
+                      fetch('/server/bridgex', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'create', data: newAsset, table_name: 'Assets' })
+                      });
+                    }
+                  }}
+                />
               ) : activeTab === 'Checkout' ? (
                 <CheckoutPortal assets={assets} updateAsset={updateAsset} />
               ) : activeTab === 'Profile' ? (
@@ -509,6 +543,16 @@ const App = () => {
                 <ESignature assets={assets} updateAsset={updateAsset} />
               ) : activeTab === 'Barcodes' ? (
                 <BarcodeGenerator assets={assets} />
+              ) : activeTab === 'Reminders' ? (
+                <ReminderManager
+                  assets={assets}
+                  reminders={reminders}
+                  onUpdateReminders={setReminders}
+                />
+              ) : activeTab === 'Allotment' ? (
+                <AllotmentMaster assets={assets} />
+              ) : activeTab === 'Admin' ? (
+                <AdminDashboard />
               ) : activeTab === 'CRM' ? (
                 <CRMIntegration />
               ) : assetViewMode === 'grouped' ? (
@@ -532,7 +576,7 @@ const App = () => {
                     })}
                     selectedIds={selectedIds}
                     onToggleSelect={id => setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])}
-                    calculateDepreciation={calculateDepreciation}
+                    calculateDepreciation={(cost, pDate, cat) => calculateDepreciation(cost, pDate, cat)}
                     setDetailAsset={setDetailAsset}
                     readOnly={!hasPermission('bulk_action')}
                     isMobile={isMobile}
@@ -576,7 +620,7 @@ const App = () => {
             >
               <div style={styles.detailHeader}>
                 <div>
-                  <span style={styles.detailTag}>{detailAsset.Category}</span>
+                  <span style={styles.detailTag}>{detailAsset.Category && !detailAsset.Category.match(/^[0-9.]+$/) ? detailAsset.Category : 'Uncategorized'}</span>
                   <h2 style={styles.detailTitle}>{detailAsset.Item_Name}</h2>
                   <span style={styles.detailId}>{detailAsset.Asset_ID}</span>
                 </div>
@@ -587,7 +631,21 @@ const App = () => {
                 <div style={styles.detailGrid}>
                   <div style={styles.detailInfoCard}>
                     <span style={styles.infoLabel}>Current Status</span>
-                    <div style={{ ...styles.infoValue, color: 'var(--accent)' }}>{detailAsset.Status}</div>
+                    {isAdmin ? (
+                      <select
+                        style={styles.adminEditSelect}
+                        value={detailAsset.Status}
+                        onChange={(e) => { updateAsset(detailAsset.Asset_ID, { Status: e.target.value }); setDetailAsset(prev => ({ ...prev, Status: e.target.value })); }}
+                      >
+                        <option>Available</option>
+                        <option>Assigned</option>
+                        <option>Under Maintenance</option>
+                        <option>Retired</option>
+                        <option>Off-Site</option>
+                      </select>
+                    ) : (
+                      <div style={{ ...styles.infoValue, color: 'var(--accent)' }}>{detailAsset.Status}</div>
+                    )}
                   </div>
                   <div style={styles.detailInfoCard}>
                     <span style={styles.infoLabel}>Health Score</span>
@@ -595,7 +653,16 @@ const App = () => {
                   </div>
                   <div style={styles.detailInfoCard}>
                     <span style={styles.infoLabel}>Purchase Value</span>
-                    <div style={styles.infoValue}>₹{detailAsset.Cost?.toLocaleString()}</div>
+                    {isAdmin ? (
+                      <input
+                        type="number"
+                        style={styles.adminEditInput}
+                        value={detailAsset.Cost}
+                        onChange={(e) => { updateAsset(detailAsset.Asset_ID, { Cost: Number(e.target.value) }); setDetailAsset(prev => ({ ...prev, Cost: Number(e.target.value) })); }}
+                      />
+                    ) : (
+                      <div style={styles.infoValue}>₹{detailAsset.Cost?.toLocaleString()}</div>
+                    )}
                   </div>
                   <div style={styles.detailInfoCard}>
                     <span style={styles.infoLabel}>Primary Vendor</span>
@@ -755,7 +822,7 @@ const AssetGrid = ({ assets, selectedIds, onToggleSelect, calculateDepreciation,
             <span style={styles.statusBadge}>{asset.Status || "Available"}</span>
           </div>
           <h4 style={styles.assetName}>{asset.Item_Name}</h4>
-          <p style={styles.assetCategory}>{asset.Category}</p>
+          <p style={styles.assetCategory}>{asset.Category && !asset.Category.match(/^[0-9.]+$/) ? asset.Category : 'Uncategorized'}</p>
 
           <div style={styles.depreciationInfo}>
             <span style={styles.depLabel}>Book Value:</span>
@@ -812,9 +879,10 @@ const styles = {
   sidebarFooter: { padding: '25px', borderTop: '1px solid var(--border)', marginTop: 'auto', background: 'var(--surface)' },
   connectionStatus: { display: 'flex', alignItems: 'center', fontSize: '10px', fontWeight: '800', color: 'var(--textSecondary)' },
   pulseDot: { width: '8px', height: '8px', borderRadius: '50%', marginRight: '10px' },
-  mainArea: { flex: 1, overflowY: 'auto' },
+  mainArea: { flex: 1, overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', scrollBehavior: 'smooth' },
   contentHeader: { height: '80px', background: 'var(--surface)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 40px', borderBottom: '1px solid var(--border)' },
-  tabTitle: { fontSize: '24px', fontWeight: '900', color: 'var(--text)' },
+  tabTitle: { fontSize: '24px', fontWeight: '900', color: 'var(--text)', fontFamily: 'Inter, sans-serif' },
+  gradientTitle: { background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' },
   headerLeft: { display: 'flex', alignItems: 'center', gap: '30px' },
   headerLeftActions: { display: 'flex', alignItems: 'center', gap: '15px' },
   clearSelectionBtn: { padding: '8px 16px', background: 'var(--accentLight)', color: 'var(--accent)', border: 'none', borderRadius: '10px', fontWeight: '700', cursor: 'pointer', fontSize: '13px', transition: '0.2s' },
@@ -833,7 +901,7 @@ const styles = {
   headerActions: { display: 'flex', alignItems: 'center', gap: '20px' },
   syncPulse: { fontSize: '12px', color: 'var(--textSecondary)', fontWeight: '600' },
   avatar: { width: '36px', height: '36px', background: 'var(--text)', borderRadius: '50%', color: 'var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' },
-  pageContent: { padding: '40px' },
+  pageContent: { padding: '40px 40px 80px 40px' },
   assetGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' },
   assetCard: { background: 'var(--surface)', padding: '24px', borderRadius: '20px', boxShadow: 'var(--shadow)', border: '1px solid var(--border)' },
   cardTop: { display: 'flex', justifyContent: 'space-between', marginBottom: '12px' },
@@ -906,7 +974,9 @@ const styles = {
   timelineDate: { fontSize: '12px', color: 'var(--textSecondary)' },
   detailSignatureBox: { padding: '20px', background: 'linear-gradient(135deg, rgba(9, 132, 227, 0.1), rgba(0, 184, 148, 0.1))', borderRadius: '20px', border: '1px solid rgba(9, 132, 227, 0.2)' },
   detailFooter: { display: 'flex', gap: '15px', borderTop: '1px solid var(--border)', paddingTop: '30px' },
-  primaryBtn: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer', flex: 1, textAlign: 'center' }
+  primaryBtn: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer', flex: 1, textAlign: 'center' },
+  adminEditSelect: { width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid var(--accent)', background: 'var(--surface)', color: 'var(--accent)', fontWeight: '700', fontSize: '14px', cursor: 'pointer', outline: 'none' },
+  adminEditInput: { width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid var(--accent)', background: 'var(--surface)', color: 'var(--accent)', fontWeight: '700', fontSize: '14px', outline: 'none' }
 };
 
 export default App;

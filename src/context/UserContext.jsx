@@ -5,32 +5,51 @@ const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-    // Default to Admin for development convenience
+    // Default to Super Admin for development
     const [currentUser, setCurrentUser] = useState({
-        name: "Demo User",
-        role: "admin", // 'admin' or 'viewer'
-        avatar: "SK"
+        name: "Bluewud Admin",
+        role: "super-admin", // 'super-admin', 'manager', 'technician', 'viewer'
+        avatar: "BW"
     });
 
     const login = (role) => {
+        const roleNames = {
+            'super-admin': "Bluewud SuperAdmin",
+            'manager': "Bluewud Manager",
+            'technician': "Bluewud Technician",
+            'viewer': "Bluewud Viewer"
+        };
         setCurrentUser(prev => ({
             ...prev,
             role: role,
-            name: role === 'admin' ? "Demo Admin" : "Demo Viewer"
+            name: roleNames[role] || "User"
         }));
     };
 
     const hasPermission = (action) => {
-        if (currentUser.role === 'admin') return true;
+        const { role } = currentUser;
 
-        // Viewer Restrictions
-        const restrictedActions = [
-            'create', 'edit', 'delete', 'import', 'bulk_action', 'settings'
-        ];
+        if (role === 'super-admin') return true;
 
-        if (restrictedActions.includes(action)) return false;
+        const permissions = {
+            manager: ['create', 'edit', 'import', 'bulk_action', 'maintenance', 'consumables', 'audit', 'checkout', 'reservations'],
+            technician: ['maintenance', 'audit', 'checkout', 'status_update', 'scan'],
+            viewer: []
+        };
 
-        return true; // Default to allowing read-only actions
+        const allowedActions = permissions[role] || [];
+
+        // Viewer can only read (default true if not in restricted list)
+        const restrictedGlobal = ['create', 'edit', 'delete', 'import', 'bulk_action', 'settings'];
+
+        if (role === 'viewer') {
+            return !restrictedGlobal.includes(action);
+        }
+
+        // Specific role checks
+        if (action === 'delete') return role === 'super-admin'; // Only super-admin deletes
+
+        return allowedActions.includes(action);
     };
 
     return (

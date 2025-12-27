@@ -30,6 +30,9 @@ const CountUp = ({ value, duration = 1.5 }) => {
 };
 
 const Analytics = ({ assets = [] }) => {
+    const [dateRange, setDateRange] = React.useState('6months');
+    const [chartType, setChartType] = React.useState('line'); // 'line' or 'bar'
+
     const stats = React.useMemo(() => {
         const total = assets.length;
         const assigned = assets.filter(a => a.Status === 'In Use' || a.Status === 'Assigned').length;
@@ -48,7 +51,7 @@ const Analytics = ({ assets = [] }) => {
             'Tools': '#fd79a8',
         };
 
-        const categories = [...new Set(assets.map(a => a.Category).filter(c => c && c.trim()))];
+        const categories = [...new Set(assets.map(a => a.Category).filter(c => c && c.trim() && !c.match(/^[0-9.]+$/)))];
         const categoryData = categories.slice(0, 6).map((cat, idx) => ({
             name: cat.length > 15 ? cat.substring(0, 12) + '...' : cat,
             value: assets.filter(a => a.Category === cat).length,
@@ -66,35 +69,107 @@ const Analytics = ({ assets = [] }) => {
             { name: 'Critical (<50%)', value: criticalCount || Math.floor(total * 0.1), color: '#ef4444' },
         ].filter(d => d.value > 0);
 
-        // Trend Data - Generate realistic growth trend for last 6 months
+        // Trend Data - Generate realistic growth trend based on selected range
         const baseValue = Math.floor(totalValue / 8) || 500000;
-        const trendData = [
-            { month: 'Jul', value: baseValue * 0.6 },
-            { month: 'Aug', value: baseValue * 0.75 },
-            { month: 'Sep', value: baseValue * 0.9 },
-            { month: 'Oct', value: baseValue * 1.1 },
-            { month: 'Nov', value: baseValue * 1.25 },
-            { month: 'Dec', value: baseValue * 1.4 },
-        ];
+        const trendDataMap = {
+            '3months': [
+                { month: 'Oct', value: baseValue * 1.0 },
+                { month: 'Nov', value: baseValue * 1.15 },
+                { month: 'Dec', value: baseValue * 1.35 },
+            ],
+            '6months': [
+                { month: 'Jul', value: baseValue * 0.6 },
+                { month: 'Aug', value: baseValue * 0.75 },
+                { month: 'Sep', value: baseValue * 0.9 },
+                { month: 'Oct', value: baseValue * 1.1 },
+                { month: 'Nov', value: baseValue * 1.25 },
+                { month: 'Dec', value: baseValue * 1.4 },
+            ],
+            '12months': [
+                { month: 'Jan', value: baseValue * 0.4 },
+                { month: 'Mar', value: baseValue * 0.5 },
+                { month: 'May', value: baseValue * 0.65 },
+                { month: 'Jul', value: baseValue * 0.8 },
+                { month: 'Sep', value: baseValue * 1.0 },
+                { month: 'Nov', value: baseValue * 1.2 },
+                { month: 'Dec', value: baseValue * 1.4 },
+            ]
+        };
+        const trendData = trendDataMap[dateRange];
 
         return { total, assigned, available, maintenance, totalValue, categoryData, healthData, trendData };
-    }, [assets]);
+    }, [assets, dateRange]);
     const formatCurrency = (val) => new Intl.NumberFormat('en-IN', {
         style: 'currency',
         currency: 'INR',
         maximumFractionDigits: 0
     }).format(val);
 
-    const alerts = [
-        { id: 1, type: 'maintenance', title: 'HP LaserJet Maintenance Overdue', date: '3 Days Overdue', severity: 'high' },
-        { id: 2, type: 'audit', title: 'Verify 12 Assets in "Fabrication"', date: 'Audit required by Friday', severity: 'medium' },
-        { id: 3, type: 'return', title: 'Dell Latitude 5520 Due Back', date: 'Due Today (Aditi T.)', severity: 'critical' },
-        { id: 4, type: 'insurance', title: 'Mahindra Bolero Insurance Expiring', date: 'Expiring in 5 days', severity: 'medium' },
-    ];
+    // Dynamic Alerts based on actual asset data
+    const alerts = React.useMemo(() => {
+        const alertList = [];
+
+        // Maintenance alerts - assets under maintenance
+        const maintenanceAssets = assets.filter(a => a.Status === 'Under Maintenance');
+        if (maintenanceAssets.length > 0) {
+            alertList.push({ id: 'mnt-1', type: 'maintenance', title: `${maintenanceAssets.length} Asset(s) Under Maintenance`, date: 'Requires attention', severity: 'high' });
+        }
+
+        // Health alerts - assets with low health
+        const lowHealthAssets = assets.filter(a => a.Health_Score && a.Health_Score < 50);
+        if (lowHealthAssets.length > 0) {
+            alertList.push({ id: 'health-1', type: 'health', title: `${lowHealthAssets.length} Asset(s) in Critical Health`, date: 'Health below 50%', severity: 'critical' });
+        }
+
+        // Check for any available unassigned assets
+        const availableCount = assets.filter(a => a.Status === 'Available').length;
+        if (availableCount > 5) {
+            alertList.push({ id: 'avail-1', type: 'info', title: `${availableCount} Assets Available for Assignment`, date: 'Ready to deploy', severity: 'info' });
+        }
+
+        // Audit reminder
+        const totalAssets = assets.length;
+        if (totalAssets > 0) {
+            alertList.push({ id: 'audit-1', type: 'audit', title: `Quarterly Audit Recommended`, date: `${totalAssets} assets to verify`, severity: 'medium' });
+        }
+
+        return alertList.slice(0, 4); // Limit to 4 alerts
+    }, [assets]);
     return (
         <div style={styles.container}>
-            <h2 style={styles.title}>📊 Analytics Dashboard</h2>
-            <p style={styles.subtitle}>Real-time insights into your asset portfolio</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <div>
+                    <h2 style={styles.title}>📊 Analytics Dashboard</h2>
+                    <p style={styles.subtitle}>Real-time insights into your asset portfolio</p>
+                </div>
+                <div style={styles.controlsRow}>
+                    <div style={styles.controlGroup}>
+                        <span style={styles.controlLabel}>Period:</span>
+                        <select
+                            style={styles.controlSelect}
+                            value={dateRange}
+                            onChange={(e) => setDateRange(e.target.value)}
+                        >
+                            <option value="3months">Last 3 Months</option>
+                            <option value="6months">Last 6 Months</option>
+                            <option value="12months">Last 12 Months</option>
+                        </select>
+                    </div>
+                    <div style={styles.controlGroup}>
+                        <span style={styles.controlLabel}>Chart:</span>
+                        <div style={styles.chartToggle}>
+                            <button
+                                onClick={() => setChartType('line')}
+                                style={{ ...styles.toggleBtn, background: chartType === 'line' ? 'var(--accent)' : 'var(--background)', color: chartType === 'line' ? 'white' : 'var(--text)' }}
+                            >📈 Line</button>
+                            <button
+                                onClick={() => setChartType('bar')}
+                                style={{ ...styles.toggleBtn, background: chartType === 'bar' ? 'var(--accent)' : 'var(--background)', color: chartType === 'bar' ? 'white' : 'var(--text)' }}
+                            >📊 Bar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* STATS ROW */}
             <div style={styles.statsRow}>
@@ -188,7 +263,7 @@ const Analytics = ({ assets = [] }) => {
                     </div>
                 </div>
 
-                {/* CHART 4: Growth Trend (Line chart as per Specs) */}
+                {/* CHART 4: Growth Trend (Customizable) */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -199,20 +274,29 @@ const Analytics = ({ assets = [] }) => {
                     <h3 style={styles.chartTitle}>Asset Acquisition Trend</h3>
                     <div style={styles.chartWrapper}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={stats.trendData}>
-                                <XAxis dataKey="month" axisLine={false} tickLine={false} />
-                                <YAxis hide />
-                                <Tooltip formatter={(value) => formatCurrency(value)} />
-                                <Line
-                                    type="monotone"
-                                    dataKey="value"
-                                    stroke="#3b82f6"
-                                    strokeWidth={4}
-                                    dot={{ r: 4, strokeWidth: 2, fill: 'var(--surface)' }}
-                                    activeDot={{ r: 8 }}
-                                    animationDuration={1500}
-                                />
-                            </LineChart>
+                            {chartType === 'line' ? (
+                                <LineChart data={stats.trendData}>
+                                    <XAxis dataKey="month" axisLine={false} tickLine={false} />
+                                    <YAxis hide />
+                                    <Tooltip formatter={(value) => formatCurrency(value)} />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="value"
+                                        stroke="#3b82f6"
+                                        strokeWidth={4}
+                                        dot={{ r: 4, strokeWidth: 2, fill: 'var(--surface)' }}
+                                        activeDot={{ r: 8 }}
+                                        animationDuration={1500}
+                                    />
+                                </LineChart>
+                            ) : (
+                                <BarChart data={stats.trendData}>
+                                    <XAxis dataKey="month" axisLine={false} tickLine={false} />
+                                    <YAxis hide />
+                                    <Tooltip formatter={(value) => formatCurrency(value)} />
+                                    <Bar dataKey="value" fill="#3b82f6" radius={[8, 8, 0, 0]} animationDuration={1500} />
+                                </BarChart>
+                            )}
                         </ResponsiveContainer>
                     </div>
                 </motion.div>
@@ -287,6 +371,14 @@ const styles = {
     alertAction: { fontSize: '12px', fontWeight: '800', color: 'var(--accent)', cursor: 'pointer', textTransform: 'uppercase', padding: '8px 16px', background: 'var(--accent)15', borderRadius: '8px' },
     auditPrompt: { marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px', color: 'var(--textSecondary)', fontWeight: '700' },
     auditBtn: { padding: '12px 24px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white', fontWeight: '700', cursor: 'pointer', fontSize: '12px', boxShadow: '0 4px 16px rgba(102,126,234,0.4)' },
+
+    // Controls
+    controlsRow: { display: 'flex', gap: '20px', alignItems: 'center' },
+    controlGroup: { display: 'flex', alignItems: 'center', gap: '8px' },
+    controlLabel: { fontSize: '12px', fontWeight: '700', color: 'var(--textSecondary)', textTransform: 'uppercase' },
+    controlSelect: { padding: '8px 16px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', outline: 'none' },
+    chartToggle: { display: 'flex', gap: '4px', background: 'var(--border)', padding: '4px', borderRadius: '12px' },
+    toggleBtn: { padding: '8px 14px', borderRadius: '8px', border: 'none', fontSize: '12px', fontWeight: '700', cursor: 'pointer', transition: '0.2s' }
 };
 
 export default Analytics;

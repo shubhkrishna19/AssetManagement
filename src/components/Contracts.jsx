@@ -79,6 +79,32 @@ const Contracts = ({ assets = [], updateAsset }) => {
                             </div>
 
                             {hasPermission('edit') && (
+                                <div style={styles.docSection}>
+                                    <label style={styles.docLabel}>📜 Documentation Vault</label>
+                                    <div style={styles.docGrid}>
+                                        <DocSlot
+                                            label="Bill / Invoice"
+                                            hasFile={!!asset.Bill_Doc}
+                                            onUpload={(file) => {
+                                                const reader = new FileReader();
+                                                reader.onload = () => updateAsset(asset.Asset_ID, { Bill_Doc: reader.result });
+                                                reader.readAsDataURL(file);
+                                            }}
+                                        />
+                                        <DocSlot
+                                            label="Warranty Doc"
+                                            hasFile={!!asset.Warranty_Doc}
+                                            onUpload={(file) => {
+                                                const reader = new FileReader();
+                                                reader.onload = () => updateAsset(asset.Asset_ID, { Warranty_Doc: reader.result });
+                                                reader.readAsDataURL(file);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            {hasPermission('edit') && (
                                 <button
                                     style={styles.renewBtn}
                                     onClick={() => {
@@ -117,6 +143,27 @@ const StatBadge = ({ label, count, color = 'var(--textSecondary)', onClick, acti
     >
         <span style={{ fontWeight: '900', fontSize: '18px', color: active ? color : 'var(--text)' }}>{count}</span>
         <span style={{ fontSize: '11px', fontWeight: '600' }}>{label}</span>
+    </div>
+);
+
+const DocSlot = ({ label, hasFile, onUpload }) => (
+    <div style={{
+        ...styles.docSlot,
+        borderColor: hasFile ? '#00b894' : 'var(--border)',
+        background: hasFile ? 'rgba(0, 184, 148, 0.05)' : 'var(--background)'
+    }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <span style={{ fontSize: '10px', fontWeight: '800', opacity: 0.6 }}>{label}</span>
+            <span style={{ fontSize: '11px', fontWeight: '700', color: hasFile ? '#00b894' : 'var(--textSecondary)' }}>
+                {hasFile ? '✅ Stored' : '📤 Upload'}
+            </span>
+        </div>
+        <input
+            type="file"
+            style={styles.fileInput}
+            onChange={(e) => e.target.files[0] && onUpload(e.target.files[0])}
+        />
+        <div style={{ fontSize: '16px' }}>{hasFile ? '📄' : '➕'}</div>
     </div>
 );
 
@@ -170,7 +217,12 @@ const styles = {
     empty: {
         gridColumn: '1 / -1', textAlign: 'center', padding: '60px',
         color: 'var(--textSecondary)', background: 'var(--surface)', borderRadius: '24px'
-    }
+    },
+    docSection: { marginTop: '20px', padding: '16px', background: 'var(--background)', borderRadius: '16px', border: '1px solid var(--border)' },
+    docLabel: { display: 'block', fontSize: '12px', fontWeight: '900', marginBottom: '12px', color: 'var(--textSecondary)', textTransform: 'uppercase', letterSpacing: '0.05em' },
+    docGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
+    docSlot: { position: 'relative', padding: '12px', borderRadius: '12px', border: '1px solid', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', overflow: 'hidden' },
+    fileInput: { position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }
 };
 
 export default Contracts;

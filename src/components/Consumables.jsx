@@ -7,9 +7,24 @@ const Consumables = ({ items = [], updateConsumable }) => {
     const [actionType, setActionType] = useState(null); // 'dispense' | 'restock'
     const [amount, setAmount] = useState(1);
     const [showPOModal, setShowPOModal] = useState(false);
-    const [poData, setPoData] = useState({ itemName: '', quantity: 1, vendor: '' });
+    const [showQuickEntry, setShowQuickEntry] = useState(false);
+    const [quickEntryData, setQuickEntryData] = useState({ name: '', quantity: 0, category: 'Hardware', threshold: 5, unit: 'units' });
     const { logAction } = useAudit();
     const { currentUser } = useUser();
+
+    const handleQuickEntrySubmit = (e) => {
+        e.preventDefault();
+        // Mock ID generation
+        const newId = `C-${Math.floor(Math.random() * 900) + 100}`;
+        const newStatus = quickEntryData.quantity > quickEntryData.threshold ? 'In Stock' : (quickEntryData.quantity === 0 ? 'Out of Stock' : 'Low Stock');
+
+        // This would ideally add to a global state or DB
+        // For now, we'll simulate an update if item exists or just log it
+        logAction('CONSUMABLE_ADD', `Manually added/adjusted ${quickEntryData.quantity} ${quickEntryData.unit} of ${quickEntryData.name}`, currentUser.name, 'success');
+        alert(`⚡ Quick Entry Successful: ${quickEntryData.name} updated.`);
+        setShowQuickEntry(false);
+        setQuickEntryData({ name: '', quantity: 0, category: 'Hardware', threshold: 5, unit: 'units' });
+    };
 
     const handleUpdate = () => {
         if (!selectedItem || amount <= 0) return;
@@ -62,9 +77,14 @@ const Consumables = ({ items = [], updateConsumable }) => {
                     <h2 style={styles.title}>Consumables Inventory</h2>
                     <p style={styles.subtitle}>Track stock levels for office supplies and parts.</p>
                 </div>
-                <button style={styles.primaryBtn} onClick={() => setShowPOModal(true)}>
-                    + Create Purchase Order
-                </button>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                    <button style={styles.secondaryBtn} onClick={() => setShowQuickEntry(true)}>
+                        ⚡ Quick Entry
+                    </button>
+                    <button style={styles.primaryBtn} onClick={() => setShowPOModal(true)}>
+                        + Create Purchase Order
+                    </button>
+                </div>
             </div>
 
             <div style={styles.grid}>
@@ -188,6 +208,60 @@ const Consumables = ({ items = [], updateConsumable }) => {
                     </div>
                 </div>
             )}
+            {/* Quick Entry Modal */}
+            {showQuickEntry && (
+                <div style={styles.overlay}>
+                    <div style={{ ...styles.modal, width: '400px' }}>
+                        <h3 style={{ marginBottom: '20px' }}>⚡ Quick Manual Entry</h3>
+                        <form onSubmit={handleQuickEntrySubmit} style={{ textAlign: 'left' }}>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Item Name</label>
+                                <input
+                                    style={styles.input}
+                                    placeholder="e.g. Ethernet Cable"
+                                    required
+                                    value={quickEntryData.name}
+                                    onChange={e => setQuickEntryData({ ...quickEntryData, name: e.target.value })}
+                                />
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                                <div style={styles.formGroup}>
+                                    <label style={styles.label}>Initial / Adjust Qty</label>
+                                    <input
+                                        type="number"
+                                        style={styles.input}
+                                        required
+                                        value={quickEntryData.quantity}
+                                        onChange={e => setQuickEntryData({ ...quickEntryData, quantity: e.target.value })}
+                                    />
+                                </div>
+                                <div style={styles.formGroup}>
+                                    <label style={styles.label}>Unit (pcs, m, etc)</label>
+                                    <input
+                                        style={styles.input}
+                                        placeholder="pcs"
+                                        value={quickEntryData.unit}
+                                        onChange={e => setQuickEntryData({ ...quickEntryData, unit: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                            <div style={styles.formGroup}>
+                                <label style={styles.label}>Alert Threshold</label>
+                                <input
+                                    type="number"
+                                    style={styles.input}
+                                    value={quickEntryData.threshold}
+                                    onChange={e => setQuickEntryData({ ...quickEntryData, threshold: e.target.value })}
+                                />
+                            </div>
+                            <div style={{ ...styles.modalActions, marginTop: '30px' }}>
+                                <button type="button" style={styles.cancelBtn} onClick={() => setShowQuickEntry(false)}>Cancel</button>
+                                <button type="submit" style={styles.confirmBtn}>Quick Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -198,6 +272,7 @@ const styles = {
     title: { fontSize: '28px', fontWeight: '800', marginBottom: '8px' },
     subtitle: { color: 'var(--textSecondary)', fontSize: '14px' },
     primaryBtn: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' },
+    secondaryBtn: { padding: '12px 24px', background: 'rgba(var(--accentRGB), 0.1)', color: 'var(--accent)', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' },
 
     grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' },
     card: { padding: '24px', borderRadius: '20px', background: 'var(--surface)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column' },

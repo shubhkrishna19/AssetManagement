@@ -4,8 +4,8 @@ import { mockAssets } from '../mockData';
 const CheckoutPortal = ({ assets = [], updateAsset }) => {
     const [form, setForm] = useState({ assetId: '', user: '', action: 'Check-Out', notes: '', dueDate: '' });
     const [recentTransactions, setRecentTransactions] = useState([
-        { id: 'TX-101', asset: 'BW-IT-001', user: 'Aditi Tyagi', action: 'Check-Out', time: '10:00 AM', status: 'Active' },
-        { id: 'TX-102', asset: 'BW-IT-004', user: 'Vikas Raghav', action: 'Check-In', time: '09:30 AM', status: 'Completed' },
+        { id: 'TX-102', asset: 'BW-IT-004', user: 'Vikas Raghav', action: 'Check-In', timestamp: new Date(Date.now() - 3600000).toISOString(), status: 'Completed' },
+        { id: 'TX-101', asset: 'BW-IT-001', user: 'Aditi Tyagi', action: 'Check-Out', timestamp: new Date(Date.now() - 7200000).toISOString(), status: 'Active' },
     ]);
 
     const handleSubmit = (e) => {
@@ -26,15 +26,12 @@ const CheckoutPortal = ({ assets = [], updateAsset }) => {
             asset: form.assetId,
             user: form.user,
             action: form.action,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            timestamp: new Date().toISOString(),
             status: form.action === 'Check-Out' ? 'Active' : 'Completed'
         };
 
-        setRecentTransactions([newTx, ...recentTransactions]);
+        setRecentTransactions(prev => [newTx, ...prev].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)));
         setForm({ assetId: '', user: '', action: 'Check-Out', notes: '', dueDate: '' });
-
-        // Alert logic placeholder
-        console.log(`📡 Transaction Logged: ${form.action} for ${form.assetId}`);
     };
 
     return (
@@ -125,7 +122,9 @@ const CheckoutPortal = ({ assets = [], updateAsset }) => {
                                 <div style={styles.txDetails}>
                                     <div style={styles.txTop}>
                                         <span style={styles.txAsset}>{tx.asset}</span>
-                                        <span style={styles.txTime}>{tx.time}</span>
+                                        <span style={styles.txTime}>
+                                            {new Date(tx.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' })} | {new Date(tx.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
                                     </div>
                                     <div style={styles.txUser}>{tx.user}</div>
                                     <div style={styles.txMeta}>
