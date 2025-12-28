@@ -37,7 +37,13 @@ import MasterEditor from './components/MasterEditor';
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
 
 const App = () => {
-  const { assets, setAssets, consumables, setConsumables, vendors, setVendors, reservations, setReservations, departments, setDepartments, loading, error, updateAsset, addAsset, fetchFromBackend } = useData();
+  const { assets, setAssets, consumables, setConsumables, vendors, setVendors, reservations, setReservations, departments, setDepartments, loading, setLoading, error, setError, updateAsset, addAsset, fetchFromBackend } = useData();
+  const [activeTab, setActiveTab] = useState('Asset List');
+  const [assetViewMode, setAssetViewMode] = useState('grid');
+  const [reminders, setReminders] = useState(() => {
+    const saved = localStorage.getItem('bw_reminders');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // Production Sync Only
   const dataSource = 'live';

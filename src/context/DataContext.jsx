@@ -204,7 +204,10 @@ export const DataProvider = ({ children }) => {
         reservations,
         setReservations,
         loading,
+        setLoading,
         error,
+        setError,
+
         updateAsset,
         addAsset,
         addConsumable,
