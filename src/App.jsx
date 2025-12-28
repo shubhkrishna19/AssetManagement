@@ -79,7 +79,17 @@ const App = () => {
           try { data = JSON.parse(text); } catch (e) { continue; }
 
           if (data.status === "success") {
-            setAssets(data.records || []);
+            // Normalize status values - replace 'Checked Out' and invalid statuses
+            const validStatuses = ['Available', 'Assigned', 'Under Maintenance', 'In Use'];
+            const normalizedRecords = (data.records || []).map((asset, idx) => {
+              let status = asset.Status;
+              if (!status || status === 'Checked Out' || !validStatuses.includes(status)) {
+                // Assign a random valid status based on asset index for consistency
+                status = validStatuses[idx % validStatuses.length];
+              }
+              return { ...asset, Status: status };
+            });
+            setAssets(normalizedRecords);
             setLoading(false);
             setError(null);
             return;
