@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { mockAssets } from '../mockData';
+// Assets come from props - no mock data
 
 const CheckoutPortal = ({ assets = [], updateAsset }) => {
     const [form, setForm] = useState({ assetId: '', user: '', action: 'Check-Out', notes: '', dueDate: '' });

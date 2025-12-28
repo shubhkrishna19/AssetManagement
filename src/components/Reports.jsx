@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { mockAssets } from '../mockData';
+// Assets come from props - no mock data
 
 const Reports = ({ assets = [], consumables = [], updateAsset, setActiveTab }) => {
     const [filters, setFilters] = useState({ category: 'all', status: 'all' });

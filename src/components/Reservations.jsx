@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import { mockReservations } from '../mockData';
+// Reservations stored in state - no mock data
 import { useUser } from '../context/UserContext';
 
 const Reservations = ({ assets = [] }) => {
     const { currentUser } = useUser();
     const [view, setView] = useState('list'); // 'list' | 'new'
-    const [reservations, setReservations] = useState(mockReservations);
+    const [reservations, setReservations] = useState([]);
 
     // Form State
     const [selectedAssetId, setSelectedAssetId] = useState('');

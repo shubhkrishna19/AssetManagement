@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
-import { mockAssets } from '../mockData';
+// Assets come from props - no mock data
 
 const AuditTool = ({ assets = [], updateAsset, onNewAsset }) => {
     const [lastScanned, setLastScanned] = useState(null);

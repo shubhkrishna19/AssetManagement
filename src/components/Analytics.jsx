@@ -5,7 +5,7 @@ import {
     LineChart, Line, Legend
 } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
-import { mockStats } from '../mockData';
+// Stats computed from assets prop - no mock data
 
 const CountUp = ({ value, duration = 1.5 }) => {
     const [count, setCount] = React.useState(0);

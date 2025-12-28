@@ -10,7 +10,7 @@ import Maintenance from './components/Maintenance';
 import ActivityLog from './components/ActivityLog';
 import Profile from './components/Profile';
 import CONFIG from './config';
-import { mockAssets, mockConsumables, mockVendors } from './mockData';
+// All data comes from backend - no mock imports
 import AuditTool from './components/AuditTool';
 import CheckoutPortal from './components/CheckoutPortal';
 import Roadmap from './components/Roadmap';
@@ -42,8 +42,8 @@ const App = () => {
     const saved = localStorage.getItem('bw_reminders');
     return saved ? JSON.parse(saved) : [];
   });
-  const [consumables, setConsumables] = useState(mockConsumables);
-  const [vendors, setVendors] = useState(mockVendors);
+  const [consumables, setConsumables] = useState([]);
+  const [vendors, setVendors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
