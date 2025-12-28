@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAudit } from '../context/AuditContext';
+import { useData } from '../context/DataContext';
 
 const CRMIntegration = () => {
     const [isConnected, setIsConnected] = useState(false);
@@ -7,12 +8,8 @@ const CRMIntegration = () => {
     const [lastSync, setLastSync] = useState(null);
     const { logAction } = useAudit();
 
-    const mockDepartments = [
-        { id: 'DEPT-IT', name: 'IT Department', budget: '₹45,00,000', status: 'Active', linkedAssets: 32 },
-        { id: 'DEPT-HR', name: 'Human Resources', budget: '₹12,50,000', status: 'Active', linkedAssets: 8 },
-        { id: 'DEPT-OPS', name: 'Operations & Logistics', budget: '₹68,00,000', status: 'Active', linkedAssets: 45 },
-        { id: 'DEPT-MFG', name: 'Manufacturing Unit', budget: '₹1,25,00,000', status: 'Active', linkedAssets: 78 },
-    ];
+    const { departments } = useData();
+
 
     const handleConnect = () => {
         setSyncStatus('Connecting...');
@@ -88,7 +85,7 @@ const CRMIntegration = () => {
 
                     <h3 style={{ marginTop: '40px', marginBottom: '20px' }}>Department Asset Allocation</h3>
                     <div style={styles.dealsGrid}>
-                        {mockDepartments.map(dept => (
+                        {departments.map(dept => (
                             <div key={dept.id} style={styles.dealCard} className="glass-card">
                                 <div style={styles.dealHeader}>
                                     <span style={styles.dealId}>{dept.id}</span>

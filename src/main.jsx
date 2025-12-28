@@ -1,11 +1,13 @@
+```
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { ThemeProvider } from './context/ThemeContext'
+import { DataProvider } from './context/DataContext';
 import { UserProvider } from './context/UserContext'
 import { AuditProvider } from './context/AuditContext'
 import { NetworkProvider } from './context/NetworkContext'
+import { ThemeProvider } from './context/ThemeContext' // Added ThemeProvider import
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +15,11 @@ createRoot(document.getElementById('root')).render(
       <AuditProvider>
         <NetworkProvider>
           <ThemeProvider>
-            <App />
+            <DataProvider>
+            <DataProvider>
+          <App />
+        </DataProvider>
+            </DataProvider>
           </ThemeProvider>
         </NetworkProvider>
       </AuditProvider>

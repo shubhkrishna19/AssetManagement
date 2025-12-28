@@ -10,7 +10,7 @@ import Maintenance from './components/Maintenance';
 import ActivityLog from './components/ActivityLog';
 import Profile from './components/Profile';
 import CONFIG from './config';
-// All data comes from backend - no mock imports
+import { useData } from './context/DataContext';
 import AuditTool from './components/AuditTool';
 import CheckoutPortal from './components/CheckoutPortal';
 import Roadmap from './components/Roadmap';
@@ -37,17 +37,7 @@ import MasterEditor from './components/MasterEditor';
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState('Asset List');
-  const [assetViewMode, setAssetViewMode] = useState('grouped'); // 'list' or 'grouped'
-  const [assets, setAssets] = useState([]);
-  const [reminders, setReminders] = useState(() => {
-    const saved = localStorage.getItem('bw_reminders');
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [consumables, setConsumables] = useState([]);
-  const [vendors, setVendors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { assets, setAssets, consumables, setConsumables, vendors, setVendors, reservations, setReservations, departments, setDepartments, loading, error, updateAsset, addAsset, fetchFromBackend } = useData();
 
   // Production Sync Only
   const dataSource = 'live';
@@ -65,46 +55,31 @@ const App = () => {
 
   // --- 🛰 THE UNIVERSAL SYNC ENGINE (v6.0) ---
   useEffect(() => {
-    setLoading(true);
-
-    const fetchAssets = async () => {
-      const endpoints = [
-        'https://websitewireframeproject-895469053.development.catalystserverless.com/server/bridgex',
-        '/server/bridgex'
-      ];
-
-      for (const url of endpoints) {
-        try {
-          const res = await fetch(url, { method: 'GET', mode: 'cors' });
-          const text = await res.text();
-          let data;
-          try { data = JSON.parse(text); } catch (e) { continue; }
-
-          if (data.status === "success") {
-            // Normalize status values - replace 'Checked Out' and invalid statuses
-            const validStatuses = ['Available', 'Assigned', 'Under Maintenance', 'In Use'];
-            const normalizedRecords = (data.records || []).map((asset, idx) => {
-              let status = asset.Status;
-              if (!status || status === 'Checked Out' || !validStatuses.includes(status)) {
-                // Assign a random valid status based on asset index for consistency
-                status = validStatuses[idx % validStatuses.length];
-              }
-              return { ...asset, Status: status };
-            });
-            setAssets(normalizedRecords);
-            setLoading(false);
-            setError(null);
-            return;
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const assetsData = await fetchFromBackend('getAssets');
+        // Normalize status values - replace 'Checked Out' and invalid statuses
+        const validStatuses = ['Available', 'Assigned', 'Under Maintenance', 'In Use'];
+        const normalizedRecords = (assetsData || []).map((asset, idx) => {
+          let status = asset.Status;
+          if (!status || status === 'Checked Out' || !validStatuses.includes(status)) {
+            // Assign a random valid status based on asset index for consistency
+            status = validStatuses[idx % validStatuses.length];
           }
-        } catch (e) { }
+          return { ...asset, Status: status };
+        });
+        setAssets(normalizedRecords);
+        setLoading(false);
+        setError(null);
+      } catch (e) {
+        setError("Connection to Bluewud Enterprise Cloud failed.");
+        setLoading(false);
       }
-
-      setError("Connection to Bluewud Enterprise Cloud failed.");
-      setLoading(false);
     };
 
-    fetchAssets();
-  }, [activeTab]);
+    fetchData();
+  }, [activeTab, fetchFromBackend, setAssets, setLoading, setError]);
 
   // ... (Keyboard effects skipped)
 
@@ -112,25 +87,6 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('bw_reminders', JSON.stringify(reminders));
   }, [reminders]);
-
-  const updateAsset = async (assetId, updates) => {
-    // 1. Optimistic UI Update
-    setAssets(prev => prev.map(asset =>
-      asset.Asset_ID === assetId ? { ...asset, ...updates } : asset
-    ));
-
-    // 2. Persist to Cloud
-    if (dataSource === 'live') {
-      try {
-        await fetch('/server/bridgex', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'update', asset_id: assetId, updates: updates })
-        });
-        logAction('STATE_SYNC', `Synced update for ${assetId}`, currentUser.name, 'success');
-      } catch (e) { console.error("Sync Failed", e); }
-    }
-  };
 
   // Update consumable item
   const updateConsumable = (itemId, updates) => {
@@ -471,12 +427,10 @@ const App = () => {
                 <div style={styles.errorState}>
                   <p>⚠️ {error}</p>
                   <div style={styles.errorActions}>
-                    <button onClick={() => window.location.reload()} style={styles.retryButton}>Retry Live Sync</button>
-                    <button onClick={() => {
-                      setAssets(mockAssets);
-                      setDataSource('demo');
-                      setError(null);
-                    }} style={styles.demoFallbackButton}>View Sample Data (Demo)</button>
+                      // Retry live sync
+                    setError(null);
+                    // Trigger re-fetch by toggling activeTab or calling fetchData directly if exposed
+                    setActiveTab(activeTab);
                   </div>
                 </div>
               ) : activeTab === 'Scan' ? (

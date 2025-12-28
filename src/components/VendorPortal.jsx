@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useData } from '../context/DataContext';
 import { useAudit } from '../context/AuditContext';
 
-const VendorPortal = ({ assets = [], vendors = [] }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+const VendorPortal = () => {
+    const { vendors, assets } = useData();
     const { logAction } = useAudit();
+    const [searchTerm, setSearchTerm] = useState('');
 
     // File Upload Stub
     const handleFileUpload = (e) => {
@@ -31,15 +33,8 @@ const VendorPortal = ({ assets = [], vendors = [] }) => {
                     <p style={styles.subtitle}>Manage external partners and invoices.</p>
                 </div>
                 <div style={styles.uploadWrapper}>
-                    <label htmlFor="invoice-upload" style={styles.uploadBtn}>
-                        📤 Upload Invoice
-                    </label>
-                    <input
-                        id="invoice-upload"
-                        type="file"
-                        style={{ display: 'none' }}
-                        onChange={handleFileUpload}
-                    />
+                    <label htmlFor="invoice-upload" style={styles.uploadBtn}>📤 Upload Invoice</label>
+                    <input id="invoice-upload" type="file" style={{ display: 'none' }} onChange={handleFileUpload} />
                 </div>
             </div>
 
@@ -50,7 +45,7 @@ const VendorPortal = ({ assets = [], vendors = [] }) => {
                     placeholder="Search vendors by name or service..."
                     style={styles.searchInput}
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={e => setSearchTerm(e.target.value)}
                 />
             </div>
 
@@ -72,9 +67,7 @@ const VendorPortal = ({ assets = [], vendors = [] }) => {
                             <p>📧 <a href={`mailto:${vendor.email}`} style={{ color: 'var(--accent)' }}>{vendor.email}</a></p>
                             <p>📞 {vendor.phone}</p>
                         </div>
-
                         <div style={styles.divider} />
-
                         <div style={styles.cardFooter}>
                             <div style={styles.stat}>
                                 <span style={styles.statLabel}>Linked Assets</span>
@@ -99,19 +92,9 @@ const styles = {
     header: { marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
     title: { fontSize: '28px', fontWeight: '800', marginBottom: '8px' },
     subtitle: { color: 'var(--textSecondary)', fontSize: '14px' },
-    uploadBtn: {
-        padding: '12px 24px', background: 'var(--accent)', color: 'white',
-        border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer',
-        display: 'inline-block'
-    },
-
-    searchBar: {
-        display: 'flex', alignItems: 'center', gap: '15px', padding: '15px 25px',
-        background: 'var(--surface)', borderRadius: '16px', border: '1px solid var(--border)',
-        marginBottom: '40px', maxWidth: '600px'
-    },
+    uploadBtn: { padding: '12px 24px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer', display: 'inline-block' },
+    searchBar: { display: 'flex', alignItems: 'center', gap: '15px', padding: '15px 25px', background: 'var(--surface)', borderRadius: '16px', border: '1px solid var(--border)', marginBottom: '40px', maxWidth: '600px' },
     searchInput: { border: 'none', background: 'transparent', width: '100%', fontSize: '16px', color: 'var(--text)', outline: 'none' },
-
     grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' },
     card: { padding: '24px', borderRadius: '20px', background: 'var(--surface)', border: '1px solid var(--border)' },
     cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' },
@@ -119,9 +102,7 @@ const styles = {
     rating: { display: 'flex', alignItems: 'center' },
     vendorName: { fontSize: '20px', fontWeight: '800', marginBottom: '16px' },
     contactInfo: { display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14px', color: 'var(--textSecondary)' },
-
     divider: { height: '1px', background: 'var(--border)', margin: '20px 0' },
-
     cardFooter: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
     stat: { display: 'flex', flexDirection: 'column' },
     statLabel: { fontSize: '10px', textTransform: 'uppercase', color: 'var(--textSecondary)', fontWeight: 'bold' },

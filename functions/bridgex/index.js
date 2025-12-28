@@ -106,6 +106,67 @@ app.all('/', async (req, res) => {
                 return;
             }
         }
+        // Additional CRUD actions based on table_name
+        // Create single record
+        if (action === 'create' && data && typeof data === 'object') {
+            const targetTable = table_name || 'Assets';
+            const table = catalystApp.datastore().table(targetTable);
+            try {
+                await table.insertRow(data);
+                res.status(200).json({ status: 'success', message: `Created record in ${targetTable}` });
+            } catch (err) {
+                console.error(`Create error in ${targetTable}:`, err);
+                res.status(500).json({ status: 'error', message: err.message });
+            }
+            return;
+        }
+        // Update generic record (already handled above for assets, now generic)
+        if (action === 'update' && asset_id && updates) {
+            const targetTable = table_name || 'Assets';
+            const keyCol = key_column || (targetTable === 'Assets' ? 'Asset_ID' : (targetTable === 'Consumables' ? 'Consumable_ID' : (targetTable === 'Vendors' ? 'Vendor_ID' : (targetTable === 'Reservations' ? 'Reservation_ID' : (targetTable === 'Departments' ? 'Department_ID' : 'ID'))));
+            const zcql = catalystApp.zcql();
+            const setClause = Object.entries(updates)
+                .map(([k, v]) => `${k} = '${String(v).replace(/'/g, "''")}'`)
+                .join(', ');
+            if (!setClause) {
+                res.status(200).json({ status: 'success' });
+                return;
+            }
+            const query = `UPDATE ${targetTable} SET ${setClause} WHERE ${keyCol} = '${asset_id}'`;
+            try {
+                await zcql.executeZCQLQuery(query);
+                res.status(200).json({ status: 'success', message: `Updated ${asset_id} in ${targetTable}` });
+            } catch (err) {
+                console.error(`Update error in ${targetTable}:`, err);
+                res.status(500).json({ status: 'error', message: err.message });
+            }
+            return;
+        }
+        // Fetch specific entity lists
+        if (action === 'getConsumables') {
+            const table = catalystApp.datastore().table('Consumables');
+            const rows = await table.getAllRows();
+            res.status(200).json({ status: 'success', records: rows });
+            return;
+        }
+        if (action === 'getVendors') {
+            const table = catalystApp.datastore().table('Vendors');
+            const rows = await table.getAllRows();
+            res.status(200).json({ status: 'success', records: rows });
+            return;
+        }
+        if (action === 'getReservations') {
+            const table = catalystApp.datastore().table('Reservations');
+            const rows = await table.getAllRows();
+            res.status(200).json({ status: 'success', records: rows });
+            return;
+        }
+        if (action === 'getDepartments') {
+            const table = catalystApp.datastore().table('Departments');
+            const rows = await table.getAllRows();
+            res.status(200).json({ status: 'success', records: rows });
+            return;
+        }
 
         // Default: Fetch All Assets with pagination (ZCQL limit is 300 per query)
         const zcql = catalystApp.zcql();
