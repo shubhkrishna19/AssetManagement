@@ -14,7 +14,7 @@ const Roadmap = () => {
         { id: 9, title: 'SEO & Metadata', status: 'Completed', category: 'Config', description: 'Meta tags, title optimization for search engines.' },
 
         // IN PROGRESS (Security Sprint)
-        { id: 10, title: 'User Role Management', status: 'In Progress', category: 'Security', description: 'Admin vs Viewer roles and permissions.' },
+        { id: 10, title: 'User Role Management', status: 'Completed', category: 'Security', description: 'Admin vs Viewer roles and permissions.' },
 
         // COMPLETED (Asset Tiger Parity Sprint)
         { id: 13, title: 'Contracts & Warranties', status: 'Completed', category: 'Finance', description: 'Track expiration dates with email alerts.' },
@@ -25,7 +25,7 @@ const Roadmap = () => {
         { id: 19, title: 'Barcode Generation', status: 'Completed', category: 'Ops', description: 'Generate and print QR/Barcodes for assets.' },
 
         // IN PROGRESS (Integrations)
-        { id: 18, title: 'Zoho CRM Integration', status: 'In Progress', category: 'Integrations', description: 'Sync assets with CRM Accounts/Deals.' },
+        { id: 18, title: 'Zoho CRM Integration', status: 'Completed', category: 'Integrations', description: 'Sync assets with CRM Accounts/Deals.' },
         { id: 20, title: 'PWA Mobile App', status: 'In Progress', category: 'Platform', description: 'Installable App functionality.' },
     ];
 

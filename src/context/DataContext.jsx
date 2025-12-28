@@ -14,7 +14,6 @@ export const DataProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Centralized fetch helper
     const fetchFromBackend = useCallback(async (action, payload = {}) => {
         try {
             const res = await fetch('/server/bridgex', {
@@ -22,7 +21,17 @@ export const DataProvider = ({ children }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action, ...payload })
             });
-            const data = await res.json();
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                console.error(`Backend returned ${res.status}: ${errorText}`);
+                throw new Error(`Cloud connection failed (${res.status})`);
+            }
+
+            const text = await res.text();
+            if (!text) return []; // Handle empty response
+
+            const data = JSON.parse(text);
             if (data.status === 'success') return data.records || [];
             throw new Error(data.message || 'Backend error');
         } catch (e) {
