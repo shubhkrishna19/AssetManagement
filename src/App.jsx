@@ -30,6 +30,8 @@ import ViewToggle from './components/ViewToggle';
 import ReminderManager from './components/ReminderManager';
 import AllotmentMaster from './components/AllotmentMaster';
 import AdminDashboard from './components/AdminDashboard';
+import ImportExport from './components/ImportExport';
+import MasterEditor from './components/MasterEditor';
 
 // ASSET LEDGER PRO - v5.5 (PRODUCTION READY)
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
@@ -338,6 +340,8 @@ const App = () => {
           <NavItem id="Vendors" icon="🏢" label="Vendors" active={activeTab === 'Vendors'} onClick={() => { setActiveTab('Vendors'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="ESign" icon="✍️" label="E-Sign" active={activeTab === 'ESign'} onClick={() => { setActiveTab('ESign'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Barcodes" icon="🏷️" label="Tagging" active={activeTab === 'Barcodes'} onClick={() => { setActiveTab('Barcodes'); if (isMobile) setIsSidebarOpen(false); }} />
+          <NavItem id="ImportExport" icon="📥" label="Import/Export" active={activeTab === 'ImportExport'} onClick={() => { setActiveTab('ImportExport'); if (isMobile) setIsSidebarOpen(false); }} />
+          {isAdmin && <NavItem id="MasterEditor" icon="📝" label="Master Editor" active={activeTab === 'MasterEditor'} onClick={() => { setActiveTab('MasterEditor'); if (isMobile) setIsSidebarOpen(false); }} />}
           <NavItem id="CRM" icon="🔗" label="Zoho Sync" active={activeTab === 'CRM'} onClick={() => { setActiveTab('CRM'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Roadmap" icon="🚀" label="Roadmap" active={activeTab === 'Roadmap'} onClick={() => { setActiveTab('Roadmap'); if (isMobile) setIsSidebarOpen(false); }} />
         </div>
@@ -540,6 +544,18 @@ const App = () => {
                 <AllotmentMaster assets={assets} />
               ) : activeTab === 'Admin' ? (
                 <AdminDashboard />
+              ) : activeTab === 'ImportExport' ? (
+                <ImportExport
+                  assets={assets}
+                  onImport={(newAssets) => setAssets(prev => [...prev, ...newAssets])}
+                />
+              ) : activeTab === 'MasterEditor' ? (
+                <MasterEditor
+                  assets={assets}
+                  updateAsset={(updatedAsset) => {
+                    setAssets(prev => prev.map(a => a.Asset_ID === updatedAsset.Asset_ID ? updatedAsset : a));
+                  }}
+                />
               ) : activeTab === 'CRM' ? (
                 <CRMIntegration />
               ) : assetViewMode === 'grouped' ? (
