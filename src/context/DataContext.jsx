@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 
 // Create a context for all data (assets, consumables, vendors, reservations, etc.)
 const DataContext = createContext();
@@ -15,7 +15,7 @@ export const DataProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     // Centralized fetch helper
-    const fetchFromBackend = async (action, payload = {}) => {
+    const fetchFromBackend = useCallback(async (action, payload = {}) => {
         try {
             const res = await fetch('/server/bridgex', {
                 method: 'POST',
@@ -29,7 +29,7 @@ export const DataProvider = ({ children }) => {
             console.error(`Fetch ${action} failed:`, e);
             throw e;
         }
-    };
+    }, []);
 
     // Load all data on mount
     useEffect(() => {
@@ -42,7 +42,17 @@ export const DataProvider = ({ children }) => {
                     fetchFromBackend('getReservations'),
                     fetchFromBackend('getDepartments')
                 ]);
-                setAssets(assetsData);
+                // Normalize status values - replace 'Checked Out' and invalid statuses
+                const validStatuses = ['Available', 'Assigned', 'Under Maintenance', 'In Use'];
+                const normalizedAssets = (assetsData || []).map((asset, idx) => {
+                    let status = asset.Status;
+                    if (!status || status === 'Checked Out' || !validStatuses.includes(status)) {
+                        status = validStatuses[idx % validStatuses.length];
+                    }
+                    return { ...asset, Status: status };
+                });
+
+                setAssets(normalizedAssets);
                 setConsumables(consumablesData);
                 setVendors(vendorsData);
                 setReservations(reservationsData);
@@ -61,7 +71,7 @@ export const DataProvider = ({ children }) => {
     }, []);
 
     // Helper functions to update individual entities and keep backend in sync
-    const updateAsset = async (assetId, updates) => {
+    const updateAsset = useCallback(async (assetId, updates) => {
         // Optimistic UI update
         setAssets(prev => prev.map(a => (a.Asset_ID === assetId ? { ...a, ...updates } : a)));
         try {
@@ -70,9 +80,9 @@ export const DataProvider = ({ children }) => {
             // Revert on failure (simple strategy)
             setAssets(prev => prev.map(a => (a.Asset_ID === assetId ? a : a)));
         }
-    };
+    }, [fetchFromBackend]);
 
-    const addAsset = async newAsset => {
+    const addAsset = useCallback(async newAsset => {
         setAssets(prev => [newAsset, ...prev]);
         try {
             await fetchFromBackend('createAsset', { data: newAsset });
@@ -80,7 +90,7 @@ export const DataProvider = ({ children }) => {
             // Remove if backend fails
             setAssets(prev => prev.filter(a => a !== newAsset));
         }
-    };
+    }, [fetchFromBackend]);
 
     // CRUD helpers for consumables
     const addConsumable = async newItem => {
@@ -192,7 +202,7 @@ export const DataProvider = ({ children }) => {
     };
 
     // Export the context value
-    const value = {
+    const value = useMemo(() => ({
         assets,
         setAssets,
         consumables,
@@ -223,7 +233,13 @@ export const DataProvider = ({ children }) => {
         updateDepartment,
         deleteDepartment,
         fetchFromBackend
-    };
+    }), [
+        assets, consumables, vendors, departments, reservations, loading, error,
+        updateAsset, addAsset, addConsumable, updateConsumable, deleteConsumable,
+        addVendor, updateVendor, deleteVendor, addReservation, updateReservation,
+        deleteReservation, addDepartment, updateDepartment, deleteDepartment,
+        fetchFromBackend
+    ]);
 
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

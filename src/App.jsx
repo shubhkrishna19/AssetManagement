@@ -59,33 +59,7 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // --- 🛰 THE UNIVERSAL SYNC ENGINE (v6.0) ---
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const assetsData = await fetchFromBackend('getAssets');
-        // Normalize status values - replace 'Checked Out' and invalid statuses
-        const validStatuses = ['Available', 'Assigned', 'Under Maintenance', 'In Use'];
-        const normalizedRecords = (assetsData || []).map((asset, idx) => {
-          let status = asset.Status;
-          if (!status || status === 'Checked Out' || !validStatuses.includes(status)) {
-            // Assign a random valid status based on asset index for consistency
-            status = validStatuses[idx % validStatuses.length];
-          }
-          return { ...asset, Status: status };
-        });
-        setAssets(normalizedRecords);
-        setLoading(false);
-        setError(null);
-      } catch (e) {
-        setError("Connection to Bluewud Enterprise Cloud failed.");
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, [activeTab, fetchFromBackend, setAssets, setLoading, setError]);
 
   // ... (Keyboard effects skipped)
 
