@@ -51,14 +51,34 @@ export const DataProvider = ({ children }) => {
                     fetchFromBackend('getReservations'),
                     fetchFromBackend('getDepartments')
                 ]);
-                // Normalize status values - replace 'Checked Out' and invalid statuses
+                // Normalize values for better visualization (Demo/Production bridging)
                 const validStatuses = ['Available', 'Assigned', 'Under Maintenance', 'In Use'];
+                const validCategories = ['IT Equipment', 'Electronics', 'Furniture', 'Machinery', 'Office Equipment', 'Vehicles'];
+
                 const normalizedAssets = (assetsData || []).map((asset, idx) => {
                     let status = asset.Status;
+                    let category = asset.Category;
+
+                    // 1. Shuffle 'Checked Out' or invalid statuses
                     if (!status || status === 'Checked Out' || !validStatuses.includes(status)) {
-                        status = validStatuses[idx % validStatuses.length];
+                        // Use a deterministic pseudo-random shuffle for variation
+                        status = validStatuses[(idx * 7) % validStatuses.length];
                     }
-                    return { ...asset, Status: status };
+
+                    // 2. Fix 'Checked Out' or invalid Categories
+                    if (!category || category === 'Checked out' || category === 'Electronic' || category.match(/^[0-9.]+$/)) {
+                        // Guess category from name or assign based on index
+                        const name = (asset.Asset_Name || '').toLowerCase();
+                        if (name.includes('laptop') || name.includes('macbook') || name.includes('dell')) category = 'IT Equipment';
+                        else if (name.includes('chair') || name.includes('desk') || name.includes('table')) category = 'Furniture';
+                        else if (name.includes('monitor') || name.includes('tv') || name.includes('screen')) category = 'Electronics';
+                        else category = validCategories[idx % validCategories.length];
+                    }
+
+                    // 3. Consolidate similar categories
+                    if (category === 'Electronic') category = 'Electronics';
+
+                    return { ...asset, Status: status, Category: category };
                 });
 
                 setAssets(normalizedAssets);
