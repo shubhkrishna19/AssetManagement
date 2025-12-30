@@ -1,8 +1,0 @@
-{
-    "name": "bridgex",
-    "type": "appLogic",
-    "stack": "node18",
-    "execution": {
-        "main": "index.js"
-    }
-}
