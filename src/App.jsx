@@ -407,10 +407,15 @@ const App = () => {
                 <div style={styles.errorState}>
                   <p>⚠️ {error}</p>
                   <div style={styles.errorActions}>
-                      // Retry live sync
-                    setError(null);
-                    // Trigger re-fetch by toggling activeTab or calling fetchData directly if exposed
-                    setActiveTab(activeTab);
+                    <button
+                      style={styles.retryButton}
+                      onClick={() => {
+                        setError(null);
+                        window.location.reload();
+                      }}
+                    >
+                      🔄 Retry Connection
+                    </button>
                   </div>
                 </div>
               ) : activeTab === 'Scan' ? (
