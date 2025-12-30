@@ -1,0 +1,20 @@
+Testing action: getAssets...
+Status Code: 200
+Success! Records found: 516
+------------------------------
+Testing action: getConsumables...
+Status Code: 500
+Error Message: {"status":"error","message":"No such resource with the given id exists","records":[]}
+------------------------------
+Testing action: getVendors...
+Status Code: 200
+Success! Records found: 0
+------------------------------
+Testing action: getReservations...
+Status Code: 500
+Error Message: {"status":"error","message":"No such resource with the given id exists","records":[]}
+------------------------------
+Testing action: getDepartments...
+Status Code: 500
+Error Message: {"status":"error","message":"No such resource with the given id exists","records":[]}
+------------------------------

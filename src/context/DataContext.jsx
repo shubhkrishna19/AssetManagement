@@ -44,38 +44,45 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         const loadAll = async () => {
             try {
-                const [assetsData, consumablesData, vendorsData, reservationsData, departmentsData] = await Promise.all([
+                // Use allSettled so one missing table doesn't block the whole app
+                const results = await Promise.allSettled([
                     fetchFromBackend('getAssets'),
                     fetchFromBackend('getConsumables'),
                     fetchFromBackend('getVendors'),
                     fetchFromBackend('getReservations'),
                     fetchFromBackend('getDepartments')
                 ]);
+
+                const [assetsRes, consumablesRes, vendorsRes, reservationsRes, departmentsRes] = results;
+
+                const assetsData = assetsRes.status === 'fulfilled' ? assetsRes.value : [];
+                const consumablesData = consumablesRes.status === 'fulfilled' ? consumablesRes.value : [];
+                const vendorsData = vendorsRes.status === 'fulfilled' ? vendorsRes.value : [];
+                const reservationsData = reservationsRes.status === 'fulfilled' ? reservationsRes.value : [];
+                const departmentsData = departmentsRes.status === 'fulfilled' ? departmentsRes.value : [];
+
                 // Normalize values for better visualization (Demo/Production bridging)
                 const validStatuses = ['Available', 'Assigned', 'Under Maintenance', 'In Use'];
                 const validCategories = ['IT Equipment', 'Electronics', 'Furniture', 'Machinery', 'Office Equipment', 'Vehicles'];
 
-                const normalizedAssets = (assetsData || []).map((asset, idx) => {
+                const normalizedAssets = assetsData.map((asset, idx) => {
                     let status = asset.Status;
                     let category = asset.Category;
 
                     // 1. Shuffle 'Checked Out' or invalid statuses
                     if (!status || status === 'Checked Out' || !validStatuses.includes(status)) {
-                        // Use a deterministic pseudo-random shuffle for variation
                         status = validStatuses[(idx * 7) % validStatuses.length];
                     }
 
                     // 2. Fix 'Checked Out' or invalid Categories
                     if (!category || category === 'Checked out' || category === 'Electronic' || category.match(/^[0-9.]+$/)) {
-                        // Guess category from name or assign based on index
-                        const name = (asset.Asset_Name || '').toLowerCase();
+                        const name = (asset.Asset_Name || asset.Item_Name || '').toLowerCase();
                         if (name.includes('laptop') || name.includes('macbook') || name.includes('dell')) category = 'IT Equipment';
                         else if (name.includes('chair') || name.includes('desk') || name.includes('table')) category = 'Furniture';
                         else if (name.includes('monitor') || name.includes('tv') || name.includes('screen')) category = 'Electronics';
                         else category = validCategories[idx % validCategories.length];
                     }
 
-                    // 3. Consolidate similar categories
                     if (category === 'Electronic') category = 'Electronics';
 
                     return { ...asset, Status: status, Category: category };
@@ -89,15 +96,16 @@ export const DataProvider = ({ children }) => {
                 setLoading(false);
                 setError(null);
             } catch (e) {
+                console.error("Critical Load Error:", e);
                 setError(e.message);
                 setLoading(false);
             }
         };
         loadAll();
-        // Set up polling every 30 seconds to keep data fresh
-        const interval = setInterval(loadAll, 30000);
+        // Set up polling every 60 seconds to keep data fresh (increased from 30)
+        const interval = setInterval(loadAll, 60000);
         return () => clearInterval(interval);
-    }, []);
+    }, [fetchFromBackend]);
 
     // Helper functions to update individual entities and keep backend in sync
     const updateAsset = useCallback(async (assetId, updates) => {

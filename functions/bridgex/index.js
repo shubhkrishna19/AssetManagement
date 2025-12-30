@@ -138,52 +138,76 @@ app.all('/', async (req, res) => {
 
         // Fetch Actions (triggered via POST or GET)
         if (action === 'getConsumables') {
-            const table = catalystApp.datastore().table('Consumables');
-            const rows = await table.getAllRows();
-            res.status(200).json({ status: 'success', records: rows });
+            try {
+                const table = catalystApp.datastore().table('Consumables');
+                const rows = await table.getAllRows();
+                res.status(200).json({ status: 'success', records: rows });
+            } catch (err) {
+                console.warn('[bridgex] Consumables table not found or error:', err.message);
+                res.status(200).json({ status: 'success', records: [] });
+            }
             return;
         }
         if (action === 'getVendors') {
-            const table = catalystApp.datastore().table('Vendors');
-            const rows = await table.getAllRows();
-            res.status(200).json({ status: 'success', records: rows });
+            try {
+                const table = catalystApp.datastore().table('Vendors');
+                const rows = await table.getAllRows();
+                res.status(200).json({ status: 'success', records: rows });
+            } catch (err) {
+                console.warn('[bridgex] Vendors table not found or error:', err.message);
+                res.status(200).json({ status: 'success', records: [] });
+            }
             return;
         }
         if (action === 'getReservations') {
-            const table = catalystApp.datastore().table('Reservations');
-            const rows = await table.getAllRows();
-            res.status(200).json({ status: 'success', records: rows });
+            try {
+                const table = catalystApp.datastore().table('Reservations');
+                const rows = await table.getAllRows();
+                res.status(200).json({ status: 'success', records: rows });
+            } catch (err) {
+                console.warn('[bridgex] Reservations table not found or error:', err.message);
+                res.status(200).json({ status: 'success', records: [] });
+            }
             return;
         }
         if (action === 'getDepartments') {
-            const table = catalystApp.datastore().table('Departments');
-            const rows = await table.getAllRows();
-            res.status(200).json({ status: 'success', records: rows });
+            try {
+                const table = catalystApp.datastore().table('Departments');
+                const rows = await table.getAllRows();
+                res.status(200).json({ status: 'success', records: rows });
+            } catch (err) {
+                console.warn('[bridgex] Departments table not found or error:', err.message);
+                res.status(200).json({ status: 'success', records: [] });
+            }
             return;
         }
+        if (action === 'getAssets' || !action) {
+            try {
+                const zcql = catalystApp.zcql();
+                const PAGE_SIZE = 300;
+                let allAssets = [];
+                let offset = 0;
+                let hasMore = true;
 
-        // Default: Fetch All Assets with pagination (ZCQL limit is 300 per query)
-        const zcql = catalystApp.zcql();
-        const PAGE_SIZE = 300;
-        let allAssets = [];
-        let offset = 0;
-        let hasMore = true;
+                while (hasMore) {
+                    const query = `SELECT * FROM Assets LIMIT ${PAGE_SIZE} OFFSET ${offset}`;
+                    const queryResult = await zcql.executeZCQLQuery(query);
+                    const pageAssets = queryResult.map(row => row.Assets || row);
+                    allAssets = allAssets.concat(pageAssets);
 
-        while (hasMore) {
-            const query = `SELECT * FROM Assets LIMIT ${PAGE_SIZE} OFFSET ${offset}`;
-            const queryResult = await zcql.executeZCQLQuery(query);
-            const pageAssets = queryResult.map(row => row.Assets || row);
-            allAssets = allAssets.concat(pageAssets);
-
-            if (pageAssets.length < PAGE_SIZE) {
-                hasMore = false;
-            } else {
-                offset += PAGE_SIZE;
+                    if (pageAssets.length < PAGE_SIZE) {
+                        hasMore = false;
+                    } else {
+                        offset += PAGE_SIZE;
+                    }
+                }
+                res.status(200).json({ status: "success", source: "catalyst_cloud_db", records: allAssets, total: allAssets.length });
+            } catch (err) {
+                console.warn('[bridgex] Assets table not found or error:', err.message);
+                res.status(200).json({ status: 'success', records: [] });
             }
+            return;
         }
-
-        console.log(`[bridgex] Fetched ${allAssets.length} total assets`);
-        res.status(200).json({ status: "success", source: "catalyst_cloud_db", records: allAssets, total: allAssets.length });
 
     } catch (error) {
         console.error('[bridgex] Error:', error);
