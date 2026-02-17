@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.zoho.com)",
+      "WebFetch(domain:catalyst.zoho.com)",
+      "WebFetch(domain:help.zoho.com)",
+      "Bash(npm run build)",
+      "Bash(npx catalyst deploy)",
+      "Bash(npx catalyst client:deploy)",
+      "Bash(npx catalyst help)",
+      "Bash(npx catalyst client:setup)",
+      "Bash(git reset:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

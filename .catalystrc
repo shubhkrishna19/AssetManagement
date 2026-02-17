@@ -4,7 +4,7 @@
     "env": 1
   },
   "actives": {
-    "project": 1,
+    "project": 2,
     "env": 1
   },
   "projects": [
@@ -15,6 +15,24 @@
       "domain": {
         "id": "10103756301",
         "name": "websitewireframeproject-895469053.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "895469053",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "idx": 2,
+      "id": "48548000000064001",
+      "name": "BluewudCoreDev",
+      "domain": {
+        "id": "10117986833",
+        "name": "bluewudcoredev-895469053.development"
       },
       "timezone": "Asia/Kolkata",
       "env": [

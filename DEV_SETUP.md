@@ -46,14 +46,13 @@ Open `http://localhost:5173` in your browser.
    ```bash
    catalyst init
    ```
-   - Select your project: `WebsiteWireframeProject`
+   - Select your project: `BluewudCoreDev` (or your active project)
    - Environment: `Development`
 
 3. **Deploy to Catalyst**:
    ```bash
    npm run build
-   copy client-package.json dist/   # Windows
-   cp client-package.json dist/     # Mac/Linux
+   # (The build script automatically copies client-package.json)
    catalyst deploy
    ```
 
@@ -158,9 +157,9 @@ The `vite.config.js` has a proxy configured. Restart dev server after changes.
 
 ## 🌐 URLs
 
-- **Catalyst Dev**: https://websitewireframeproject-895469053.development.catalystserverless.com/app/index.html
+- **Catalyst Dev**: Check your Catalyst Console for the latest URL (Project: `BluewudCoreDev`)
 - **GitHub Repo**: https://github.com/shubhkrishna19/AssetManagement
 
 ---
 
-*Last updated: December 30, 2024*
+*Last updated: February 17, 2026*

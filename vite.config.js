@@ -10,7 +10,7 @@ export default defineConfig({
       // Proxy API requests to Catalyst during local development
       // This bypasses CORS issues when running on localhost
       '/server': {
-        target: 'https://websitewireframeproject-895469053.development.catalystserverless.com',
+        target: 'https://bluewudcoredev-895469053.development.catalystserverless.com',
         changeOrigin: true,
         secure: true
       }
