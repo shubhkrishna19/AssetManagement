@@ -3,13 +3,11 @@
     "version": "6.0.0",
     "homepage": "index.html",
     "scripts": {
-        "build": "node node_modules/vite/bin/vite.js build",
+        "build": "echo 'Skipping build - using pre-built files'",
         "start": "npx serve dist"
     },
     "dependencies": {
-        "serve": "^14.2.0"
-    },
-    "devDependencies": {
+        "serve": "^14.2.0",
         "vite": "^5.4.1"
     }
 }
