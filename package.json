@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "echo 'Using pre-built dist folder'",
+    "build": "node node_modules/vite/bin/vite.js build && node post-build.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -28,6 +28,6 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
-    "vite": "5.4.11"
+    "vite": "^7.3.1"
   }
 }
