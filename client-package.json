@@ -1,5 +1,11 @@
 {
     "name": "asset-ledger-pro",
     "version": "6.0.0",
-    "homepage": "index.html"
+    "homepage": "index.html",
+    "scripts": {
+        "start": "npx serve dist"
+    },
+    "dependencies": {
+        "serve": "^14.2.0"
+    }
 }

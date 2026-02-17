@@ -6,10 +6,21 @@ app.use(express.json());
 app.all('/', async (req, res) => {
     const catalystApp = catalyst.initialize(req);
 
-    // CORS Setup
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    // CORS Setup - Allow Creator and CRM domains
+    const allowedOrigins = [
+        'https://creator.zoho.com',
+        'https://yourapp.onslate.com',
+        'https://*.zoho.com',
+        'http://localhost:5173',
+        'http://localhost:3000'
+    ];
+    const origin = req.headers.origin || '';
+    const isAllowed = allowedOrigins.some(allowed => origin.includes(allowed.replace('https://', '').replace('http://', ''))) || allowedOrigins.includes('*');
+
+    res.set('Access-Control-Allow-Origin', isAllowed ? origin : '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    res.set('Access-Control-Allow-Credentials', 'true');
 
     if (req.method === 'OPTIONS') {
         res.status(200).send();
@@ -181,6 +192,77 @@ app.all('/', async (req, res) => {
             }
             return;
         }
+        // 7. Verify User (for Creator SSO integration)
+        if (action === 'verify_user' && data && data.user_id) {
+            try {
+                const zcql = catalystApp.zcql();
+                const userId = data.user_id;
+                const users = await zcql.executeZCQLQuery(`SELECT * FROM Users WHERE User_ID = '${userId}'`);
+                if (users.length > 0) {
+                    const user = users[0].Users || users[0];
+                    res.status(200).json({
+                        status: 'success',
+                        user: {
+                            id: user.User_ID,
+                            name: user.Name,
+                            email: user.Email,
+                            role: user.Role || 'viewer',
+                            department: user.Department
+                        }
+                    });
+                } else {
+                    res.status(200).json({ status: 'success', user: null, message: 'User not found' });
+                }
+            } catch (err) {
+                // Users table might not exist, return default
+                res.status(200).json({
+                    status: 'success',
+                    user: {
+                        id: data.user_id,
+                        name: 'User',
+                        role: data.role || 'employee'
+                    }
+                });
+            }
+            return;
+        }
+
+        // 8. Get all tables info (for CRM data viewer)
+        if (action === 'get_tables_info') {
+            try {
+                const zcql = catalystApp.zcql();
+                const tables = ['Assets', 'Consumables', 'Vendors', 'Reservations', 'Departments'];
+                const tableInfo = [];
+
+                for (const tableName of tables) {
+                    try {
+                        const countResult = await zcql.executeZCQLQuery(`SELECT count(*) as cnt FROM ${tableName}`);
+                        const count = countResult[0]?.cnt || countResult[0]?.[tableName]?.cnt || 0;
+                        tableInfo.push({ name: tableName, recordCount: count });
+                    } catch (e) {
+                        tableInfo.push({ name: tableName, recordCount: 0, error: e.message });
+                    }
+                }
+
+                res.status(200).json({ status: 'success', tables: tableInfo });
+            } catch (err) {
+                res.status(200).json({ status: 'success', tables: [], error: err.message });
+            }
+            return;
+        }
+
+        // 9. Generic fetch by table name (for Creator/CRM data viewer)
+        if (action === 'fetch_table' && table_name) {
+            try {
+                const table = catalystApp.datastore().table(table_name);
+                const rows = await table.getAllRows();
+                res.status(200).json({ status: 'success', records: rows, table: table_name });
+            } catch (err) {
+                res.status(200).json({ status: 'success', records: [], table: table_name, error: err.message });
+            }
+            return;
+        }
+
         if (action === 'getAssets' || !action) {
             try {
                 const zcql = catalystApp.zcql();
