@@ -3,9 +3,13 @@
     "version": "6.0.0",
     "homepage": "index.html",
     "scripts": {
+        "build": "npx vite build",
         "start": "npx serve dist"
     },
     "dependencies": {
         "serve": "^14.2.0"
+    },
+    "devDependencies": {
+        "vite": "^5.4.1"
     }
 }
