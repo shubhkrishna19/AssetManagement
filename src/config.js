@@ -3,6 +3,14 @@
  * Centralized settings for environment switching and API endpoints.
  */
 
+// Auto-detect environment based on current hostname
+const getApiBaseUrl = () => {
+    // Zoho Catalyst serves the client and functions on the same origin in both Dev and Prod. 
+    // Using a relative path ensures the same code works unchanged across all Catalyst environments and Custom Domains.
+    // For local development, Vite proxy forwards this relative path to Catalyst.
+    return '/server/bridgex';
+};
+
 // Detect if running inside Creator iframe
 const isCreatorEmbed = () => {
     if (typeof window === 'undefined') return false;
@@ -48,9 +56,9 @@ const CONFIG = {
     IS_EMBEDDED: isCreatorEmbed(),
     CREATOR_USER: getCreatorUser(),
 
-    // API ENDPOINTS
+    // API ENDPOINTS - Auto-detects based on current hostname
     API: {
-        BASE_URL: '/server/bridgex', // Catalyst API Gateway route
+        BASE_URL: getApiBaseUrl(),
         RETRY_ATTEMPTS: 3,
         TIMEOUT: 5000,
     },

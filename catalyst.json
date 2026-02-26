@@ -1,12 +1,15 @@
 {
   "client": {
-    "source": "dist"
+    "source": "dist",
+    "served_headers": {
+      "X-Frame-Options": "ALLOW-FROM https://creator.zoho.com",
+      "Content-Security-Policy": "frame-ancestors 'self' https://creator.zoho.com https://*.zoho.com"
+    }
   },
   "functions": {
     "source": "functions",
     "targets": [
       "bridgex"
-    ],
-    "ignore": []
+    ]
   }
 }

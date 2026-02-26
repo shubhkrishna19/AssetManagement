@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import CONFIG from '../config';
 
 // Create a context for all data (assets, consumables, vendors, reservations, etc.)
 const DataContext = createContext();
@@ -16,7 +17,7 @@ export const DataProvider = ({ children }) => {
 
     const fetchFromBackend = useCallback(async (action, payload = {}) => {
         try {
-            const res = await fetch('/server/bridgex', {
+            const res = await fetch(CONFIG.API.BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action, ...payload })
@@ -112,7 +113,7 @@ export const DataProvider = ({ children }) => {
         // Optimistic UI update
         setAssets(prev => prev.map(a => (a.Asset_ID === assetId ? { ...a, ...updates } : a)));
         try {
-            await fetchFromBackend('updateAsset', { asset_id: assetId, updates });
+            await fetchFromBackend('update', { asset_id: assetId, updates, table_name: 'Assets' });
         } catch (e) {
             // Revert on failure (simple strategy)
             setAssets(prev => prev.map(a => (a.Asset_ID === assetId ? a : a)));
@@ -122,7 +123,7 @@ export const DataProvider = ({ children }) => {
     const addAsset = useCallback(async newAsset => {
         setAssets(prev => [newAsset, ...prev]);
         try {
-            await fetchFromBackend('createAsset', { data: newAsset });
+            await fetchFromBackend('create', { data: newAsset, table_name: 'Assets' });
         } catch (e) {
             // Remove if backend fails
             setAssets(prev => prev.filter(a => a !== newAsset));
@@ -133,7 +134,7 @@ export const DataProvider = ({ children }) => {
     const addConsumable = async newItem => {
         setConsumables(prev => [newItem, ...prev]);
         try {
-            await fetchFromBackend('createConsumable', { data: newItem });
+            await fetchFromBackend('create', { data: newItem, table_name: 'Consumables' });
         } catch (e) {
             setConsumables(prev => prev.filter(i => i !== newItem));
         }
@@ -141,7 +142,7 @@ export const DataProvider = ({ children }) => {
     const updateConsumable = async (id, updates) => {
         setConsumables(prev => prev.map(i => (i.id === id ? { ...i, ...updates } : i)));
         try {
-            await fetchFromBackend('updateConsumable', { consumable_id: id, updates });
+            await fetchFromBackend('update', { asset_id: id, updates, table_name: 'Consumables' });
         } catch (e) {
             // Simple revert (could be improved)
             setConsumables(prev => prev.map(i => (i.id === id ? i : i)));
@@ -151,7 +152,7 @@ export const DataProvider = ({ children }) => {
         const prev = consumables;
         setConsumables(prev => prev.filter(i => i.id !== id));
         try {
-            await fetchFromBackend('deleteConsumable', { id });
+            await fetchFromBackend('delete', { data: [id], table_name: 'Consumables', key_column: 'Consumable_ID' });
         } catch (e) {
             setConsumables(prev);
         }
@@ -161,7 +162,7 @@ export const DataProvider = ({ children }) => {
     const addVendor = async newItem => {
         setVendors(prev => [newItem, ...prev]);
         try {
-            await fetchFromBackend('createVendor', { data: newItem });
+            await fetchFromBackend('create', { data: newItem, table_name: 'Vendors' });
         } catch (e) {
             setVendors(prev => prev.filter(i => i !== newItem));
         }
@@ -169,7 +170,7 @@ export const DataProvider = ({ children }) => {
     const updateVendor = async (id, updates) => {
         setVendors(prev => prev.map(i => (i.id === id ? { ...i, ...updates } : i)));
         try {
-            await fetchFromBackend('updateVendor', { vendor_id: id, updates });
+            await fetchFromBackend('update', { asset_id: id, updates, table_name: 'Vendors' });
         } catch (e) {
             setVendors(prev => prev.map(i => (i.id === id ? i : i)));
         }
@@ -178,7 +179,7 @@ export const DataProvider = ({ children }) => {
         const prev = vendors;
         setVendors(prev => prev.filter(i => i.id !== id));
         try {
-            await fetchFromBackend('deleteVendor', { id });
+            await fetchFromBackend('delete', { data: [id], table_name: 'Vendors', key_column: 'Vendor_ID' });
         } catch (e) {
             setVendors(prev);
         }
@@ -188,7 +189,7 @@ export const DataProvider = ({ children }) => {
     const addReservation = async newItem => {
         setReservations(prev => [newItem, ...prev]);
         try {
-            await fetchFromBackend('createReservation', { data: newItem });
+            await fetchFromBackend('create', { data: newItem, table_name: 'Reservations' });
         } catch (e) {
             setReservations(prev => prev.filter(i => i !== newItem));
         }
@@ -196,7 +197,7 @@ export const DataProvider = ({ children }) => {
     const updateReservation = async (id, updates) => {
         setReservations(prev => prev.map(i => (i.id === id ? { ...i, ...updates } : i)));
         try {
-            await fetchFromBackend('updateReservation', { reservation_id: id, updates });
+            await fetchFromBackend('update', { asset_id: id, updates, table_name: 'Reservations' });
         } catch (e) {
             setReservations(prev => prev.map(i => (i.id === id ? i : i)));
         }
@@ -205,7 +206,7 @@ export const DataProvider = ({ children }) => {
         const prev = reservations;
         setReservations(prev => prev.filter(i => i.id !== id));
         try {
-            await fetchFromBackend('deleteReservation', { id });
+            await fetchFromBackend('delete', { data: [id], table_name: 'Reservations', key_column: 'Reservation_ID' });
         } catch (e) {
             setReservations(prev);
         }
@@ -215,7 +216,7 @@ export const DataProvider = ({ children }) => {
     const addDepartment = async newItem => {
         setDepartments(prev => [newItem, ...prev]);
         try {
-            await fetchFromBackend('createDepartment', { data: newItem });
+            await fetchFromBackend('create', { data: newItem, table_name: 'Departments' });
         } catch (e) {
             setDepartments(prev => prev.filter(i => i !== newItem));
         }
@@ -223,7 +224,7 @@ export const DataProvider = ({ children }) => {
     const updateDepartment = async (id, updates) => {
         setDepartments(prev => prev.map(i => (i.id === id ? { ...i, ...updates } : i)));
         try {
-            await fetchFromBackend('updateDepartment', { department_id: id, updates });
+            await fetchFromBackend('update', { asset_id: id, updates, table_name: 'Departments' });
         } catch (e) {
             setDepartments(prev => prev.map(i => (i.id === id ? i : i)));
         }
@@ -232,7 +233,7 @@ export const DataProvider = ({ children }) => {
         const prev = departments;
         setDepartments(prev => prev.filter(i => i.id !== id));
         try {
-            await fetchFromBackend('deleteDepartment', { id });
+            await fetchFromBackend('delete', { data: [id], table_name: 'Departments', key_column: 'Department_ID' });
         } catch (e) {
             setDepartments(prev);
         }

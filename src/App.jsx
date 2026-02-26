@@ -59,6 +59,17 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // Memoize filtered assets to avoid re-filtering on every render
+  const filteredAssets = useMemo(() => {
+    if (!searchTerm) return assets;
+    const term = searchTerm.toLowerCase();
+    return assets.filter(a =>
+      (a.Item_Name && a.Item_Name.toLowerCase().includes(term)) ||
+      (a.Asset_ID && a.Asset_ID.toLowerCase().includes(term)) ||
+      (a.Serial_Number && a.Serial_Number.toLowerCase().includes(term))
+    );
+  }, [assets, searchTerm]);
+
 
 
   // ... (Keyboard effects skipped)
@@ -79,7 +90,7 @@ const App = () => {
   const executeDelete = async (idsToDelete) => {
     if (dataSource === 'live') {
       try {
-        await fetch('/server/bridgex', {
+        await fetch(CONFIG.API.BASE_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'delete', data: idsToDelete, table_name: 'Assets', key_column: 'Asset_ID' })
@@ -104,7 +115,7 @@ const App = () => {
 
       if (dataSource === 'live') {
         try {
-          await fetch('/server/bridgex', {
+          await fetch(CONFIG.API.BASE_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'delete', data: selectedIds, table_name: 'Assets', key_column: 'Asset_ID' })
@@ -163,7 +174,7 @@ const App = () => {
           console.log(`[Import] Sending batch ${Math.floor(i / CHUNK_SIZE) + 1}/${Math.ceil(totalRecords / CHUNK_SIZE)}...`);
 
           try {
-            const res = await fetch('/server/bridgex', {
+            const res = await fetch(CONFIG.API.BASE_URL, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ action: 'import', data: chunk, table_name: targetTable })
@@ -447,7 +458,7 @@ const App = () => {
                     setAssets(prev => [newAsset, ...prev]);
                     if (dataSource === 'live') {
                       // Fire and forget or handle error as needed
-                      fetch('/server/bridgex', {
+                      fetch(CONFIG.API.BASE_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ action: 'create', data: newAsset, table_name: 'Assets' })
@@ -503,19 +514,9 @@ const App = () => {
                   onSelectAsset={(asset) => setDetailAsset(asset)}
                 />
               ) : (
-                assets.filter(a => {
-                  const term = searchTerm.toLowerCase();
-                  return a.Item_Name.toLowerCase().includes(term) ||
-                    a.Asset_ID.toLowerCase().includes(term) ||
-                    (a.Serial_Number && a.Serial_Number.toLowerCase().includes(term));
-                }).length > 0 ? (
+                filteredAssets.length > 0 ? (
                   <AssetGrid
-                    assets={assets.filter(a => {
-                      const term = searchTerm.toLowerCase();
-                      return a.Item_Name.toLowerCase().includes(term) ||
-                        a.Asset_ID.toLowerCase().includes(term) ||
-                        (a.Serial_Number && a.Serial_Number.toLowerCase().includes(term));
-                    })}
+                    assets={filteredAssets}
                     selectedIds={selectedIds}
                     onToggleSelect={id => setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])}
                     calculateDepreciation={(cost, pDate, cat) => calculateDepreciation(cost, pDate, cat)}
