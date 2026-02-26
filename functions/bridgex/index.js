@@ -1,29 +1,43 @@
 const express = require('express');
 const catalyst = require('zcatalyst-sdk-node');
+const cors = require('cors');
 const app = express();
 app.use(express.json());
 
+// CORS Setup - Allow Creator and CRM domains
+const allowedOrigins = [
+    'https://creator.zoho.com',
+    'https://assetmanagement.onslate.com',
+    'https://assetmanagementdev.onslate.com',
+    'http://localhost:5173',
+    'http://localhost:3000'
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        // Fallback or exact checks
+        if (!origin) return callback(null, true);
+        const isZoho = origin.match(/^https:\/\/[a-zA-Z0-9-]+\.zoho\.com$/);
+        if (allowedOrigins.indexOf(origin) !== -1 || isZoho) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Catalyst-User-ID'],
+    credentials: true,
+    optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
+
 app.all('/', async (req, res) => {
-    const catalystApp = catalyst.initialize(req);
 
-    // CORS Setup - Allow Creator and CRM domains
-    const allowedOrigins = [
-        'https://creator.zoho.com',
-        'https://yourapp.onslate.com',
-        'https://*.zoho.com',
-        'http://localhost:5173',
-        'http://localhost:3000'
-    ];
-    const origin = req.headers.origin || '';
-    const isAllowed = allowedOrigins.some(allowed => origin.includes(allowed.replace('https://', '').replace('http://', ''))) || allowedOrigins.includes('*');
-
-    res.set('Access-Control-Allow-Origin', isAllowed ? origin : '*');
-    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-    res.set('Access-Control-Allow-Credentials', 'true');
-
-    if (req.method === 'OPTIONS') {
-        res.status(200).send();
+    let catalystApp;
+    try {
+        catalystApp = catalyst.initialize(req);
+    } catch (e) {
+        console.error("Catalyst init error:", e);
+        res.status(500).json({ status: "error", message: "Failed to initialize Catalyst Context" });
         return;
     }
 

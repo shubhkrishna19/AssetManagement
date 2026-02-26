@@ -19,6 +19,7 @@
       "allowed_origins": [
         "https://creator.zoho.com",
         "https://assetmanagement.onslate.com",
+        "https://assetmanagementdev.onslate.com",
         "http://localhost:5173",
         "http://localhost:3000"
       ],

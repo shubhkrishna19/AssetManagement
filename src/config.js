@@ -9,19 +9,18 @@ const getApiBaseUrl = () => {
 
     const hostname = window.location.hostname;
 
-    // Production: coredev-913495338.catalystserverless.com
-    if (hostname.includes('catalystserverless.com') && !hostname.includes('development')) {
+    // Production: coredev-913495338.catalystserverless.com OR assetmanagement.onslate.com
+    if (hostname === 'assetmanagement.onslate.com' || (hostname.includes('catalystserverless.com') && !hostname.includes('development'))) {
         return 'https://coredev-913495338.catalystserverless.com/server/bridgex';
     }
 
-    // Development: coredev-913495338.development.catalystserverless.com
-    if (hostname.includes('development.catalystserverless.com')) {
+    // Development: assetmanagementdev.onslate.com OR coredev-913495338.development.catalystserverless.com
+    if (hostname === 'assetmanagementdev.onslate.com' || hostname.includes('development.catalystserverless.com')) {
         return 'https://coredev-913495338.development.catalystserverless.com/server/bridgex';
     }
 
-    // GitHub/Vercel/External hosting - fallback to dev or prod based on your preference
-    // If you are pushing to Github and Slate, it needs the absolute URL to Catalyst.
-    return 'https://coredev-913495338.catalystserverless.com/server/bridgex'; // Default to PROD for external UI
+    // Localhost / Fallback - default to Development backend
+    return 'https://coredev-913495338.development.catalystserverless.com/server/bridgex';
 };
 
 // Detect if running inside Creator iframe
