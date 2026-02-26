@@ -1,10 +1,10 @@
 {
   "defaults": {
-    "project": 1,
+    "project": 3,
     "env": 1
   },
   "actives": {
-    "project": 2,
+    "project": 3,
     "env": 1
   },
   "projects": [
@@ -38,7 +38,25 @@
       "env": [
         {
           "idx": 1,
-          "id": "895469053",
+          "id": "913495338",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "idx": 3,
+      "id": "43182000000012177",
+      "name": "CoreDev",
+      "domain": {
+        "id": "10118256498",
+        "name": "coredev-913495338.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "913495338",
           "name": "Development",
           "type": 3
         }

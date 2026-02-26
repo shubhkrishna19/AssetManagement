@@ -10,7 +10,8 @@
       "Bash(npx catalyst help)",
       "Bash(npx catalyst client:setup)",
       "Bash(git reset:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(catalyst deploy --help:*)"
     ]
   }
 }
