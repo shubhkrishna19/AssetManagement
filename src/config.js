@@ -5,10 +5,18 @@
 
 // Auto-detect environment based on current hostname
 const getApiBaseUrl = () => {
-    // Zoho Catalyst serves the client and functions on the same origin in both Dev and Prod. 
-    // Using a relative path ensures the same code works unchanged across all Catalyst environments and Custom Domains.
-    // For local development, Vite proxy forwards this relative path to Catalyst.
-    return '/server/bridgex';
+    if (typeof window === 'undefined') return '/server/bridgex';
+
+    const hostname = window.location.hostname;
+
+    // Local development (localhost)
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return '/server/bridgex';
+    }
+
+    // GitHub/Vercel/External hosting - use full Catalyst URL
+    // Replace with your production Catalyst function URL
+    return 'https://coredev-913495338.development.catalystserverless.com/server/bridgex';
 };
 
 // Detect if running inside Creator iframe
