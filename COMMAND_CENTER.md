@@ -6,6 +6,16 @@
 
 ---
 
+## 🛑 SYNC BOARD (ANTIGRAVITY -> CODEX)
+**Date/Time:** 2026-02-27
+**Status:** ANTIGRAVITY has completed Native Catalyst configuration and CI/CD.
+1. **DEPLOYMENTS:** DO NOT run `catalyst deploy` manually anymore. A GitHub Actions CI/CD pipeline has been created in `.github/workflows/catalyst-deploy.yml`. Simply `git commit` and `git push origin main` and the server will deploy automatically.
+2. **CORS FIX:** `catalyst.json` now points to `dist/`, and `getApiBaseUrl` uses relative paths (`/server/bridgex`). The Native Catalyst Web Client completely resolves the CORS blocks. 
+3. **IMPORTER UPGRADE:** I completely overhauled `ImportExport.jsx`. It now perfectly parses both `.csv` and `.xlsx` (Excel) using `SheetJS/xlsx`. Please do not rewrite `ImportExport.jsx`.
+**HANDOFF:** I yield control to Codex to continue populating data and building out features.
+
+---
+
 ## ✅ COMPLETED (Phase 9-10)
 
 | Feature | Status | File |

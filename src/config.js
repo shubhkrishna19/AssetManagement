@@ -9,18 +9,15 @@ const getApiBaseUrl = () => {
 
     const hostname = window.location.hostname;
 
-    // Production: coredev-913495338.catalystserverless.com OR assetmanagement.onslate.com
-    if (hostname === 'assetmanagement.onslate.com' || (hostname.includes('catalystserverless.com') && !hostname.includes('development'))) {
-        return 'https://coredev-913495338.catalystserverless.com/server/bridgex';
-    }
-
-    // Development: assetmanagementdev.onslate.com OR coredev-913495338.development.catalystserverless.com
-    if (hostname === 'assetmanagementdev.onslate.com' || hostname.includes('development.catalystserverless.com')) {
-        return 'https://coredev-913495338.development.catalystserverless.com/server/bridgex';
+    // When running natively on Zoho Catalyst Web Client Hosting, 
+    // the frontend and backend share the identical domain.
+    // This allows us to use a relative path, bypassing ALL CORS locks natively.
+    if (hostname.includes('catalystserverless.com')) {
+        return '/server/bridgex';
     }
 
     // Localhost / Fallback - default to Development backend
-    return 'https://coredev-913495338.development.catalystserverless.com/server/bridgex';
+    return 'http://localhost:8080/server/bridgex';
 };
 
 // Detect if running inside Creator iframe

@@ -11,7 +11,32 @@
       "Bash(npx catalyst client:setup)",
       "Bash(git reset:*)",
       "Bash(git push:*)",
-      "Bash(catalyst deploy --help:*)"
+      "Bash(catalyst deploy --help:*)",
+      "Bash(openclaw models scan --help:*)",
+      "Bash(openclaw status:*)",
+      "Bash(npx catalyst functions:deploy:*)",
+      "Bash(npx catalyst deploy --help:*)",
+      "Bash(npx catalyst deploy:*)",
+      "Bash(openclaw cron --help:*)",
+      "Bash(openclaw config --help:*)",
+      "Bash(openclaw config get:*)",
+      "Bash(openclaw gateway:*)",
+      "Bash(openclaw doctor:*)",
+      "Bash(openclaw channels --help:*)",
+      "Bash(openclaw channels login --help:*)",
+      "Bash(openclaw channels login:*)",
+      "Bash(openclaw plugins:*)",
+      "WebFetch(domain:eastondev.com)",
+      "Bash(openclaw:*)",
+      "Bash(npx:*)",
+      "WebFetch(domain:127.0.0.1)",
+      "Bash(echo:*)",
+      "Bash(cmd.exe /c:*)",
+      "Bash(cmd.exe //c:*)",
+      "Bash(export MINIMAX_API_KEY=\"sk-cp-naQFPeoquTLUIHSnamUsxQ16eyzaWMlSuAPm7jtk4dgWe_HfOsZqobQpNExJWm9aUiPSesQCaOGKWVJJXiDnD2MY3U7FBK4wYi_v5He2Xr4yHVGDwAjlvjQ\")",
+      "WebFetch(domain:assetmanagementdev.onslate.com)",
+      "Bash(ping:*)",
+      "Bash(nslookup:*)"
     ]
   }
 }

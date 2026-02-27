@@ -58,7 +58,15 @@
           "idx": 1,
           "id": "913495338",
           "name": "Development",
-          "type": 3
+          "type": 3,
+          "env_status": "Active",
+          "project_details": {
+            "project_name": "CoreDev",
+            "id": "43182000000012177",
+            "project_type": "Live"
+          },
+          "is_default": false,
+          "action_required": false
         }
       ]
     }

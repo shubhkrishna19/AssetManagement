@@ -1,0 +1,54 @@
+name: Deploy to Zoho Catalyst
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Copy build to client folder
+        run: |
+          mkdir -p client
+          cp -r dist/* client/
+          cp client-package.json client/ 2>/dev/null || true
+
+      - name: Install Catalyst CLI
+        run: npm install -g @zohocorp/catalyst-cli
+
+      - name: Deploy to Catalyst
+        run: catalyst deploy
+        env:
+          CATALYST_AUTH_TOKEN: ${{ secrets.CATALYST_AUTH_TOKEN }}
+
+      - name: Initialize database tables (first run)
+        run: |
+          curl -X POST "${{ secrets.CATALYST_FUNCTION_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{"action":"init_tables"}'
+        continue-on-error: true
+
+      - name: Import seed data (first run)
+        run: |
+          curl -X POST "${{ secrets.CATALYST_FUNCTION_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{"action":"import","data":[{"Asset_ID":"BW-IT-001","Item_Name":"Dell Latitude 5540","Category":"IT Equipment","Status":"Available","Location":"Office HQ"},{"Asset_ID":"BW-IT-002","Item_Name":"MacBook Pro 14 M3","Category":"IT Equipment","Status":"Assigned","Location":"Marketing Dept"},{"Asset_ID":"BW-IT-003","Item_Name":"HP EliteBook 840 G9","Category":"IT Equipment","Status":"Available","Location":"Office HQ"}],"table_name":"Assets"}'
+        continue-on-error: true

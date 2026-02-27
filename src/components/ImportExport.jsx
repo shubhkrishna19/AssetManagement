@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import * as XLSX from 'xlsx';
 import { useUser } from '../context/UserContext';
 import { useAudit } from '../context/AuditContext';
 
@@ -81,16 +82,80 @@ const ImportExport = ({ assets = [], onImport, onExport }) => {
         if (file) processFile(file);
     };
 
-    // Process uploaded file
+    // Process uploaded file (CSV or XLSX)
     const processFile = (file) => {
         const reader = new FileReader();
+
         reader.onload = (e) => {
-            const text = e.target.result;
-            const { data, errors } = parseCSV(text);
-            setImportData(data);
-            setImportErrors(errors);
+            if (file.name.endsWith('.csv')) {
+                // Legacy CSV Text Parsing
+                const text = e.target.result;
+                const { data, errors } = parseCSV(text);
+                setImportData(data);
+                setImportErrors(errors);
+            } else if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+                // Modern Excel (XLSX) Binary Parsing
+                try {
+                    const buffer = e.target.result;
+                    const workbook = XLSX.read(buffer, { type: 'array' });
+
+                    // Always pull the first worksheet
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+
+                    // Convert sheet to strictly mapped JSON
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+                    if (jsonData.length === 0) {
+                        setImportErrors(['Excel file appears to be empty']);
+                        return;
+                    }
+
+                    // Run the same validation logic as the text parser
+                    const errors = [];
+                    const data = [];
+
+                    jsonData.forEach((row, rawIdx) => {
+                        const i = rawIdx + 1; // 1-indexed for error reporting
+
+                        // Validate strictly required fields
+                        if (!row.Item_Name && !row.Asset_ID) {
+                            errors.push(`Row ${i + 1}: Missing required fields (Item_Name, Asset_ID)`);
+                            return;
+                        } else if (!row.Item_Name) {
+                            errors.push(`Row ${i + 1}: Missing Item_Name`);
+                            return;
+                        } else if (!row.Asset_ID) {
+                            errors.push(`Row ${i + 1}: Missing Asset_ID`);
+                            return;
+                        }
+
+                        // Cast defaults exactly like the csv parser
+                        const cleanRow = { ...row };
+                        cleanRow.Status = cleanRow.Status || 'Available';
+                        cleanRow.Category = cleanRow.Category || 'Uncategorized';
+                        cleanRow.Cost = Number(cleanRow.Cost) || 0;
+                        cleanRow.Health_Score = Number(cleanRow.Health_Score) || 100;
+
+                        data.push(cleanRow);
+                    });
+
+                    setImportData(data);
+                    setImportErrors(errors);
+
+                } catch (err) {
+                    console.error('Excel parse error:', err);
+                    setImportErrors(['Failed to read Excel file. Please ensure it is a valid .xlsx or .xls file.']);
+                }
+            }
         };
-        reader.readAsText(file);
+
+        // Read based on file type
+        if (file.name.endsWith('.csv')) {
+            reader.readAsText(file);
+        } else {
+            reader.readAsArrayBuffer(file);
+        }
     };
 
     // Confirm import
@@ -163,7 +228,7 @@ const ImportExport = ({ assets = [], onImport, onExport }) => {
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>📥 Import / Export Assets</h2>
-            <p style={styles.subtitle}>Bulk upload assets via CSV or export your inventory data</p>
+            <p style={styles.subtitle}>Bulk upload assets via Excel (XLSX) or CSV, or export your inventory data</p>
 
             {/* Tab Switcher */}
             <div style={styles.tabs}>
@@ -202,17 +267,17 @@ const ImportExport = ({ assets = [], onImport, onExport }) => {
                                 type="file"
                                 ref={fileInputRef}
                                 onChange={handleFileSelect}
-                                accept=".csv,.xlsx"
+                                accept=".csv,.xlsx,.xls"
                                 style={{ display: 'none' }}
                             />
                             <div style={styles.dropIcon}>📁</div>
-                            <h3 style={styles.dropTitle}>Drop CSV file here</h3>
+                            <h3 style={styles.dropTitle}>Drop Excel or CSV file here</h3>
                             <p style={styles.dropText}>or click to browse</p>
                         </div>
 
                         {/* Template Download */}
                         <button onClick={downloadTemplate} style={styles.templateBtn}>
-                            📄 Download CSV Template
+                            📄 Download Formatting Template (CSV)
                         </button>
 
                         {/* Import Preview */}

@@ -51,49 +51,41 @@ app.all('/', async (req, res) => {
         if (action === 'init_tables') {
             const tables = {
                 'Assets': [
-                    { column_name: 'Asset_ID', data_type: 'text', length: 100 },
-                    { column_name: 'Asset_Name', data_type: 'text', length: 200 },
-                    { column_name: 'Category', data_type: 'text', length: 100 },
-                    { column_name: 'Status', data_type: 'text', length: 50 },
-                    { column_name: 'Location', data_type: 'text', length: 200 },
-                    { column_name: 'Assigned_To', data_type: 'text', length: 200 },
+                    { column_name: 'Asset_ID', data_type: 'string', length: 100 },
+                    { column_name: 'Asset_Name', data_type: 'string', length: 200 },
+                    { column_name: 'Category', data_type: 'string', length: 100 },
+                    { column_name: 'Status', data_type: 'string', length: 50 },
+                    { column_name: 'Location', data_type: 'string', length: 200 },
+                    { column_name: 'Assigned_To', data_type: 'string', length: 200 },
                     { column_name: 'Purchase_Date', data_type: 'date' },
                     { column_name: 'Purchase_Cost', data_type: 'number' },
                     { column_name: 'Description', data_type: 'text' }
                 ],
                 'Consumables': [
-                    { column_name: 'Consumable_ID', data_type: 'text', length: 100 },
-                    { column_name: 'Item_Name', data_type: 'text', length: 200 },
+                    { column_name: 'Consumable_ID', data_type: 'string', length: 100 },
+                    { column_name: 'Item_Name', data_type: 'string', length: 200 },
                     { column_name: 'Quantity', data_type: 'number' },
-                    { column_name: 'Category', data_type: 'text', length: 100 },
-                    { column_name: 'Unit', data_type: 'text', length: 50 }
+                    { column_name: 'Category', data_type: 'string', length: 100 },
+                    { column_name: 'Unit', data_type: 'string', length: 50 }
                 ],
                 'Vendors': [
-                    { column_name: 'Vendor_ID', data_type: 'text', length: 100 },
-                    { column_name: 'Vendor_Name', data_type: 'text', length: 200 },
-                    { column_name: 'Contact_Email', data_type: 'text', length: 150 },
-                    { column_name: 'Phone', data_type: 'text', length: 50 }
+                    { column_name: 'Vendor_ID', data_type: 'string', length: 100 },
+                    { column_name: 'Vendor_Name', data_type: 'string', length: 200 },
+                    { column_name: 'Contact_Email', data_type: 'string', length: 150 },
+                    { column_name: 'Phone', data_type: 'string', length: 50 }
                 ],
                 'Departments': [
-                    { column_name: 'Department_ID', data_type: 'text', length: 100 },
-                    { column_name: 'Department_Name', data_type: 'text', length: 200 },
-                    { column_name: 'Head', data_type: 'text', length: 150 }
+                    { column_name: 'Department_ID', data_type: 'string', length: 100 },
+                    { column_name: 'Department_Name', data_type: 'string', length: 200 },
+                    { column_name: 'Head', data_type: 'string', length: 150 }
                 ],
                 'Reservations': [
-                    { column_name: 'Reservation_ID', data_type: 'text', length: 100 },
-                    { column_name: 'Asset_ID', data_type: 'text', length: 100 },
-                    { column_name: 'Reserved_By', data_type: 'text', length: 150 },
+                    { column_name: 'Reservation_ID', data_type: 'string', length: 100 },
+                    { column_name: 'Asset_ID', data_type: 'string', length: 100 },
+                    { column_name: 'Reserved_By', data_type: 'string', length: 150 },
                     { column_name: 'Start_Date', data_type: 'date' },
                     { column_name: 'End_Date', data_type: 'date' },
-                    { column_name: 'Status', data_type: 'text', length: 50 }
-                ],
-                'Logs': [
-                    { column_name: 'Log_ID', data_type: 'text', length: 100 },
-                    { column_name: 'Action', data_type: 'text', length: 100 },
-                    { column_name: 'Details', data_type: 'text' },
-                    { column_name: 'User_Name', data_type: 'text', length: 150 },
-                    { column_name: 'Timestamp', data_type: 'text', length: 100 },
-                    { column_name: 'Type', data_type: 'text', length: 50 }
+                    { column_name: 'Status', data_type: 'string', length: 50 }
                 ]
             };
 
@@ -210,15 +202,7 @@ app.all('/', async (req, res) => {
             // 6. Generic Update
             if (action === 'update' && asset_id && updates && table_name) {
                 const targetTable = table_name;
-                const mapping = {
-                    'Assets': 'Asset_ID',
-                    'Consumables': 'Consumable_ID',
-                    'Vendors': 'Vendor_ID',
-                    'Reservations': 'Reservation_ID',
-                    'Departments': 'Department_ID',
-                    'Logs': 'Log_ID'
-                };
-                const keyCol = mapping[targetTable] || key_column || 'ID';
+                const keyCol = key_column || (targetTable === 'Consumables' ? 'Consumable_ID' : (targetTable === 'Vendors' ? 'Vendor_ID' : (targetTable === 'Reservations' ? 'Reservation_ID' : (targetTable === 'Departments' ? 'Department_ID' : 'ID'))));
                 const zcql = catalystApp.zcql();
                 const setClause = Object.entries(updates)
                     .map(([k, v]) => `${k} = '${String(v).replace(/'/g, "''")}'`)
@@ -235,17 +219,6 @@ app.all('/', async (req, res) => {
         }
 
         // Fetch Actions (triggered via POST or GET)
-        if (action === 'getLogs') {
-            try {
-                const table = catalystApp.datastore().table('Logs');
-                const rows = await table.getAllRows();
-                res.status(200).json({ status: 'success', records: rows });
-            } catch (err) {
-                console.warn('[bridgex] Logs table not found or error:', err.message);
-                res.status(200).json({ status: 'success', records: [] });
-            }
-            return;
-        }
         if (action === 'getConsumables') {
             try {
                 const table = catalystApp.datastore().table('Consumables');

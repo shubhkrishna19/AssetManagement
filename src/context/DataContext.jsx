@@ -30,10 +30,17 @@ export const DataProvider = ({ children }) => {
             }
 
             const text = await res.text();
-            if (!text) return []; // Handle empty response
+            if (!text) return [];
 
             const data = JSON.parse(text);
-            if (data.status === 'success') return data.records || [];
+            if (data.status === 'success') {
+                const records = data.records || [];
+                // Flatten Catalyst nested objects if they exist
+                return records.map(r => {
+                    const tableKey = Object.keys(r).find(k => k !== 'ROWID' && typeof r[k] === 'object');
+                    return tableKey ? { ...r[tableKey], ROWID: r.ROWID } : r;
+                });
+            }
             throw new Error(data.message || 'Backend error');
         } catch (e) {
             console.error(`Fetch ${action} failed:`, e);

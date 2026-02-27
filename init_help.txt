@@ -1,0 +1,9 @@
+﻿Usage: catalyst init [options] [feature]
+
+Initialize a Catalyst project, function, and client resources in the local directory
+
+Options:
+  --force     force initialise a project for this directory
+  -h, --help  Display help for a Catalyst command
+
+For detailed documentations please visit [4mhttps://docs.catalyst.zoho.com/en/cli/v1/cli-command-reference/[24m

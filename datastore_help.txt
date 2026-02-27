@@ -1,0 +1,70 @@
+﻿      ___  
+      \  \     ____           _             _                 _   
+   ___ \  \   / ___|   __ _  | |_    __ _  | |  _   _   ___  | |_ 
+  /  / /  /  | |      / _` | | __|  / _` | | | | | | | / __| | __|
+ /  / /__/   | |___  | (_| | | |_  | (_| | | | | |_| | \__ \ | |_ 
+ \  \         \____|  \__,_|  \__|  \__,_| |_|  \__, | |___/  \__|
+  \__\                                          |___/       
+
+Usage: catalyst [options] [command]
+
+Command Line Tool for CATALYST
+
+Options:
+  -v, --version                                              Print the Catalyst CLI version number
+  -p, --project <name|project_id>                            Specify the Catalyst project to be used for a command
+  --token <token>                                            Supply an authentication token for a command
+  --dc <us|eu|in|au>                                         Supply a data center for a command
+  --org <org_id>                                             Supply a Org ID to be used for a command
+  --verbose                                                  Change the log level to verbose for debugging purposes
+  -h, --help                                                 Display help for a Catalyst command
+
+Commands:
+  login [options]                                            Log the CLI in to your Catalyst account
+  logout                                                     Log the CLI out of your Catalyst account
+  whoami                                                     Print the email address of the user currently logged in
+  token:generate [options]                                   Generate a token to authenticate accessing the CLI from a remote system
+  token:list                                                 List all the available tokens generated in this CLI
+  token:revoke <id>                                          Revoke a token generated in this CLI
+  project:list                                               List all the Catalyst projects you have access to
+  project:use [name_or_project_id]                           Set an active Catalyst project for your working directory
+  project:reset                                              Clear an active project selection and reset to the base project
+  init [options] [feature]                                   Initialize a Catalyst project, function, and client resources in the local directory
+  iac:pack [zip_name]                                        Creates a import ready zip file
+  iac:import [options] [file_path]                           Deploy the iac zip file to console and create a new project with it.
+  iac:export [options]                                       Create a zip file out of existing project in console
+  iac:status [options] <operation>                           Displays the status of iac schedule progress
+  codelib:install [options] [git-url]                        Install the code library functionalities into your project
+  client:setup                                               Set up and configure the client directory in your project directory
+  client:delete [options] [client_version]                   Delete a version of the client from the remote console or the local directory
+  functions:setup                                            Set up and configure the function directory in your project directory
+  functions:add                                              Add a function of the required stack to the function directory
+  functions:delete [options] [function_name_or_id]           Delete a function from the remote console or the local directory
+  functions:shell [options]                                  Launch a node shell to test emulated functions of any stack or type, other than Advanced I/O functions
+  functions:execute [options] [function_name] [data]         Execute the Non-Http functions
+  functions:config [options] [function_name_or_id]           Perform advanced configurations such as memory allocation on a function in your project
+  appsail:add                                                Link an already existing AppSail to Catalyst Project
+  slate:link [options]                                       Links an existing local application to the Catalyst Slate service for web hosting
+  slate:create [options]                                     Generates a new Slate app with starter examples
+  slate:unlink [options]                                     Removes the linked Slate configuration from the local app
+  serve [options]                                            Serve Basic I/O and Advanced I/O functions, Appsail and the client, to test them locally
+  run-script|run [command]                                   Run a particular command script defined in catalyst.json
+  pull [feature]                                             Pull resources of your project from the remote console to the local directory
+  deploy [options]                                           Deploy the Catalyst project and project resources to the Catalyst development environment from the local directory
+  event:generate|generate:event [options] <source> <action>  Generate sample payloads from different components or custom event sources to test Event functions
+  event:generate:integ [options] <service>                   Generate sample payloads for the required integration service to test Integration functions
+  event:generate:job [jobpool_id]                            Generate sample payloads for job functions
+  signals:generate <publisher_service> <event_name>          Generate sample payloads from different components or custom event publishers to test Event functions
+  config:set <key=value>                                     Set catalyst configuration as a key value pair
+  config:get <key>                                           Get catalyst config value for the specified key
+  config:delete <key>                                        Delete a key from catalyst config
+  config:list                                                List all your catalyst configurations
+  apig:status [options]                                      Obtain the current status of API Gateway for your project and the schedule progress
+  apig:enable                                                Enable API Gateway for your project
+  apig:disable                                               Disable API Gateway for your project
+  ds:import [options] [file]                                 Bulk write records to a table in the Catalyst Data Store
+  ds:export [options] [table]                                Bulk read records from a table in the Catalyst Data Store
+  ds:status [options] <operation> [jobid]                    Display the job status of a Data Store import or export operation
+  help [command]                                             Display help information
+
+For detailed documentations please visit [4mhttps://docs.catalyst.zoho.com/en/cli/v1/cli-command-reference/[24m

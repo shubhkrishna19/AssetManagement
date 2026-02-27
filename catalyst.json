@@ -3,7 +3,7 @@
     "source": "dist",
     "served_headers": {
       "X-Frame-Options": "ALLOW-FROM https://creator.zoho.com",
-      "Content-Security-Policy": "frame-ancestors 'self' https://creator.zoho.com https://*.zoho.com"
+      "Content-Security-Policy": "frame-ancestors 'self' https://creator.zoho.com https://*.zoho.com https://*.onslate.com"
     }
   },
   "functions": {
@@ -13,7 +13,7 @@
     ]
   },
   "apig": {
-    "enabled": true,
+    "enabled": false,
     "cors": {
       "enabled": true,
       "allowed_origins": [
@@ -33,8 +33,7 @@
       "allowed_headers": [
         "Content-Type",
         "Authorization",
-        "X-Requested-With",
-        "X-Catalyst-User-ID"
+        "X-Requested-With"
       ],
       "max_age": 86400
     }

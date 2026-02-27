@@ -32,13 +32,15 @@ import AllotmentMaster from './components/AllotmentMaster';
 import AdminDashboard from './components/AdminDashboard';
 import ImportExport from './components/ImportExport';
 import MasterEditor from './components/MasterEditor';
+import DashboardWidgets from './components/DashboardWidgets';
+import NotificationCenter from './components/NotificationCenter';
 
 // ASSET LEDGER PRO - v5.5 (PRODUCTION READY)
 // Features: Analytics, Reports, Maintenance, Activity Logs, Physical Audits, Check-In/Out System
 
 const App = () => {
   const { assets, setAssets, consumables, setConsumables, vendors, setVendors, reservations, setReservations, departments, setDepartments, loading, setLoading, error, setError, updateAsset, addAsset, fetchFromBackend } = useData();
-  const [activeTab, setActiveTab] = useState('Asset List');
+  const [activeTab, setActiveTab] = useState('Dashboard');
   const [assetViewMode, setAssetViewMode] = useState('grid');
   const [reminders, setReminders] = useState(() => {
     const saved = localStorage.getItem('bw_reminders');
@@ -270,6 +272,7 @@ const App = () => {
           </div>
         </div>
         <div style={styles.navGroup}>
+          <NavItem id="Dashboard" icon="🏠" label="Dashboard" active={activeTab === 'Dashboard'} onClick={() => { setActiveTab('Dashboard'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Asset List" icon="📦" label="Asset List" active={activeTab === 'Asset List'} onClick={() => { setActiveTab('Asset List'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Analytics" icon="📊" label="Analytics" active={activeTab === 'Analytics'} onClick={() => { setActiveTab('Analytics'); if (isMobile) setIsSidebarOpen(false); }} />
           <NavItem id="Reports" icon="📋" label="Reports" active={activeTab === 'Reports'} onClick={() => { setActiveTab('Reports'); if (isMobile) setIsSidebarOpen(false); }} />
@@ -330,6 +333,9 @@ const App = () => {
             >
               <span style={styles.gradientTitle}>{activeTab}</span>
             </motion.h2>
+            {activeTab === 'Dashboard' && (
+              <DashboardWidgets assets={assets} alerts={alerts} />
+            )}
             {activeTab === 'Asset List' && (
               <div style={styles.headerLeftActions}>
                 <div style={styles.searchWrapper}>
@@ -382,6 +388,7 @@ const App = () => {
           </div>
           <div style={styles.headerActions}>
             <ViewToggle viewMode={assetViewMode} setViewMode={setAssetViewMode} />
+            <NotificationCenter />
             <ThemeToggle />
             <div
               style={{ ...styles.avatar, cursor: 'pointer', width: 'auto', padding: '0 12px', borderRadius: '20px', gap: '8px' }}

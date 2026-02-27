@@ -1,0 +1,9 @@
+{
+  "Assets": [
+    { "Asset_ID": "BW-IT-001", "Item_Name": "Dell Latitude 5540", "Category": "IT Equipment", "Status": "Available", "Location": "Office HQ" },
+    { "Asset_ID": "BW-IT-002", "Item_Name": "MacBook Pro 14\" M3", "Category": "IT Equipment", "Status": "Assigned", "Location": "Marketing Dept" },
+    { "Asset_ID": "BW-IT-003", "Item_Name": "HP EliteBook 840 G9", "Category": "IT Equipment", "Status": "Available", "Location": "Office HQ" },
+    { "Asset_ID": "BW-MON-001", "Item_Name": "LG UltraWide 34\" Monitor", "Category": "Electronics", "Status": "Assigned", "Location": "IT Dept" },
+    { "Asset_ID": "BW-MON-002", "Item_Name": "Dell 27\" 4K Monitor", "Category": "Electronics", "Status": "Available", "Location": "Office HQ" }
+  ]
+}
